@@ -4,6 +4,7 @@ import com.shili.NotFoundException;
 import com.shili.mapper.BlogRepository;
 import com.shili.pojo.Blog;
 import com.shili.service.BlogService;
+import com.shili.util.MarkdownUtils;
 import com.shili.util.MyBeanUtils;
 import com.shili.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
@@ -28,10 +29,31 @@ import java.util.List;
 public class BlogServiceImpl implements BlogService {
     @Autowired
     private BlogRepository blogRepository;
+
+    public BlogServiceImpl(BlogRepository blogRepository) {
+        this.blogRepository = blogRepository;
+    }
+
     @Override
     public Blog getBlog(Long id) {
         return blogRepository.getOne(id);
     }
+
+    @Transactional
+    @Override
+    public Blog getAndConvert(Long id) {
+        Blog blog = blogRepository.getOne(id);
+        if (blog == null) {
+            throw new NotFoundException("该博客不存在");
+        }
+        Blog b = new Blog();
+        BeanUtils.copyProperties(blog,b);
+        String content = b.getContent();
+        b.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
+        blogRepository.updateViews(id);
+        return b;
+    }
+
     /*
     * 分页&&根据条件查询
     * */
@@ -60,6 +82,11 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Page<Blog> listBlog(Pageable pageable) {
         return blogRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Blog> listBlog( String query, Pageable pageable) {
+        return blogRepository.findByQuery(query,pageable);
     }
 
     @Transactional

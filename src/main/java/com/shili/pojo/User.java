@@ -1,10 +1,12 @@
 package com.shili.pojo;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+@Proxy(lazy = false)
 @Entity
 @Table(name = "t_user")
 public class User {

@@ -20,7 +20,7 @@ public class LogAspect {
     /*
     * 设置 web下的所有方法都经过切面
     * */
-    @Pointcut("execution(* com.shili.web.*.*(..))")
+    @Pointcut("execution(* com.shili.controller.*.*(..))")
     public void log(){
 
     }
