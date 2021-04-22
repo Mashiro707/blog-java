@@ -42,20 +42,20 @@
       <div class="ui top attached segment">
         <div class="ui horizontal link list">
           <div class="item">
-            <img src="https://unsplash.it/100/100?image=1005" th:src="@{${blog.user.avatar}}"  alt="" class="ui avatar image">
-            <div class="content"><a href="#" class="header" th:text="${blog.user.nickname}">李仁密</a></div>
+            <img src="" th:src="@{${blog.user.avatar}}"  alt="" class="ui avatar image">
+            <div class="content"><a href="#" class="header" th:text="${blog.user.nickname}"></a></div>
           </div>
           <div class="item">
-            <i class="calendar icon"></i> <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2017-10-01</span>
+            <i class="calendar icon"></i> <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}"></span>
           </div>
           <div class="item">
-            <i class="eye icon"></i> <span th:text="${blog.views}">2342</span>
+            <i class="eye icon"></i> <span th:text="${blog.views}"></span>
           </div>
         </div>
       </div>
       <div class="ui attached segment">
         <!--图片区域-->
-        <img src="https://unsplash.it/800/450?image=1005" th:src="@{${blog.firstPicture}}" alt="" class="ui fluid rounded image">
+        <img src="" th:src="@{${blog.firstPicture}}" alt="" class="ui fluid rounded image">
       </div>
       <div class="ui  attached padded segment">
         <!--内容-->
@@ -443,11 +443,11 @@ h5,h6{font-size:1em;}
             <div class="ui orange basic label">
               <div class="ui images" style="font-size: inherit !important;">
                 <div class="image">
-                  <img src="../static/images/wechat.jpg" th:src="@{/images/wechat.jpg}" alt="" class="ui rounded bordered image" style="width: 120px">
+                  <img src="../static/images/wechat.jpg" th:src="@{/images/Mywechat.jpg}" alt="" class="ui rounded bordered image" style="width: 120px">
                   <div>支付宝</div>
                 </div>
                 <div class="image">
-                  <img src="../static/images/wechat.jpg" th:src="@{/images/wechat.jpg}" alt="" class="ui rounded bordered image" style="width: 120px">
+                  <img src="../static/images/wechat.jpg" th:src="@{/images/Mywechat.jpg}" alt="" class="ui rounded bordered image" style="width: 120px">
                   <div>微信</div>
                 </div>
               </div>
@@ -468,7 +468,7 @@ h5,h6{font-size:1em;}
             </ui>
           </div>
           <div class="five wide column">
-            <img src="../static/images/wechat.jpg" th:src="@{/images/wechat.jpg}" alt="" class="ui right floated rounded bordered image" style="width: 110px">
+            <img src="../static/images/wechat.jpg" th:src="@{/images/Mywechat.jpg}" alt="" class="ui right floated rounded bordered image" style="width: 110px">
           </div>
         </div>
       </div>
@@ -480,7 +480,7 @@ h5,h6{font-size:1em;}
               <h3 class="ui dividing header">评论</h3>
               <div class="comment" th:each="comment : ${comments}">
                 <a class="avatar">
-                  <img src="https://unsplash.it/100/100?image=1005" th:src="@{${comment.avatar}}">
+                  <img src="" th:src="@{${comment.avatar}}">
                 </a>
                 <div class="content">
                   <a class="author" >
@@ -500,7 +500,7 @@ h5,h6{font-size:1em;}
                 <div class="comments" th:if="${#arrays.length(comment.replyComments)}>0">
                   <div class="comment" th:each="reply : ${comment.replyComments}">
                     <a class="avatar">
-                      <img src="https://unsplash.it/100/100?image=1005" th:src="@{${reply.avatar}}">
+                      <img src="" th:src="@{${reply.avatar}}">
                     </a>
                     <div class="content">
                       <a class="author" >
@@ -524,7 +524,7 @@ h5,h6{font-size:1em;}
               <!--/*-->
               <div class="comment">
                 <a class="avatar">
-                  <img src="https://unsplash.it/100/100?image=1005">
+                  <img src="">
                 </a>
                 <div class="content">
                   <a class="author">Elliot Fu</a>
@@ -541,7 +541,7 @@ h5,h6{font-size:1em;}
                 <div class="comments">
                   <div class="comment">
                     <a class="avatar">
-                      <img src="https://unsplash.it/100/100?image=1005">
+                      <img src="">
                     </a>
                     <div class="content">
                       <a class="author">Jenny Hess</a>
@@ -560,7 +560,7 @@ h5,h6{font-size:1em;}
               </div>
               <div class="comment">
                 <a class="avatar">
-                  <img src="https://unsplash.it/100/100?image=1005">
+                  <img src="">
                 </a>
                 <div class="content">
                   <a class="author">Joe Henderson</a>
@@ -639,7 +639,7 @@ h5,h6{font-size:1em;}
         <div class="three wide column">
           <div class="ui inverted link list">
             <div class="item">
-              <img src="../static/images/wechat.jpg" class="ui rounded image" alt="" style="width: 110px">
+              <img src="../static/images/Mywechat.jpg" class="ui rounded image" alt="" style="width: 110px">
             </div>
           </div>
         </div>

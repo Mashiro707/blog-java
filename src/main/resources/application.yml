@@ -5,5 +5,7 @@ spring:
     cache: false
   profiles:
     active: dev
+  messages:
+    basename: config/messages
 
 comment.avatar: /images/img1.jpg
