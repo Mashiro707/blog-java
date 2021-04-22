@@ -50,20 +50,18 @@ public class BlogController {
         model.addAttribute("page",blogService.listBlog(pageable, blog));
         return "admin/blogs :: blogList";
     }
-    private void setTypeAndTag(Model model) {
-        model.addAttribute("types", typeService.listType());
-        model.addAttribute("tags", tagService.listTag());
-    }
-
     @GetMapping("/blogs/input")
     public String inputBlog(Model model){
-        setTypeAndTag(model);
+        model.addAttribute("types",typeService.listType());
+        model.addAttribute("tags",tagService.listTag());
+
         model.addAttribute("blog", new Blog());
         return INPUT;
     }
     @GetMapping("/blogs/{id}/input")
     public String editBlog(@PathVariable Long id, Model model){
-        setTypeAndTag(model);
+        model.addAttribute("types",typeService.listType());
+        model.addAttribute("tags",tagService.listTag());
         /*拿tags*/
         Blog blog = blogService.getBlog(id);
         blog.init();
@@ -71,7 +69,7 @@ public class BlogController {
         return INPUT;
     }
     @PostMapping("/blogs")
-    public String post(Blog blog, RedirectAttributes attributes, HttpSession session){
+    public String post(Blog blog, RedirectAttributes attributes, String ids, HttpSession session){
         blog.setUser((User) session.getAttribute("user"));
         blog.setType(typeService.getType(blog.getType().getId()));
         blog.setTags(tagService.listTag(blog.getTagIds()));
