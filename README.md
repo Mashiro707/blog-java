@@ -36,11 +36,11 @@
 
 博客实体关系
 
-![image-20210423141217917](C:\Users\11799\AppData\Roaming\Typora\typora-user-images\image-20210423141217917.png)
+![image-20210423141217917](https://github.com/BeforeOne7/Blog/blob/main/src/main/resources/static/images/README/image-20210423141217917.png)
 
 评论实体关系
 
-![image-20210423143409903](C:\Users\11799\AppData\Roaming\Typora\typora-user-images\image-20210423143409903.png)
+![image-20210423143409903](https://github.com/BeforeOne7/Blog/blob/main/src/main/resources/static/images/README/image-20210423143409903.png)
 
 - 博客和分类是多对一的关系：一个博客对应一个分类，一个分类可以对应多个博客
 - 博客和用户是多对一的关系：一个博客对应一个用户，一个用户可以对应多个博客
@@ -49,15 +49,15 @@
 
 **3.实体属性**
 
-![image-20210423142403003](C:\Users\11799\AppData\Roaming\Typora\typora-user-images\image-20210423142403003.png)
+![image-20210423142403003](https://github.com/BeforeOne7/Blog/blob/main/src/main/resources/static/images/README/image-20210423142403003.png)
 
-![image-20210423142454660](C:\Users\11799\AppData\Roaming\Typora\typora-user-images\image-20210423142454660.png)
+![image-20210423142454660](https://github.com/BeforeOne7/Blog/blob/main/src/main/resources/static/images/README/image-20210423142454660.png)
 
-![image-20210423142550260](C:\Users\11799\AppData\Roaming\Typora\typora-user-images\image-20210423142550260.png)
+![image-20210423142550260](https://github.com/BeforeOne7/Blog/blob/main/src/main/resources/static/images/README/image-20210423142550260.png)
 
-![image-20210423142755580](C:\Users\11799\AppData\Roaming\Typora\typora-user-images\image-20210423142755580.png)
+![image-20210423142755580](https://github.com/BeforeOne7/Blog/blob/main/src/main/resources/static/images/README/image-20210423142755580.png)
 
-![image-20210423143032690](C:\Users\11799\AppData\Roaming\Typora\typora-user-images\image-20210423143032690.png)
+![image-20210423143032690](https://github.com/BeforeOne7/Blog/blob/main/src/main/resources/static/images/README/image-20210423143032690.png)
 
 - 博客属性：标题、内容、首图、标记、浏览次数、赞赏开启、版权开启、评论开启、是否发布、创建时间、更新时间、描述
 - 分类属性：分类名称
