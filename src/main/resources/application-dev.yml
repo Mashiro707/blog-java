@@ -8,6 +8,10 @@ spring:
     hibernate:
       show-sql: true
       ddl-auto: none
+# 配置mybatis，扫描mapper路径
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
 logging:
   level:
     root: info
