@@ -1,6 +1,6 @@
+/*
 package com.shili.service.serviceImpl;
 
-import com.shili.mapper.CommentRepository;
 import com.shili.pojo.Comment;
 import com.shili.service.CommentService;
 import org.springframework.beans.BeanUtils;
@@ -37,11 +37,13 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.save(comment);
     }
 
-    /**
+    */
+/**
      * 循环每个顶级的评论节点
      * @param comments
      * @return
-     */
+     *//*
+
     private List<Comment> eachComment(List<Comment> comments) {
         List<Comment> commentsView = new ArrayList<>();
         for (Comment comment : comments) {
@@ -53,11 +55,13 @@ public class CommentServiceImpl implements CommentService {
         combineChildren(commentsView);
         return commentsView;
     }
-    /**
+    */
+/**
      *
      * @param comments root根节点，blog不为空的对象集合
      * @return
-     */
+     *//*
+
     private void combineChildren(List<Comment> comments) {
 
         for (Comment comment : comments) {
@@ -75,11 +79,13 @@ public class CommentServiceImpl implements CommentService {
 
     //存放迭代找出的所有子代的集合
     private List<Comment> tempReplys = new ArrayList<>();
-    /**
+    */
+/**
      * 递归迭代，剥洋葱
      * @param comment 被迭代的对象
      * @return
-     */
+     *//*
+
     private void recursively(Comment comment) {
         tempReplys.add(comment);//顶节点添加到临时存放集合
         if (comment.getReplyComments().size()>0) {
@@ -91,7 +97,8 @@ public class CommentServiceImpl implements CommentService {
             }
         }
     }
-    /*
+    */
+/*
     private void recursively(Comment comment) {
         tempReplys.add(comment);
         if(comment.getReplyComments().size()  0){
@@ -100,5 +107,7 @@ public class CommentServiceImpl implements CommentService {
                 recursive(replay);
             }
         }
-    }*/
+    }*//*
+
 }
+*/

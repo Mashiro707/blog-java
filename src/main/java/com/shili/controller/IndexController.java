@@ -1,3 +1,4 @@
+/*
 package com.shili.controller;
 
 import com.shili.service.BlogService;
@@ -29,8 +30,8 @@ public class IndexController {
                         BlogQuery blog,
                         Model model){
         model.addAttribute("page",blogService.listBlog(pageable));
-        model.addAttribute("types",typeService.listTypeTop(6));
-        model.addAttribute("tags",tagService.listTagTop(10));
+        model.addAttribute("types",typeService.getAllTypeAndBlog());
+        model.addAttribute("tags",tagService.getAllTag());
         model.addAttribute("recommendBlogs", blogService.listRecommendBlogTop(8));
         return "index";
     }
@@ -49,3 +50,4 @@ public class IndexController {
         return "blog";
     }
 }
+*/

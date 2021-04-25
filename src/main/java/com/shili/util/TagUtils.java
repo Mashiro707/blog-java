@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TagUtils {
+
     public static List<Long> convertToList(String ids){
         List<Long> list = new ArrayList<>();
         if (!"".equals(ids) && ids != null){

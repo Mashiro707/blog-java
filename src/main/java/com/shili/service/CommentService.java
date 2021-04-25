@@ -1,3 +1,4 @@
+/*
 package com.shili.service;
 
 import com.shili.pojo.Comment;
@@ -10,3 +11,4 @@ public interface CommentService {
 
     Comment save(Comment comment);
 }
+*/

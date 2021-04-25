@@ -8,13 +8,24 @@ spring:
     hibernate:
       show-sql: true
       ddl-auto: none
-# 配置mybatis，扫描mapper路径
+
 mybatis:
+  #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.shili.pojo
+  #开启驼峰命名
+  configuration:
+    map-underscore-to-camel-case: true
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
 
 logging:
   level:
     root: info
     com.shili: debug
   file:
-    path: log/blog-dev
+    path: log/blog-dev.log

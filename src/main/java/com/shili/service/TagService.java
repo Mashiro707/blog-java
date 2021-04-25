@@ -1,32 +1,98 @@
 package com.shili.service;
 
 import com.shili.pojo.Tag;
-import com.shili.pojo.Type;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+/**
+ * @Description: 标签业务层接口
+ * @Author: BeforeOne
+ * @Date: Created in 2021/4/25 11:09
+ */
 public interface TagService {
 
-    /*新增保存*/
-    Tag saveTag(Tag tag);
+    /**
+     *
+     * @Description: 新增标签
+     * @param tag
+     * @return {@link Tag}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 10:56
+     *
+     */
+    int createTag(Tag tag);
 
-    Tag getTag(Long id);
+    /**
+     *
+     * @Description: 根据id获取标签
+     * @param id
+     * @return {@link Tag}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 10:57
+     *
+     */
+    Tag getTagById(Long id);
 
+    /**
+     *
+     * @Description: 根据name获取标签
+     * @param name
+     * @return {@link Tag}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 11:01
+     *
+     */
     Tag getTagByName(String name);
 
-    /*分页查询*/
-    Page<Tag> listTag(Pageable pageable);
+    /**
+     *
+     * @Description: 获取全部标签
+     * @param
+     * @return {@link List < Tag>}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 11:02
+     *
+     */
+    List<Tag> getAllTag();
 
-    List<Tag> listTag();
+    /**
+     *
+     * @Description: 查询标签下所有的博客
+     * @param
+     * @return {@link List< Tag>}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 11:04
+     *
+     */
+    List<Tag> getAllTagAndBlog();
 
-    List<Tag> listTagTop(Integer size);
+    /**
+     *
+     * @Description: 更新修改标签
+     * @param tag
+     * @return {@link int}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 11:06
+     *
+     */
+    int updateTag(Tag tag);
 
-    List<Tag> listTag(String ids);
-
-    Tag updateTag(Long id, Tag tag);
-
-    void deleteTag(Long id);
+    /**
+     *
+     * @Description: 删除标签
+     * @param id
+     * @return {@link int}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 11:06
+     *
+     */
+    int deleteTag(Long id);
 
 }

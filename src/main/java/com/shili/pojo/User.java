@@ -1,17 +1,11 @@
 package com.shili.pojo;
 
-import org.hibernate.annotations.Proxy;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-@Proxy(lazy = false)
-@Entity
-@Table(name = "t_user")
+
 public class User {
-    @Id
-    @GeneratedValue
+
     private Long id;
     private String nickname;
     private String username;
@@ -20,12 +14,12 @@ public class User {
     private String avatar;
     private Integer type;
     //创建时间
-    @Temporal(TemporalType.TIMESTAMP)
+
     private Date createTime;
     //更新时间
-    @Temporal(TemporalType.TIMESTAMP)
+
     private Date updateTime;
-    @OneToMany(mappedBy = "user")
+
     private List<Blog> blogs = new ArrayList<>();
     public User() {
     }

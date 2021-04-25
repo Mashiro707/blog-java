@@ -1,5 +1,7 @@
 package com.shili.pojo;
-import javax.persistence.*;
+import com.shili.util.TagUtils;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +9,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-@Entity
-@Table(name = "t_blog")
+
 public class Blog {
-    @Id
-    @GeneratedValue
+
     private Long id;
     //标题
     private String title;
@@ -34,23 +34,26 @@ public class Blog {
     //推荐开关
     private boolean recommend;
     //创建时间
-    @Temporal(TemporalType.TIMESTAMP)
+
     private Date createTime;
     //更新时间
-    @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
+    //这个属性用来在mybatis中进行连接查询的
+    private Long typeId;
+
+    private Long userId;
+
     //类型 多个对一
-    @ManyToOne
     private Type type;
     //标签 多对多
-    @ManyToMany(cascade = {CascadeType.PERSIST})
     private List<Tag> tags = new ArrayList<>();
-    @ManyToOne
+
     private User user;
-    @OneToMany(mappedBy = "blog")
-    private List<Comment> comments = new ArrayList<>();
-    @Transient
+
+    //private List<Comment> comments = new ArrayList<>();
+
     private String tagIds;
+
     private String description;
 
     public Blog(){
@@ -185,13 +188,13 @@ public class Blog {
         this.user = user;
     }
 
-    public List<Comment> getComments() {
+    /*public List<Comment> getComments() {
         return comments;
     }
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }
+    }*/
 
     public String getTagIds() {
         return tagIds;

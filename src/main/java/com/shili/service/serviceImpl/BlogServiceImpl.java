@@ -1,7 +1,7 @@
 package com.shili.service.serviceImpl;
 
 import com.shili.NotFoundException;
-import com.shili.mapper.BlogRepository;
+
 import com.shili.pojo.Blog;
 import com.shili.service.BlogService;
 import com.shili.util.MarkdownUtils;
@@ -9,25 +9,15 @@ import com.shili.util.MyBeanUtils;
 import com.shili.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class BlogServiceImpl implements BlogService {
-    @Autowired
+    /*@Autowired
     private BlogRepository blogRepository;
 
     public BlogServiceImpl(BlogRepository blogRepository) {
@@ -54,16 +44,16 @@ public class BlogServiceImpl implements BlogService {
         return b;
     }
 
-    /*
+    *//*
     * 分页&&根据条件查询
-    * */
+    * *//*
     @Override
     public Page<Blog> listBlog(Pageable pageable, BlogQuery blog) {
         return blogRepository.findAll(new Specification<Blog>(){
             @Override
             public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
-                /*动态条件组合*/
+                *//*动态条件组合*//*
                 if (!"".equals(blog.getTitle()) && blog.getTitle() != null){
                     predicates.add(criteriaBuilder.like(root.<String>get("title"), "%"+blog.getTitle()+"%"));
                 }
@@ -123,5 +113,5 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public void deleteBlog(Long id) {
         blogRepository.deleteById(id);
-    }
+    }*/
 }

@@ -1,58 +1,64 @@
-package com.shili.service;
+package com.shili.mapper;
 
 import com.shili.pojo.Type;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 /**
- * @Description: 文章分类业务层接口
+ * @Description: 文章分类持久层接口
  * @Author: BeforeOne
- * @Date: Created in 2021/4/25 8:25
+ * @Date: Created in 2021/4/25 8:07
  */
-public interface TypeService {
+
+@Mapper
+@Repository
+public interface TypeMapper {
     /**
     *
     * @Description: 新增分类
     * @param type
     * @return {@link int}
-    * @throws
+    * @throws 
     * @author BeforeOne
-    * @data 2021/4/25 8:26
+    * @data 2021/4/25 8:19
     *
     */
     int createType(Type type);
-
+    
     /**
     *
-    * @Description: 根据id获取分类
+    * @Description: 通过id获取分类
     * @param id
     * @return {@link Type}
-    * @throws
+    * @throws 
     * @author BeforeOne
-    * @data 2021/4/25 8:27
+    * @data 2021/4/25 8:20
     *
     */
     Type getTypeById(Long id);
-
+    
     /**
     *
-    * @Description: 根据Name获取分类
+    * @Description: 通过Name获取分类
     * @param name
     * @return {@link Type}
-    * @throws
+    * @throws 
     * @author BeforeOne
-    * @data 2021/4/25 8:28
+    * @data 2021/4/25 8:20
     *
     */
     Type getTypeByName(String name);
-
+    
     /**
     *
     * @Description: 获取所有分类
-    * @param
+    * @param 
     * @return {@link List< Type>}
-    * @throws
+    * @throws 
     * @author BeforeOne
-    * @data 2021/4/25 8:29
+    * @data 2021/4/25 8:20
     *
     */
     List<Type> getAllType();
@@ -64,19 +70,19 @@ public interface TypeService {
     * @return {@link List< Type>}
     * @throws
     * @author BeforeOne
-    * @data 2021/4/25 8:29
+    * @data 2021/4/25 8:22
     *
     */
     List<Type> getAllTypeAndBlog();
 
     /**
     *
-    * @Description: 根据id修改分类
+    * @Description: 根据id修改分类信息
     * @param type
     * @return {@link int}
     * @throws
     * @author BeforeOne
-    * @data 2021/4/25 8:30
+    * @data 2021/4/25 8:22
     *
     */
     int updateType(Type type);
@@ -88,7 +94,7 @@ public interface TypeService {
     * @return {@link int}
     * @throws
     * @author BeforeOne
-    * @data 2021/4/25 8:30
+    * @data 2021/4/25 8:23
     *
     */
     int deleteType(Long id);

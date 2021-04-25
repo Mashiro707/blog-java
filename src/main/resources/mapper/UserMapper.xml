@@ -4,8 +4,8 @@
 <mapper namespace="com.shili.mapper.UserMapper">
 
     <!--查询用户名和密码(用于登录验证)-->
-    <select id="queryByUsernameAndPassword" resultType="com.shili.pojo.User">
-        select * from blog.t_user
+    <select id="queryByUsernameAndPassword" resultType="User">
+        select * from blog.b_user
         where username = #{username} and password = #{password};
     </select>
 

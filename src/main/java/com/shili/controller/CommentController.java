@@ -1,3 +1,4 @@
+/*
 package com.shili.controller;
 
 import com.shili.pojo.Comment;
@@ -42,3 +43,4 @@ public class CommentController {
         return "redirect:/comments/" + comment.getBlog().getId();
     }
 }
+*/

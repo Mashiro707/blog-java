@@ -1,73 +1,62 @@
 package com.shili.service.serviceImpl;
 
-import com.shili.NotFoundException;
-import com.shili.mapper.TypeRepository;
+import com.shili.mapper.TypeMapper;
 import com.shili.pojo.Type;
 import com.shili.service.TypeService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+/**
+ * @Description: 文章分类业务实现层
+ * @Author: BeforeOne
+ * @Date: Created in 2021/4/25 8:31
+ */
 @Service
 public class TypeServiceImpl implements TypeService {
+
+    /*注入持久层接口*/
     @Autowired
-    private TypeRepository typeRepository;
+    private TypeMapper typeMapper;
+
     @Transactional
     @Override
-    public Type saveType(Type type) {
-        return typeRepository.save(type);
+    public int createType(Type type) {
+        return typeMapper.createType(type);
     }
+
     @Transactional
     @Override
-    public Type getType(Long id) {
-        return typeRepository.getOne(id);
+    public Type getTypeById(Long id) {
+        return typeMapper.getTypeById(id);
     }
 
     @Transactional
     @Override
     public Type getTypeByName(String name) {
-        return typeRepository.findByName(name);
+        return typeMapper.getTypeByName(name);
+    }
+
+    @Override
+    public List<Type> getAllType() {
+        return typeMapper.getAllType();
+    }
+
+    @Override
+    public List<Type> getAllTypeAndBlog() {
+        return typeMapper.getAllTypeAndBlog();
     }
 
     @Transactional
     @Override
-    public Page<Type> listType(Pageable pageable) {
-        return typeRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<Type> listType() {
-        return typeRepository.findAll();
-    }
-
-    @Override
-    public List<Type> listTypeTop(Integer size) {
-        //Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "blog.size"));
-        Sort sort = Sort.by(Sort.Direction.DESC,"blogs.size");
-        Pageable pageable = PageRequest.of(0, size, sort);
-        return typeRepository.findTop(pageable);
+    public int updateType(Type type) {
+        return typeMapper.updateType(type);
     }
 
     @Transactional
     @Override
-    public Type updateType(Long id, Type type) {
-        Type t = typeRepository.getOne(id);
-        if(t == null){
-            throw new NotFoundException("不存在该类型");
-        }
-        BeanUtils.copyProperties(type,t);
-        return typeRepository.save(t);
-    }
-    @Transactional
-    @Override
-    public void deleteType(Long id) {
-        typeRepository.deleteById(id);
+    public int deleteType(Long id) {
+        return typeMapper.deleteType(id);
     }
 }

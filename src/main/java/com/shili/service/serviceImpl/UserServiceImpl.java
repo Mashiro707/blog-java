@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     */
     @Override
     public User checkUser(String username, String password) {
-        User user = userMapper.queryByUsernameAndPassword(username, DigestUtils.md5DigestAsHex(password.getBytes()));
+        User user = userMapper.queryByUsernameAndPassword(username, password);
         return user;
     }
 }
