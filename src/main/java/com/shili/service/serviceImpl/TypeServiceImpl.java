@@ -43,6 +43,7 @@ public class TypeServiceImpl implements TypeService {
         return typeMapper.getAllType();
     }
 
+    @Transactional
     @Override
     public List<Type> getAllTypeAndBlog() {
         return typeMapper.getAllTypeAndBlog();

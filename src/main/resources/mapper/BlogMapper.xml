@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shili.mapper.BlogMapper">
+    <!--新增博客-->
+    <insert id="createBlog" parameterType="Blog" useGeneratedKeys="true" keyProperty="id">
+        insert into b_blog(title, content, first_picture, flag,
+                            views, appreciation, share_statement, commentabled,published,
+                            recommend, create_time, update_time, type_id, tag_ids, user_id, description)
+        values (#{title},#{content},#{firstPicture},#{flag},#{views},#{appreciation},
+                #{shareStatement},#{commentabled},#{published},#{recommend},#{createTime},#{updateTime},
+                #{typeId}, #{tagIds}, #{userId}, #{description})
+    </insert>
+
+    <insert id="createBlogAndTag" parameterType="com.shili.vo.BlogAndTag">
+        insert into b_blog_tags(tag_id, blog_id) values (#{tagId}, #{blogId})
+    </insert>
+
+    <delete id="deleteBlogAndTag" parameterType="long">
+        delete bt from b_blog_tags bt left join b_blog b on b.id = bt.id where bt.blog_id = #{id};
+    </delete>
+
+    <!--删除博客-->
+    <delete id="deleteBlog" parameterType="long">
+        delete from blog.b_blog where id = #{id}
+    </delete>
+
+    <!--编辑更新博客-->
+    <update id="updateBlog" parameterType="Blog">
+        update b_blog set published = #{published},flag = #{flag} ,
+                          title = #{title}, content = #{content}, type_id = #{typeId}, tag_ids = #{tagIds},
+                          first_picture = #{firstPicture} , description = #{description} , recommend = #{recommend} ,
+                          share_statement = #{shareStatement}, appreciation = #{appreciation},
+                          commentabled = #{commentabled} ,update_time = #{updateTime} where id = #{id};
+    </update>
+
+    <update id="updateViews" parameterType="Blog">
+        update b_blog set views = #{views} where id = #{id};
+    </update>
+
+    <!--根据Id查询博客，用于编辑博客-->
+    <select id="getBlogById" resultType="Blog">
+        select b.id, b.published, b.flag, b.title, b.content, b.type_id,
+               b.tag_ids, b.first_picture, b.description, b.recommend,
+               b.share_statement, b.appreciation, b.commentabled, b.views
+        from b_blog b
+        where  b.id = #{id};
+    </select>
+
+    <!--后台展示所有博客-->
+    <select id="getAllBlog" resultMap="blogs">
+        select b.id, b.title, b.recommend, b.published, b.update_time,
+               t.id typeid, t.name typename
+        from b_blog b, b_type t
+        where b.type_id = t.id
+    </select>
+
+    <!--后台根据条件（标题、分类、是否推荐）查询-->
+    <select id="searchAllBlog" parameterType="Blog" resultMap="blogs">
+        /*模糊查询*//*动态SQL*/
+        <bind name="pattern" value="'%' + title + '%'"/>
+        select b.id, b.title, b.update_time, b.recommend, b.type_id, b.published,
+        t.id typeid, t.name typename
+        from b_blog b, b_type t
+        <where>
+            /*恒为真，默认条件*/
+            <if test="1 == 1">
+                b.type_id = t.id
+            </if>
+            /*根据博客类型查询*/
+            <if test="typeId != null">
+                and b.type_id = #{typeId}
+            </if>
+            /*根据博客推荐查询*/
+            <if test="recommend != null">
+                and b.recommend = #{recommend}
+            </if>
+            /*根据博客title模糊查询*/
+            <if test="title != null">
+                and b.title like #{pattern}
+            </if>
+        </where>
+    </select>
+
+    <select id="getBlogByTypeId" resultMap="blogs">
+
+    </select>
+
+    <resultMap id="blogs" type="Blog">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="flag" column="flag"/>
+        <result property="views" column="views"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="typeId" column="type_id"/>
+        <result property="firstPicture" column="first_picture"/>
+        <result property="shareStatement" column="share_statement"/>
+        <result property="published" column="published"/>
+        <result property="appreciation" column="appreciation"/>
+        <result property="commentabled" column="commentabled"/>
+        <result property="description" column="description"/>
+        <result property="recommend" column="recommend"/>
+        <result property="createTime" column="create_time"/>
+        <result property="typeId" column="type_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="tagIds" column="tag_ids"/>
+        <association property="type" javaType="Type">
+            <id property="id" column="typeid"/>
+            <result property="name" column="typename"/>
+        </association>
+        <association property="user" javaType="User">
+            <id property="id" column="uid"/>
+            <result property="nickname" column="nickname"/>
+            <result property="username" column="username"/>
+            <result property="email" column="email"/>
+            <result property="avatar" column="avatar"/>
+        </association>
+        <collection property="tags" ofType="Tag">
+            <id property="id" column="tagid"/>
+            <result property="name" column="tagname"/>
+        </collection>
+    </resultMap>
+
+</mapper>

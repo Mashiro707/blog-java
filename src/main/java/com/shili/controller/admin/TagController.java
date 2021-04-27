@@ -14,7 +14,7 @@ import java.util.List;
 
 
 /**
- * @Description: 文章分类业务层实现类
+ * @Description: 博客标签控制管理器
  * @Author: BeforeOne
  * @Date: Created in 2021/4/25 11:30
  */

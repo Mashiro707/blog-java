@@ -95,4 +95,16 @@ public interface TagService {
      */
     int deleteTag(Long id);
 
+    /**
+    *
+    * @Description: 从字符串中获取tag集合
+    * @param text
+    * @return {@link List< Tag>}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/4/26 9:19
+    *
+    */
+    List<Tag> getTagByString(String text);
+
 }
