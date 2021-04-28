@@ -33,10 +33,14 @@
     <resultMap id="type" type="Type">
         <id property="id" column="tid"/>
         <result property="name" column="name"/>
+        <!-- 配置一对多的关系
+            property：填写pojo类中集合类类属性的名称
+            javaType：填写集合类型的名称
+        -->
         <collection property="blogs" ofType="Blog">
             <id property="id" column="bid"/>
             <result property="title" column="title"/>
-            <result property="type_id" column="type_id"/>
+            <result property="typeId" column="type_id"/>
         </collection>
     </resultMap>
 

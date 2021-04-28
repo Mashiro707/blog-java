@@ -11,11 +11,11 @@
                 #{shareStatement},#{commentabled},#{published},#{recommend},#{createTime},#{updateTime},
                 #{typeId}, #{tagIds}, #{userId}, #{description})
     </insert>
-
     <insert id="createBlogAndTag" parameterType="com.shili.vo.BlogAndTag">
         insert into b_blog_tags(tag_id, blog_id) values (#{tagId}, #{blogId})
     </insert>
 
+    <!--删除博客和标签-->
     <delete id="deleteBlogAndTag" parameterType="long">
         delete bt from b_blog_tags bt left join b_blog b on b.id = bt.id where bt.blog_id = #{id};
     </delete>
@@ -82,8 +82,71 @@
         </where>
     </select>
 
+    <!--根据分类显示博客列表-->
     <select id="getBlogByTypeId" resultMap="blogs">
+        select b.id, b.title, b.first_picture, b.views, b.update_time, b.description,
+               t.name typename, t.id typeid,
+               u.nickname, u.avatar
+        from b_blog b, b_type t, b_user u
+        where b.type_id = t.id and u.id = b.user_id and b.type_id = #{typeId} order by b.update_time desc
+    </select>
 
+    <!--根据标签显示博客列表-->
+    <select id="getBlogByTagId" resultMap="blogs">
+        select b.id, b.title, b.first_picture, b.views, b.update_time, b.description,
+               t.name typename, t.id typeid,
+               t1.name tagname, t1.id tagid,
+               u.nickname, u.avatar
+        from b_blog b, b_type t, b_user u, b_blog_tags bt, b_tag t1
+        where b.type_id = t.id and u.id = b.user_id and bt.blog_id = b.id and bt.tag_id = t1.id and t1.id = #{tagId}
+        order by b.update_time desc
+    </select>
+
+    <!--获取首页博客，-->
+    <select id="getIndexBlog" resultMap="blogs">
+        select b.id, b.title, b.first_picture, b.views, b.update_time, b.description,
+               t.name typename, t.id typeid,
+               u.nickname, u.avatar
+        from b_blog b, b_type t, b_user u
+        where b.type_id = t.id and u.id = b.user_id order by b.update_time desc
+    </select>
+
+    <!--获取所有推荐博客-->
+    <select id="getAllRecommendBlog" resultMap="blogs">
+        select id, title, recommend from b_blog order by update_time desc;
+    </select>
+
+    <!--全局搜索-->
+    <select id="getSearchBlog" resultMap="blogs">
+        <bind name="pattern" value="'%' + query + '%'" />
+        select b.id, b.title, b.first_picture, b.views, b.update_time, b.description,
+        t.name typename,
+        u.nickname, u.avatar
+        from b_blog b, b_type t, b_user u
+        where b.type_id = t.id and  u.id = b.user_id and (b.title like #{pattern} or b.content like #{pattern})
+        order by b.update_time desc
+    </select>
+
+    <!--博客详情，会得到多个blog（tag不同），由于返回的集合自动去重了，就剩一个Blog-->
+    <select id="getDetailedBlog" resultMap="blogs">
+        select b.id, b.first_picture, b.flag, b.title, b.content, b.views,
+               b.update_time,b.commentabled, b.share_statement, b.appreciation,
+               u.nickname, u.avatar, b.type_id, b.user_id, b.create_time,
+               tag.id tagid, tag.name tagname
+        from b_blog b, b_user u, b_tag tag, b_blog_tags tb
+        where b.user_id = u.id and tb.blog_id = b.id and tb.tag_id = tag.id and b.id = #{id}
+    </select>
+
+    <!--查找所有年份-->
+    <select id="findGroupYear" resultType="String">
+        select DATE_FORMAT(b.update_time, '%Y') from b_blog b order by b.update_time desc
+    </select>
+
+    <!--用过年份查找博客-->
+    <select id="findByYear" resultMap="blogs">
+        select b.title, b.update_time, b.id, b.flag
+        from b_blog b
+        where DATE_FORMAT(b.update_time, "%Y") = #{year}
     </select>
 
     <resultMap id="blogs" type="Blog">
@@ -121,5 +184,6 @@
             <result property="name" column="tagname"/>
         </collection>
     </resultMap>
+
 
 </mapper>

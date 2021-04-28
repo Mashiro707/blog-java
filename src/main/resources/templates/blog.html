@@ -43,13 +43,13 @@
         <div class="ui horizontal link list">
           <div class="item">
             <img src="https://unsplash.it/100/100?image=1005" th:src="@{${blog.user.avatar}}"  alt="" class="ui avatar image">
-            <div class="content"><a href="#" class="header" th:text="${blog.user.nickname}">李仁密</a></div>
+            <div class="content"><a href="#" class="header" th:text="${blog.user.nickname}"></a></div>
           </div>
           <div class="item">
-            <i class="calendar icon"></i> <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2017-10-01</span>
+            <i class="calendar icon"></i> <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}"></span>
           </div>
           <div class="item">
-            <i class="eye icon"></i> <span th:text="${blog.views}">2342</span>
+            <i class="eye icon"></i> <span th:text="${blog.views}"></span>
           </div>
         </div>
       </div>
@@ -60,10 +60,10 @@
       <div class="ui  attached padded segment">
         <!--内容-->
         <div class="ui right aligned basic segment">
-          <div class="ui orange basic label" th:text="${blog.flag}">原创</div>
+          <div class="ui orange basic label" th:text="${blog.flag}"></div>
         </div>
 
-        <h2 class="ui center aligned header" th:text="${blog.title}">关于刻意练习的清单</h2>
+        <h2 class="ui center aligned header" th:text="${blog.title}"></h2>
         <br>
         <!--中间主要内容部分-->
         <div id="content" class="typo  typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-large" th:utext="${blog.content}">
@@ -74,11 +74,10 @@
 
           <pre><code class="language-css">p { color: red }</code></pre>
 
-          <p><i class="serif">Typo.css</i> 的目的是，在一致化浏览器排版效果的同时，构建最适合中文阅读的网页排版。</p>
-          <h4 >现状和如何去做：</h4>
+          <p><i class="serif">Typo.css</i></p>
+          <h4 ></h4>
 
-          <p class="typo-first">排版是一个麻烦的问题 <sup><a href="#appendix1"># 附录一</a></sup>，需要精心设计，而这个设计却是常被视觉设计师所忽略的。前端工程师更常看到这样的问题，但不便变更。因为在多个 OS 中的不同浏览器渲染不同，改动需要多的时间做回归测试，所以改变变得更困难。而像我们一般使用的
-            Yahoo、Eric Meyer 和 Alice base.css 中采用的 Reset 都没有很好地考虑中文排版。<i class="serif">Typo.css</i> 要做的就是解决中文排版的问题。</p>
+          <p class="typo-first"><sup><a href="#appendix1"></a></sup><i class="serif">Typo.css</i> 要做的就是解决中文排版的问题。</p>
 
           <p><strong><i class="serif">Typo.css</i> 测试于如下平台：</strong></p>
           <table class="ui table" summary="Typo.css 的测试平台列表">
@@ -176,79 +175,13 @@
               ）
             </small>
           </p>
-
-          <h4>本篇引语</h4>
-
-          <p>
-            《学而》是《论语》第一篇的篇名。《论语》中各篇一般都是以第一章的前二三个字作为该篇的篇名。《学而》一篇包括16章，内容涉及诸多方面。其中重点是「吾日三省吾身」；「节用而爱人，使民以时」；「礼之用，和为贵」以及仁、孝、信等道德范畴。 </p>
-
-          <h4>原文</h4>
-
-          <p>子曰：「学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知，而不愠，不亦君子乎？」 </p>
-
-          <h4>译文</h4>
-
-          <p>孔子说：「学了又时常温习和练习，不是很愉快吗？有志同道合的人从远方来，不是很令人高兴的吗？人家不了解我，我也不怨恨、恼怒，不也是一个有德的君子吗？」 </p>
-
-          <h4>评析</h4>
-
           <p>宋代著名学者<u class="typo-u">朱熹</u>对此章评价极高，说它是「入道之门，积德之基」。本章这三句话是人们非常熟悉的。历来的解释都是：学了以后，又时常温习和练习，不也高兴吗等等。三句话，一句一个意思，前后句子也没有什么连贯性。但也有人认为这样解释不符合原义，指出这里的「学」不是指学习，而是指学说或主张；「时」不能解为时常，而是时代或社会的意思，「习」不是温习，而是使用，引申为采用。而且，这三句话不是孤立的，而是前后相互连贯的。这三句的意思是：自己的学说，要是被社会采用了，那就太高兴了；退一步说，要是没有被社会所采用，可是很多朋友赞同<abbr
                   title="张燕婴">我</abbr>的学说，纷纷到我这里来讨论问题，我也感到快乐；再退一步说，即使社会不采用，人们也不理解我，我也不怨恨，这样做，不也就是君子吗？（见《齐鲁学刊》1986年第6期文）这种解释可以自圆其说，而且也有一定的道理，供读者在理解本章内容时参考。
           </p>
 
-          <p>此外，在对「人不知，而不愠」一句的解释中，也有人认为，「人不知」的后面没有宾语，人家不知道什么呢？当时因为孔子有说话的特定环境，他不需要说出知道什么，别人就可以理解了，却给后人留下一个谜。有人说，这一句是接上一句说的，从远方来的朋友向我求教，我告诉他，他还不懂，我却不怨恨。这样，「人不知」就是「人家不知道我所讲述的」了。这样的解释似乎有些牵强。</p>
-
-          <p>总之，本章提出以学习为乐事，做到人不知而不愠，反映出孔子学而不厌、诲人不倦、注重修养、严格要求自己的主张。这些思想主张在《论语》书中多处可见，有助于对第一章内容的深入了解。</p>
 
           <h3 id="section2-2">例2：英文排版</h3>
 
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-            standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-            type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining
-            essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-            passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem
-            Ipsum.</p>
-          <blockquote>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </blockquote>
-
-          <h4>The standard Lorem Ipsum passage, used since the 1500s</h4>
-
-          <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-
-          <h4>Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</h4>
-
-          <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
-            eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-            voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-            voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
-            velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim
-            ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-            consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur,
-            vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
-
-          <h4>List style in action</h4>
-          <ul>
-            <li>If you wish to succeed, you should use persistence as your good friend, experience as your reference, prudence as
-              your brother and hope as your sentry.
-              <p>如果你希望成功，当以恒心为良友，以经验为参谋，以谨慎为兄弟，以希望为哨兵。</p>
-            </li>
-            <li>Sometimes one pays most for the things one gets for nothing.
-              <p>有时候一个人为不花钱得到的东西付出的代价最高。</p>
-            </li>
-            <li>Only those who have the patience to do simple things perfectly ever acquire the skill to do difficult things
-              easily.
-              <p>只有有耐心圆满完成简单工作的人，才能够轻而易举的完成困难的事。</p>
-            </li>
-          </ul>
-
-          <h4>You may want to create a perfect <code>&lt;hr /&gt;</code> line, despite the fact that there will never have one
-          </h4>
-          <hr/>
           <p><abbr title="法国作家罗切福考尔德">La Racheforcauld</abbr> said:
             <mark>"Few things are impossible in themselves; and it is often for want of will, rather than of means, that man fails
               to succeed".
@@ -462,7 +395,7 @@ h5,h6{font-size:1em;}
           <div class="eleven wide column">
             <ui class="list">
               <li>作者：<span th:text="${blog.user.nickname}">李仁密</span><a href="#" th:href="@{/about}" target="_blank">（联系作者）</a></li>
-              <li>发表时间：<span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd HH:mm')}">2017-10-02 09:08</span></li>
+              <li>发表时间：<span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd HH:mm')}"></span></li>
               <li>版权声明：自由转载-非商用-非衍生-保持署名（创意共享3.0许可证）</li>
               <li>公众号转载：请在文末添加作者公众号二维码</li>
             </ui>
@@ -480,103 +413,45 @@ h5,h6{font-size:1em;}
               <h3 class="ui dividing header">评论</h3>
               <div class="comment" th:each="comment : ${comments}">
                 <a class="avatar">
-                  <img src="https://unsplash.it/100/100?image=1005" th:src="@{${comment.avatar}}">
+                  <img src="" th:src="@{${comment.avatar}}">
                 </a>
                 <div class="content">
                   <a class="author" >
-                    <span th:text="${comment.nickname}">Matt</span>
-                    <div class="ui mini basic teal left pointing label m-padded-mini" th:if="${comment.adminComment}">博主</div>
+                    <span th:text="${comment.nickname}"></span>
+                    <div class="ui mini basic teal left pointing label m-padded-mini" th:if="${comment.adminComment}"></div>
                   </a>
                   <div class="metadata">
-                    <span class="date" th:text="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm')}">Today at 5:42PM</span>
+                    <span class="date" th:text="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm')}"></span>
                   </div>
-                  <div class="text" th:text="${comment.content}">
-                    How artistic!
-                  </div>
+                  <div class="text" th:text="${comment.content}"></div>
                   <div class="actions">
                     <a class="reply" data-commentid="1" data-commentnickname="Matt" th:attr="data-commentid=${comment.id},data-commentnickname=${comment.nickname}" onclick="reply(this)">回复</a>
+                    <a class="delete" href="#" th:href="@{/comment/{param1}/{param2}/delete(param1=${comment.blogId},param2=${comment.id})}" th:if="${session.user}">删除</a>
                   </div>
                 </div>
                 <div class="comments" th:if="${#arrays.length(comment.replyComments)}>0">
-                  <div class="comment" th:each="reply : ${comment.replyComments}">
+                  <div class="comment" th:each="replycomment : ${comment.replyComments}">
                     <a class="avatar">
-                      <img src="https://unsplash.it/100/100?image=1005" th:src="@{${reply.avatar}}">
+                      <img src="https://unsplash.it/100/100?image=1005" th:src="@{${replycomment.avatar}}">
                     </a>
                     <div class="content">
                       <a class="author" >
-                        <span th:text="${reply.nickname}">小红</span>
-                        <div class="ui mini basic teal left pointing label m-padded-mini" th:if="${reply.adminComment}">博主</div>
-                        &nbsp;<span th:text="|@ ${reply.parentComment.nickname}|" class="m-teal">@ 小白</span>
+                        <span th:text="${replycomment.nickname}"></span>
+                        <div class="ui mini basic teal left pointing label m-padded-mini" th:if="${replycomment.adminComment}"></div>
+                        &nbsp;<span th:text="|@ ${replycomment.parentNickname}|" class="m-teal"</span>
                       </a>
                       <div class="metadata">
-                        <span class="date" th:text="${#dates.format(reply.createTime,'yyyy-MM-dd HH:mm')}">Today at 5:42PM</span>
+                        <span class="date" th:text="${#dates.format(replycomment.createTime,'yyyy-MM-dd HH:mm')}"></span>
                       </div>
-                      <div class="text" th:text="${reply.content}">
-                        How artistic!
-                      </div>
+                      <div class="text" th:text="${replycomment.content}"></div>
                       <div class="actions">
-                        <a class="reply" data-commentid="1" data-commentnickname="Matt" th:attr="data-commentid=${reply.id},data-commentnickname=${reply.nickname}" onclick="reply(this)">回复</a>
+                        <a class="reply" data-commentid="1" data-commentnickname="Matt" th:attr="data-commentid=${replycomment.id},data-commentnickname=${replycomment.nickname}" onclick="reply(this)">回复</a>
+                        <a class="delete" href="#" th:href="@{/comment/{param1}/{param2}/delete(param1=${replycomment.blogId},param2=${replycomment.id})}" th:if="${session.user}">删除</a>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <!--/*-->
-              <div class="comment">
-                <a class="avatar">
-                  <img src="https://unsplash.it/100/100?image=1005">
-                </a>
-                <div class="content">
-                  <a class="author">Elliot Fu</a>
-                  <div class="metadata">
-                    <span class="date">Yesterday at 12:30AM</span>
-                  </div>
-                  <div class="text">
-                    <p>This has been very useful for my research. Thanks as well!</p>
-                  </div>
-                  <div class="actions">
-                    <a class="reply">回复</a>
-                  </div>
-                </div>
-                <div class="comments">
-                  <div class="comment">
-                    <a class="avatar">
-                      <img src="https://unsplash.it/100/100?image=1005">
-                    </a>
-                    <div class="content">
-                      <a class="author">Jenny Hess</a>
-                      <div class="metadata">
-                        <span class="date">Just now</span>
-                      </div>
-                      <div class="text">
-                        Elliot you are always so right :)
-                      </div>
-                      <div class="actions">
-                        <a class="reply">回复</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="comment">
-                <a class="avatar">
-                  <img src="https://unsplash.it/100/100?image=1005">
-                </a>
-                <div class="content">
-                  <a class="author">Joe Henderson</a>
-                  <div class="metadata">
-                    <span class="date">5 days ago</span>
-                  </div>
-                  <div class="text">
-                    Dude, this is awesome. Thanks so much
-                  </div>
-                  <div class="actions">
-                    <a class="reply">回复</a>
-                  </div>
-                </div>
-              </div>
-              <!--*/-->
-
             </div>
           </div>
         </div>
@@ -623,13 +498,8 @@ h5,h6{font-size:1em;}
 
     </ol>
   </div>
-
   <div id="qrcode" class="ui wechat-qr flowing popup transition hidden "style="width: 130px !important;">
-    <!--<img src="./static/images/wechat.jpg" alt="" class="ui rounded image" style="width: 120px !important;">-->
   </div>
-
-
-
   <br>
   <br>
   <!--底部footer-->

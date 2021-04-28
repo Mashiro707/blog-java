@@ -25,8 +25,8 @@
 
     <!--查询标签下的所有博客-->
     <select id="getAllTagAndBlog" resultMap="tags">
-        select t.id tid, t.name, b.id bid, b.title, b.tag_id
-        from blog.b_tag t, blog.b_blog b, blog.b_blog_tags bt
+        select t.id tid, t.name, b.id bid, b.title
+        from b_tag t, b_blog b, b_blog_tags bt
         where t.id = bt.tag_id and b.id = bt.blog_id
     </select>
 

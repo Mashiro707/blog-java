@@ -67,7 +67,7 @@ public interface TypeMapper {
     *
     * @Description: 查询分类下的所有博客
     * @param
-    * @return {@link List< Type>}
+    * @return {@link List<Type>}
     * @throws
     * @author BeforeOne
     * @data 2021/4/25 8:22

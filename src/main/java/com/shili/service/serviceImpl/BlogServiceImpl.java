@@ -1,15 +1,16 @@
 package com.shili.service.serviceImpl;
 
+import com.shili.NotFoundException;
 import com.shili.mapper.BlogMapper;
 import com.shili.pojo.Blog;
 import com.shili.pojo.Tag;
 import com.shili.service.BlogService;
+import com.shili.util.MarkdownUtils;
 import com.shili.vo.BlogAndTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Description: 博客业务实现类
@@ -79,5 +80,81 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<Blog> searchAllBlog(Blog blog) {
         return blogMapper.searchAllBlog(blog);
+    }
+
+    @Override
+    public List<Blog> getIndexBlog() {
+        return blogMapper.getIndexBlog();
+    }
+
+    @Override
+    public List<Blog> getAllRecommendBlog() {
+        return blogMapper.getAllRecommendBlog();
+    }
+
+    @Override
+    public List<Blog> getSearchBlog(String query) {
+        return blogMapper.getSearchBlog(query);
+    }
+
+    @Override
+    public Blog getDetailedBlog(Long id) {
+        System.out.println(id);
+        Blog blog = blogMapper.getDetailedBlog(id);
+        if (blog == null) {
+            throw new NotFoundException("该博客不存在");
+        }
+        String content = blog.getContent();
+        blog.setContent(MarkdownUtils.markdownToHtmlExtensions(content));  //将Markdown格式转换成html
+        blog.setViews(blog.getViews()+1);
+        blogMapper.updateViews(blog);
+        return blog;
+    }
+
+    @Override
+    public List<Blog> getPortRecommendBlog() {
+        List<Blog> tmpRecommendBlog = new ArrayList();
+        List<Blog> allRecommendBlog = blogMapper.getAllRecommendBlog();
+        for(int i = 0; i < 7; i++)
+            tmpRecommendBlog.add(allRecommendBlog.get(i));
+        return tmpRecommendBlog;
+    }
+
+    @Override
+    public List<Blog> getThreeRecommendBlog() {
+        List<Blog> tmpRecommendBlog = new ArrayList();
+        List<Blog> allRecommendBlog = blogMapper.getAllRecommendBlog();
+        if(allRecommendBlog.size() > 3) {
+            for (int i = 0; i < 3; i++)
+                tmpRecommendBlog.add(allRecommendBlog.get(i));
+            return tmpRecommendBlog;
+        }
+        else
+            return allRecommendBlog;
+    }
+
+    @Override
+    public List<Blog> getBlogByTypeId(Long typeId) {
+        return blogMapper.getBlogByTypeId(typeId);
+    }
+
+    @Override
+    public List<Blog> getBlogByTagId(Long tagId) {
+        return blogMapper.getBlogByTagId(tagId);
+    }
+
+    @Override
+    public Map<String, List<Blog>> archiveBlog() {
+        List<String> years = blogMapper.findGroupYear();
+        Set<String> set = new HashSet<>(years);  //set去掉重复的年份
+        Map<String, List<Blog>> map = new HashMap<>();
+        for (String year : set)
+            map.put(year, blogMapper.findByYear(year));
+        return map;
+    }
+
+    @Override
+    public int countBlog() {
+        return blogMapper.getAllBlog().size();
     }
 }
