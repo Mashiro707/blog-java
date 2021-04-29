@@ -18,7 +18,6 @@ import org.springframework.stereotype.Repository;
 public interface UserMapper {
 
     /**
-    *
     * @Description: 根据用户名和密码查询用户(用于登录验证)
     * @param username
     * @param password

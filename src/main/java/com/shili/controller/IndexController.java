@@ -39,7 +39,6 @@ public class IndexController {
     private CommentService commentService;
 
     /**
-    *
     * @Description: 首页博客展示
     * @param pageNum
     * @param model
@@ -71,7 +70,6 @@ public class IndexController {
     }
 
     /**
-    *
     * @Description: 全局搜索
     * @param pageNUm
     * @param query
@@ -95,7 +93,6 @@ public class IndexController {
     }
 
     /**
-    *
     * @Description: 博客详情
     * @param id
     * @param model
@@ -115,7 +112,6 @@ public class IndexController {
     }
 
     /**
-    *
     * @Description: 底部最新博客
     * @param model
     * @return {@link String}

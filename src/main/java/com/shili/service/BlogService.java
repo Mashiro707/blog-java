@@ -15,7 +15,6 @@ import java.util.Map;
 public interface BlogService {
 
     /**
-    *
     * @Description: 新增博客
     * @param blog
     * @return {@link int}
@@ -27,7 +26,6 @@ public interface BlogService {
     int createBlog(Blog blog);
 
     /**
-    *
     * @Description: 删除博客
     * @param id
     * @return {@link int}
@@ -39,7 +37,6 @@ public interface BlogService {
     int deleteBlog(Long id);
 
     /**
-    *
     * @Description:
     * @param blog
     * @return {@link int}
@@ -51,7 +48,6 @@ public interface BlogService {
     int updateBlog(Blog blog);
 
     /**
-    *
     * @Description: 根据Id查询博客，用户新增博客
     * @param id
     * @return {@link Blog}
@@ -63,7 +59,6 @@ public interface BlogService {
     Blog getBlogById(Long id);
 
     /**
-     *
      * @Description: 查询所有博客，用于后台展示。
      * @param
      * @return {@link List < Blog>}
@@ -75,7 +70,6 @@ public interface BlogService {
     List<Blog> getAllBlog();
 
     /**
-    *
     * @Description: 后台根据条件（标题、分类、是否推荐）查询
     * @param blog
     * @return {@link List< Blog>}
@@ -87,7 +81,6 @@ public interface BlogService {
     List<Blog> searchAllBlog(Blog blog);
 
     /**
-     *
      * @Description: 主页博客展示
      * @param
      * @return {@link List< Blog>}
@@ -99,7 +92,6 @@ public interface BlogService {
     List<Blog> getIndexBlog();
 
     /**
-     *
      * @Description: 首页推荐博客展示
      * @param
      * @return {@link List<Blog>}
@@ -111,7 +103,6 @@ public interface BlogService {
     List<Blog> getAllRecommendBlog();
 
     /**
-     *
      * @Description: 首页全局搜索
      * @param query
      * @return {@link List<Blog>}
@@ -123,7 +114,6 @@ public interface BlogService {
     List<Blog> getSearchBlog(String query);
 
     /**
-     *
      * @Description: 博客详情
      * @param id
      * @return {@link Blog}
@@ -135,7 +125,6 @@ public interface BlogService {
     Blog getDetailedBlog(Long id);
 
     /**
-    *
     * @Description: 右侧最新博客
     * @param
     * @return {@link List<Blog>}
@@ -147,7 +136,6 @@ public interface BlogService {
     List<Blog> getPortRecommendBlog();
 
     /**
-    *
     * @Description: 底部最新的三篇推荐博客
     * @param
     * @return {@link List<Blog>}
@@ -159,7 +147,6 @@ public interface BlogService {
     List<Blog> getThreeRecommendBlog();
 
     /**
-    *
     * @Description: 根据分类Id获取博客列表
     * @param typeId
     * @return {@link List< Blog>}
@@ -171,7 +158,6 @@ public interface BlogService {
     List<Blog> getBlogByTypeId(Long typeId);
 
     /**
-    *
     * @Description: 根据标签Id获取博客列表
     * @param tagId
     * @return {@link List<Blog>}
@@ -183,7 +169,6 @@ public interface BlogService {
     List<Blog> getBlogByTagId(Long tagId);
 
     /**
-    *
     * @Description: 归档展示，使用Map容器。key=年份，value=博客列表
     * @param
     * @return {@link Map<String, List<Blog>>}
@@ -195,7 +180,6 @@ public interface BlogService {
     Map<String, List<Blog>> archiveBlog();
 
     /**
-    *
     * @Description: 查询博客条数
     * @param
     * @return {@link int}

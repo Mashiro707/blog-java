@@ -2,6 +2,7 @@ package com.shili.mapper;
 
 import com.shili.pojo.Tag;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public interface TagMapper {
     * @data 2021/4/25 10:57
     *
     */
-    Tag getTagById(Long id);
+    Tag getTagById(@Param("id") Long id);
 
     /**
     *
@@ -50,7 +51,7 @@ public interface TagMapper {
     * @data 2021/4/25 11:01
     *
     */
-    Tag getTagByName(String name);
+    Tag getTagByName(@Param("name") String name);
 
     /**
     *
@@ -98,5 +99,5 @@ public interface TagMapper {
     * @data 2021/4/25 11:06
     *
     */
-    int deleteTag(Long id);
+    int deleteTag(@Param("id") Long id);
 }

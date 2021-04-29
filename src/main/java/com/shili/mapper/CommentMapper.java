@@ -83,6 +83,6 @@ public interface CommentMapper {
     * @data 2021/4/28 17:48
     *
     */
-    Comment findSelfById(@Param("Id") Long id);
+    Comment findSelfById(@Param("id") Long id);
 
 }

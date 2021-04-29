@@ -99,7 +99,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Blog getDetailedBlog(Long id) {
-        System.out.println(id);
+        System.out.println("blogId:"+ id);
         Blog blog = blogMapper.getDetailedBlog(id);
         if (blog == null) {
             throw new NotFoundException("该博客不存在");

@@ -10,7 +10,6 @@ import java.util.List;
  */
 public interface TypeService {
     /**
-    *
     * @Description: 新增分类
     * @param type
     * @return {@link int}
@@ -22,7 +21,6 @@ public interface TypeService {
     int createType(Type type);
 
     /**
-    *
     * @Description: 根据id获取分类
     * @param id
     * @return {@link Type}
@@ -34,7 +32,6 @@ public interface TypeService {
     Type getTypeById(Long id);
 
     /**
-    *
     * @Description: 根据Name获取分类
     * @param name
     * @return {@link Type}
@@ -46,7 +43,6 @@ public interface TypeService {
     Type getTypeByName(String name);
 
     /**
-    *
     * @Description: 获取所有分类
     * @param
     * @return {@link List< Type>}
@@ -58,7 +54,6 @@ public interface TypeService {
     List<Type> getAllType();
 
     /**
-    *
     * @Description: 查询分类下的所有博客
     * @param
     * @return {@link List< Type>}
@@ -70,7 +65,6 @@ public interface TypeService {
     List<Type> getAllTypeAndBlog();
 
     /**
-    *
     * @Description: 根据id修改分类
     * @param type
     * @return {@link int}
@@ -82,7 +76,6 @@ public interface TypeService {
     int updateType(Type type);
 
     /**
-    *
     * @Description: 根据id删除分类
     * @param id
     * @return {@link int}

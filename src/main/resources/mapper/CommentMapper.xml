@@ -45,7 +45,7 @@
         select c.id cid, c.nickname, c.email, c.content, c.avatar, c.admincomment,
                c.create_time, c.blog_id, c.parent_comment_id, c.parent_nickname
         from b_comment c
-        where c.id = #{Id}
+        where c.id = #{id}
     </select>
 
     <resultMap id="comments" type="Comment">

@@ -1,113 +1,74 @@
-/*
 package com.shili.service.serviceImpl;
 
+import com.shili.mapper.CommentMapper;
 import com.shili.pojo.Comment;
 import com.shili.service.CommentService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+/**
+ * @Description: 评论业务层实现类
+ * @Author: BeforeOne
+ * @Date: Created in 2021/4/28 14:26
+ */
+
 @Service
 public class CommentServiceImpl implements CommentService {
     @Autowired
-    private CommentRepository commentRepository;
+    private CommentMapper commentMapper;
+
     @Override
-    public List<Comment> listCommentByBlogId(Long blogId) {
-
-        Sort sort = Sort.by(Sort.Direction.ASC,"createTime");
-
-        List<Comment> comments = commentRepository.findByBlogIdAndParentCommentNull(blogId,sort);
-        return eachComment(comments);
+    public List<Comment> getCommentByBlogId(Long blogId) {
+        List<Comment> comments = commentMapper.findByBlogIdAndParentCommentNull(blogId, Long.parseLong("-1"));
+        for (Comment comment : comments) {
+            comment.setReplyComments(commentMapper.findSecondaryCommentBySelfId(comment.getId()));
+        }
+        return comments;
     }
-    @Transactional
+
     @Override
-    public Comment save(Comment comment) {
-        Long parentCommentId = comment.getParentComment().getId();
-        if (parentCommentId != -1){
-            comment.setParentComment(commentRepository.getOne(parentCommentId));
-        }else {
+    public int saveComment(Comment comment) {
+        //防止输入集合为null
+        if(comment.getParentCommentId() != null) {
+            comment.setParentComment(commentMapper.findSelfById(comment.getParentCommentId()));
+        }
+
+        //Union-Find算法（Union操作），若父级评论不是顶级，则向上迭代找到顶级评论作为父评论，只改Id，不改父亲name
+        Long curId = comment.getParentComment().getId();
+        if(curId != -1) {
+            comment.setParentNickname(commentMapper.findSelfById(curId).getNickname());
+            while (commentMapper.findSelfById(curId).getParentCommentId() != -1) {
+                curId = commentMapper.findSelfById(curId).getParentCommentId();
+            }
+        }
+        //Union更新
+        comment.setParentCommentId(curId);
+        if(curId == -1)
             comment.setParentComment(null);
-        }
+        else
+            comment.setParentComment(commentMapper.findSelfById(curId));
+
+        //能走到这，说明ParentCommentId和ParentComment已经初始化好了
         comment.setCreateTime(new Date());
-        return commentRepository.save(comment);
+
+        return commentMapper.saveComment(comment);
     }
 
-    */
-/**
-     * 循环每个顶级的评论节点
-     * @param comments
-     * @return
-     *//*
-
-    private List<Comment> eachComment(List<Comment> comments) {
-        List<Comment> commentsView = new ArrayList<>();
-        for (Comment comment : comments) {
-            Comment c = new Comment();
-            BeanUtils.copyProperties(comment,c);
-            commentsView.add(c);
+    @Override
+    public int deleteComment(Comment comment) {
+        //如果是顶级评论，先删除其子评论，再删除自己
+        List<Comment> childComments = commentMapper.findSecondaryCommentBySelfId(comment.getId());
+        for(Comment childComment : childComments) {
+            commentMapper.deleteComment(childComment);
         }
-        //合并评论的各层子代到第一级子代集合中
-        combineChildren(commentsView);
-        return commentsView;
-    }
-    */
-/**
-     *
-     * @param comments root根节点，blog不为空的对象集合
-     * @return
-     *//*
-
-    private void combineChildren(List<Comment> comments) {
-
-        for (Comment comment : comments) {
-            List<Comment> replys1 = comment.getReplyComments();
-            for(Comment reply1 : replys1) {
-                //循环迭代，找出子代，存放在tempReplys中
-                recursively(reply1);
-            }
-            //修改顶级节点的reply集合为迭代处理后的集合
-            comment.setReplyComments(tempReplys);
-            //清除临时存放区
-            tempReplys = new ArrayList<>();
-        }
+        return commentMapper.deleteComment(comment);
     }
 
-    //存放迭代找出的所有子代的集合
-    private List<Comment> tempReplys = new ArrayList<>();
-    */
-/**
-     * 递归迭代，剥洋葱
-     * @param comment 被迭代的对象
-     * @return
-     *//*
-
-    private void recursively(Comment comment) {
-        tempReplys.add(comment);//顶节点添加到临时存放集合
-        if (comment.getReplyComments().size()>0) {
-            List<Comment> replys = comment.getReplyComments();
-            for (Comment reply : replys) {
-                //tempReplys.add(reply);
-                    recursively(reply);
-
-            }
-        }
+    @Override
+    public List<Comment> findSecondaryCommentBySelfId(Long id) {
+        return commentMapper.findSecondaryCommentBySelfId(id);
     }
-    */
-/*
-    private void recursively(Comment comment) {
-        tempReplys.add(comment);
-        if(comment.getReplyComments().size()  0){
-            ListComment replayComment = comment.getReplyComments();
-            for (Comment replay : replayComment) {
-                recursive(replay);
-            }
-        }
-    }*//*
-
 }
-*/
