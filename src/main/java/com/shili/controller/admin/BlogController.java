@@ -37,7 +37,6 @@ public class BlogController {
     private TagService tagService;
 
     /**
-    *
     * @Description: 封装获取类型和标签方法
     * @param model
     * @return
@@ -52,7 +51,6 @@ public class BlogController {
     }
 
     /**
-    *
     * @Description: 后台展示博客
     * @param pageNum
     * @param model
@@ -73,7 +71,6 @@ public class BlogController {
     }
 
     /**
-    *
     * @Description: 后台根据条件（标题、分类、是否推荐）查询博客
     * @param blog
     * @param pageNum
@@ -95,7 +92,6 @@ public class BlogController {
     }
 
     /**
-    *
     * @Description: 跳转至新增页面
     * @param model
     * @return {@link String}
@@ -112,7 +108,6 @@ public class BlogController {
     }
 
     /**
-    *
     * @Description: 根据ID查询博客并且进行编辑
     * @param id
     * @param model
@@ -133,7 +128,6 @@ public class BlogController {
     }
 
     /**
-    *
     * @Description: 新增博客
     * @param blog
     * @param session
@@ -164,7 +158,6 @@ public class BlogController {
     }
 
     /**
-    *
     * @Description: 编辑博客
     * @param blog
     * @param session
@@ -195,7 +188,6 @@ public class BlogController {
     }
 
     /**
-    *
     * @Description: 后台根据id删除博客
     * @param id
     * @param attributes

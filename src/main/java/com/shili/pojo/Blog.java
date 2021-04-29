@@ -50,7 +50,7 @@ public class Blog {
 
     private User user;
 
-    //private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     private String tagIds;
     /*描述*/

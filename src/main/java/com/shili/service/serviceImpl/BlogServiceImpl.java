@@ -59,7 +59,7 @@ public class BlogServiceImpl implements BlogService {
         //防止null值
         for (int i = 0; i < tags.size(); i++) {
             Tag tag = tags.get(i);
-            if(tag == null)
+            if (tag == null)
                 continue;
             blogAndTag = new BlogAndTag(tag.getId(), blog.getId());
             blogMapper.createBlogAndTag(blogAndTag);
@@ -99,14 +99,14 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Blog getDetailedBlog(Long id) {
-        System.out.println("blogId:"+ id);
+        System.out.println("blogId:" + id);
         Blog blog = blogMapper.getDetailedBlog(id);
         if (blog == null) {
             throw new NotFoundException("该博客不存在");
         }
         String content = blog.getContent();
         blog.setContent(MarkdownUtils.markdownToHtmlExtensions(content));  //将Markdown格式转换成html
-        blog.setViews(blog.getViews()+1);
+        blog.setViews(blog.getViews() + 1);
         blogMapper.updateViews(blog);
         return blog;
     }
@@ -115,7 +115,7 @@ public class BlogServiceImpl implements BlogService {
     public List<Blog> getPortRecommendBlog() {
         List<Blog> tmpRecommendBlog = new ArrayList();
         List<Blog> allRecommendBlog = blogMapper.getAllRecommendBlog();
-        for(int i = 0; i < 7; i++)
+        for (int i = 0; i < 7; i++)
             tmpRecommendBlog.add(allRecommendBlog.get(i));
         return tmpRecommendBlog;
     }
@@ -124,12 +124,11 @@ public class BlogServiceImpl implements BlogService {
     public List<Blog> getThreeRecommendBlog() {
         List<Blog> tmpRecommendBlog = new ArrayList();
         List<Blog> allRecommendBlog = blogMapper.getAllRecommendBlog();
-        if(allRecommendBlog.size() > 3) {
+        if (allRecommendBlog.size() > 3) {
             for (int i = 0; i < 3; i++)
                 tmpRecommendBlog.add(allRecommendBlog.get(i));
             return tmpRecommendBlog;
-        }
-        else
+        } else
             return allRecommendBlog;
     }
 
