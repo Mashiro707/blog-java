@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AboutShowController {
     /**
-    *
     * @Description: 跳转至关于我界面
     * @param
     * @return {@link String}
