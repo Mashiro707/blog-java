@@ -30,7 +30,6 @@ public class TypeShowController {
     private BlogService blogService;
 
     /**
-    *
     * @Description: 通过分类Id展示对应博客列表
     * @param id
     * @param pageNum
