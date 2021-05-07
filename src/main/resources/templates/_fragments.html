@@ -53,7 +53,7 @@
         </div>
       </div>
       <div class="three wide column" >
-        <h4 class="ui inverted header m-text-thin m-text-spaced " >最新博客</h4>
+        <h4 class="ui inverted header m-text-thin m-text-spaced ">最新博客</h4>
         <div id="newblog-container">
           <div class="ui inverted link list" th:fragment="newblogList">
             <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item m-text-thin" th:each="blog : ${newblogs}" th:text="${blog.title}"></a>
@@ -63,17 +63,17 @@
       <div class="three wide column">
         <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
         <div class="ui inverted link list">
-          <a href="#" class="item m-text-thin" th:text="#{index.email}"></a>
-          <a href="#" class="item m-text-thin" th:text="#{index.qq}"></a>
+          <a href="#" class="item m-text-thin" >邮箱: 11799220@qq.com</a>
+          <a href="#" class="item m-text-thin" >qq: 11799220</a>
         </div>
       </div>
       <div class="seven wide column">
         <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
-        <p class="m-text-thin m-text-spaced m-opacity-mini" th:text="#{index.blogDescription}"></p>
+        <p class="m-text-thin m-text-spaced m-opacity-mini">你好</p>
       </div>
     </div>
     <div class="ui inverted section divider"></div>
-    <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2016 - <span th:text="${#dates.year(#dates.createNow())}">2017</span> Lirenmi Designed by Lirenmi</p>
+    <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2021 - <span th:text="${#dates.year(#dates.createNow())}"></span> BeforeOne7 Designed by BeforeOne7</p>
   </div>
 
 </footer>

@@ -15,25 +15,6 @@
 
   <!--导航-->
   <nav th:replace="_fragments :: menu(1)"  class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
-    <div class="ui container">
-      <div class="ui inverted secondary stackable menu">
-        <h2 class="ui teal header item">Blog</h2>
-        <a href="#" class="active m-item item m-mobile-hide"><i class=" home icon"></i>首页</a>
-        <a href="#" class="m-item item m-mobile-hide"><i class=" idea icon"></i>分类</a>
-        <a href="#" class="m-item item m-mobile-hide"><i class=" tags icon"></i>标签</a>
-        <a href="#" class="m-item item m-mobile-hide"><i class=" clone icon"></i>归档</a>
-        <a href="#" class="m-item item m-mobile-hide"><i class=" info icon"></i>关于我</a>
-        <div class="right m-item item m-mobile-hide">
-          <div class="ui icon inverted transparent input m-margin-tb-tiny">
-            <input type="text" placeholder="Search....">
-            <i class="search link icon"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
-      <i class="sidebar icon"></i>
-    </a>
   </nav>
 
   <!--中间内容-->
@@ -67,20 +48,6 @@
         <br>
         <!--中间主要内容部分-->
         <div id="content" class="typo  typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-large" th:utext="${blog.content}">
-/* 标题应该更贴紧内容，并与其他块区分，margin 值要相应做优化 */
-h1,h2,h3,h4,h5,h6 {
-    line-height:1;font-family:Arial,sans-serif;margin:1.4em 0 0.8em;
-}
-h1{font-size:1.8em;}
-h2{font-size:1.6em;}
-h3{font-size:1.4em;}
-h4{font-size:1.2em;}
-h5,h6{font-size:1em;}
-
-/* 现代排版：保证块/段落之间的空白隔行 */
-.typo p, .typo pre, .typo ul, .typo ol, .typo dl, .typo form, .typo hr {
-    margin:1em 0 0.6em;
-}
         </div>
         <!--标签-->
         <div class="m-padded-lr-responsive">
@@ -222,39 +189,6 @@ h5,h6{font-size:1em;}
   <br>
   <!--底部footer-->
   <footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
-    <div class="ui center aligned container">
-      <div class="ui inverted divided stackable grid">
-        <div class="three wide column">
-          <div class="ui inverted link list">
-            <div class="item">
-              <img src="../static/images/wechat.jpg" class="ui rounded image" alt="" style="width: 110px">
-            </div>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header m-text-thin m-text-spaced " >最新博客</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-            <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-            <a href="#" class="item m-text-thin">用户故事（User Story）</a>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item m-text-thin">Email：lirenmi@163.com</a>
-            <a href="#" class="item m-text-thin">QQ：865729312</a>
-          </div>
-        </div>
-        <div class="seven wide column">
-          <h4 class="ui inverted header m-text-thin m-text-spaced ">Blog</h4>
-          <p class="m-text-thin m-text-spaced m-opacity-mini">这是我的个人博客、会分享关于编程、写作、思考相关的任何内容，希望可以给来到这儿的人有所帮助...</p>
-        </div>
-      </div>
-      <div class="ui inverted section divider"></div>
-      <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2016 - 2017 Lirenmi Designed by Lirenmi</p>
-    </div>
-
   </footer>
 
   <!--/*/<th:block th:replace="_fragments :: script">/*/-->
