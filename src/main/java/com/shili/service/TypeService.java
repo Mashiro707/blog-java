@@ -65,6 +65,17 @@ public interface TypeService {
     List<Type> getAllTypeAndBlog();
 
     /**
+     * @Description: 限制主页上显示的分类数量
+     * @param
+     * @return {@link List< Type>}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 8:29
+     *
+     */
+    List<Type> getFiveTypeAndBlog();
+
+    /**
     * @Description: 根据id修改分类
     * @param type
     * @return {@link int}

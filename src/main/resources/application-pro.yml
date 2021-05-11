@@ -1,14 +1,44 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blog?userUnicode=true&characterEncoding=utf-8&userSSL=false
+    url: jdbc:mysql://120.79.21.15:3306/blog?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: 123456
+  redis:
+    host: 120.79.21.15
+    port: 6379
+    #Redis数据库索引
+    database: 0
+    #连接超时时间
+    timeout: 1800000
+    #连接池最大连接数（使用负值表示没有限制）
+    lettuce:
+      pool:
+        max-active: 20
+        #最大阻塞等待时间（负值表示没有限制）
+        max-wait: -1
+        #连接池中最大空闲连接
+        max-idle: 5
+        #连接池中最小空闲连接
+        min-idle: 0
+
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.shili.pojo
+  #开启驼峰命名
+  configuration:
+    map-underscore-to-camel-case: true
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
 logging:
   level:
-    root: warn
+    root: info
     com.shili: debug
   file:
-    path: log/blog-pro
-  server:
-      port: 8081
+    path: log/blog-dev

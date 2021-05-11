@@ -10,9 +10,10 @@
 <body>
 
   <!--导航-->
-  <nav th:replace="admin/_fragments :: menu(1)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
-  </nav>
-
+  <th:block th:replace="admin/_fragments :: hideMenu(1)"></th:block>
+  <div id="pusher" class="pusher">
+    <div th:replace="admin/_fragments :: menu(1)" class="ui inverted vertical masthead center aligned segment">
+    </div>
   <div class="ui attached pointing menu">
     <div class="ui container">
       <div class="right menu">

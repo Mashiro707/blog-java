@@ -10,8 +10,42 @@
 <body>
 
   <!--导航-->
-  <nav th:replace="_fragments :: menu(3)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small" >
-  </nav>
+  <th:block th:replace="_fragments :: hideMenu(3)"></th:block>
+
+  <div id="pusher" class="pusher">
+    <div th:replace="_fragments :: menu(3,~{::#h1},~{::#h2})" class="ui inverted vertical masthead center aligned segment">
+      <div class="ui container animate__animated animate__fadeInLeftBig">
+        <div class="ui large secondary inverted pointing menu" style="border-width: 0px;">
+          <a class="toc item">
+            <i class="sidebar icon"></i>
+          </a>
+          <a class="item" ><i class="home icon"></i>首页</a>
+          <a class="item" ><i class="idea icon"></i>分类</a>
+          <a class="item" ><i class="tags icon"></i>标签</a>
+          <a class="item" ><i class="calendar icon"></i>归档</a>
+          <a class="item" ><i class="user secret icon"></i>关于我</a>
+          <div class="right m-item menu">
+            <div class="ui icon inverted transparent input">
+              <input class="" type="text" placeholder="Search...." name="" id="" value="" />
+              <i class="search link icon"></i>
+
+            </div>
+            &emsp;
+            <div class="ui dropdown item" th:if="${session.user}==null">
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="ui text container">
+        <h1 id="h1" class="ui inverted header m-margin-top animate__animated animate__bounce">
+          “此刻，便是心情!”
+        </h1>
+        <h2 id="h2" class="animate__animated animate__flipInX">This moment, It's my mood!</h2>
+      </div>
+    </div>
 
   <!--中间内容-->
   <div  class="m-container-small m-padded-tb-big animated fadeIn">
@@ -141,6 +175,31 @@
     $('.menu.toggle').click(function () {
       $('.m-item').toggleClass('m-mobile-hide');
     });
+    function tagId(obj){
+      $("[name='selectId']").val($(obj).attr('data-tagId'));
+      /*alert("tags/"+$("[name='tagId']").val());*/
+      load_BlogsByTagId();
+    }
+
+    function load_BlogsByTagId() {
+      $("#tag-container").load(/*[[@{/tags/id}]]*/"/tags/id",{
+        id : $("[name='selectId']").val(),
+      });
+    }
+
+    /*------------------------------------------------------------------------*/
+    function pageNum(obj) {
+      $("[name='pageNum']").val($(obj).attr('data-pageNum'));
+      loaddata();
+      $(window).scrollTo($('#tag-page-container'),500);
+    }
+    function loaddata() {
+      $("#tag-page-container").load(/*[[@{/tags/page}]]*/"/tags/page",{
+        selectId : $("[name='selectId']").val(),
+        pageNum : $("[name='pageNum']").val()
+      });
+    }
+
 
   </script>
 </body>

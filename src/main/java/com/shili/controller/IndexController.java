@@ -53,7 +53,7 @@ public class IndexController {
         PageHelper.startPage(pageNum,5);
         List<Blog> allBlog = blogService.getIndexBlog();
         /*获取博客的类型(联表查询)(首页右侧类型栏，每个类型多少博客blogs.size())*/
-        List<Type> allType = typeService.getAllTypeAndBlog();
+        List<Type> allType = typeService.getFiveTypeAndBlog();
         /*获取博客的标签(同类型原理)*/
         List<Tag> allTag = tagService.getAllTagAndBlog();
         /*右侧显示七条最新推荐博客*/

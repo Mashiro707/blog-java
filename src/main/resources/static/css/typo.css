@@ -1,15 +1,36 @@
 @charset "utf-8";
 
-.typo p {
-  font-size: 16px;
-  font-weight: 300;
-  line-height: 1.8;
-  text-align: justify;
+/* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
+/* html {
+  color: #333;
+  background: #fff;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-rendering: optimizelegibility;
+} */
+
+/* 如果你的项目仅支持 IE9+ | Chrome | Firefox 等，推荐在 <html> 中添加 .borderbox 这个 class */
+/* html.borderbox *, html.borderbox *:before, html.borderbox *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+} */
+
+/* 内外边距通常让各个浏览器样式的表现位置不同 */
+/* body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  margin: 0;
+  padding: 0;
+} */
+.typo p{
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.8;
+	text-align: justify;
 }
 
-.typo li {
-  font-weight: 300;
-  padding: 4px 0;
+.typo li{
+    font-weight: 400;
+    padding: 4px 0;
 }
 
 /* 重设 HTML5 标签, IE 需要在 js 中 createElement(TAG) */
@@ -23,7 +44,7 @@
 }
 
 /* 要注意表单元素并不继承父级 font 的问题 */
-.typo button, input, select, textarea {
+/* body, */.typo button,.typo input,.typo select,.typo textarea {
   font: 300 1em/1.8 PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
 }
 
@@ -40,7 +61,7 @@
 }
 
 /* 去除默认边框 */
-.typo fieldset, img {
+.typo fieldset,.typo img {
   border: 0;
 }
 
@@ -61,9 +82,10 @@
 }
 
 /* Firefox 以外，元素没有下划线，需添加 */
-.typo acronym, abbr {
+.typo acronym,.typo abbr {
   border-bottom: 1px dotted;
   font-variant: normal;
+  text-decoration: none;
 }
 
 /* 添加鼠标问号，进一步确保应用的语义是正确的（要知道，交互他们也有洁癖，如果你不去掉，那得多花点口舌） */
@@ -76,33 +98,33 @@
   text-decoration: line-through;
 }
 
-.typo address, caption, cite, code, dfn, em, th, var {
+.typo address,.typo caption,.typo cite,.typo code,.typo dfn,.typo em,.typo th,.typo var {
   font-style: normal;
   font-weight: 400;
 }
 
 /* 去掉列表前的标识, li 会继承，大部分网站通常用列表来很多内容，所以应该当去 */
-.typo ul, ol {
+.typo ul,.typo ol {
   list-style: none;
 }
 
 /* 对齐是排版最重要的因素, 别让什么都居中 */
-.typo caption, th {
+.typo caption,.typo th {
   text-align: left;
 }
 
-.typo q:before,.typo  q:after {
+.typo q:before,.typo q:after {
   content: '';
 }
 
 /* 统一上标和下标 */
-.typo sub,.typo  sup {
+.typo sub,.typo sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
 }
 
-.typo :root sub,.typo  :root sup {
+.typo :root sub,.typo :root sup {
   vertical-align: baseline; /* for ie9 and other modern browsers */
 }
 
@@ -134,7 +156,7 @@
 }
 
 /* 默认不显示下划线，保持页面简洁 */
-.typo ins,.typo  a {
+.typo ins,.typo a {
   text-decoration: none;
 }
 
@@ -144,7 +166,7 @@
  * 被放弃的是 4，之前一直搞错 http://www.w3.org/TR/html401/appendix/changes.html#idx-deprecated
  * 一篇关于 <u> 标签的很好文章：http://html5doctor.com/u-element/
  */
-.typo u,.typo  .typo-u {
+.typo u,.typo .typo-u {
   text-decoration: underline;
 }
 
@@ -157,9 +179,11 @@
 }
 
 /* 代码片断 */
-.typo pre,.typo  code,.typo  pre tt {
+.typo pre,.typo code,.typo pre tt {
   font-family: Courier, 'Courier New', monospace;
+  /*给pre标签定义横向滚动条*/ 
 }
+
 
 .typo pre {
   background: #f8f8f8;
@@ -167,6 +191,7 @@
   padding: 1em 1.5em;
   display: block;
   -webkit-overflow-scrolling: touch;
+  overflow: auto;
 }
 
 /* 一致化 horizontal rule */
@@ -178,14 +203,14 @@
 }
 
 /* 底部印刷体、版本等标记 */
-.typo small,.typo  .typo-small,
+.typo small, .typo .typo-small,
   /* 图片说明 */
 .typo figcaption {
   font-size: 0.9em;
   color: #888;
 }
 
-.typo strong,.typo  b {
+.typo strong,.typo b {
   font-weight: bold;
   color: #000;
 }
@@ -195,7 +220,7 @@
   cursor: move;
 }
 
-.typo .clearfix:before,.typo  .clearfix:after {
+.typo .clearfix:before,.typo .clearfix:after {
   content: "";
   display: table;
 }
@@ -209,7 +234,7 @@
 }
 
 /* 强制文本换行 */
-.typo .textwrap,.typo .textwrap td,.typo  .textwrap th {
+.typo .textwrap,.typo .textwrap td,.typo .textwrap th {
   word-wrap: break-word;
   word-break: break-all;
 }
@@ -229,7 +254,7 @@
   margin-bottom: 1.2em
 }
 
-.typo h1,.typo  h2,.typo  h3,.typo  h4,.typo  h5,.typo  h6 {
+.typo h1,.typo h2,.typo h3.typo h4,.typo h5,.typo h6 {
   font-family: PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
   font-weight: 100;
   color: #000;

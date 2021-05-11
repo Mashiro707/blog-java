@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * @Description: 文章分类业务实现层
@@ -47,6 +48,17 @@ public class TypeServiceImpl implements TypeService {
     @Override
     public List<Type> getAllTypeAndBlog() {
         return typeMapper.getAllTypeAndBlog();
+    }
+
+    @Transactional
+    @Override
+    public List<Type> getFiveTypeAndBlog() {
+        List<Type> tmpType = new ArrayList<>();
+        List<Type> allType = typeMapper.getAllTypeAndBlog();
+        for (int i = 0; i < 5; i++) {
+            tmpType.add(allType.get(i));
+        }
+        return tmpType;
     }
 
     @Transactional
