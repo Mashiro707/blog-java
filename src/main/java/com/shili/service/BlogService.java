@@ -1,7 +1,9 @@
 package com.shili.service;
 
 import com.shili.pojo.Blog;
+import com.shili.pojo.Tag;
 import com.shili.vo.BlogAndTag;
+import com.shili.vo.BlogInfoVo;
 
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,17 @@ public interface BlogService {
     *
     */
     int deleteBlog(Long id);
+
+    /**
+    * @Description: 删除博客和标签的关联表中对应数据
+    * @param id
+    * @return {@link int}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/12 13:14
+    *
+    */
+    int deleteBlogAndTag(Long id);
 
     /**
     * @Description:
@@ -189,4 +202,16 @@ public interface BlogService {
     *
     */
     int countBlog();
+
+    /**
+    * @Description: 获取博客统计信息
+    * @param
+    * @return {@link BlogInfoVo}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/12 14:44
+    *
+    */
+    BlogInfoVo getBlogInfo();
+
 }

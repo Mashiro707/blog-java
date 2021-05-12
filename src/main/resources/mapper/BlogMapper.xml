@@ -19,7 +19,6 @@
     <delete id="deleteBlogAndTag" parameterType="long">
         delete bt from b_blog_tags bt left join b_blog b on b.id = bt.id where bt.blog_id = #{id};
     </delete>
-
     <!--删除博客-->
     <delete id="deleteBlog" parameterType="long">
         delete from blog.b_blog where id = #{id}
@@ -103,8 +102,13 @@
     </select>
 
     <!--获取首页博客，-->
+    <!--select b.id, b.title, b.first_picture, b.views, b.update_time, b.description, b.tag_ids,
+               t.name typename, t.id typeid,
+               u.nickname, u.avatar
+        from b_blog b, b_type t, b_user u
+        where b.type_id = t.id and u.id = b.user_id order by b.update_time desc-->
     <select id="getIndexBlog" resultMap="blogs">
-        select b.id, b.title, b.first_picture, b.views, b.update_time, b.description,
+        select b.id, b.title, b.first_picture, b.views, b.update_time, b.description, b.tag_ids,
                t.name typename, t.id typeid,
                u.nickname, u.avatar
         from b_blog b, b_type t, b_user u
@@ -147,6 +151,11 @@
         select b.title, b.update_time, b.id, b.flag
         from b_blog b
         where DATE_FORMAT(b.update_time, "%Y") = #{year}
+    </select>
+
+    <!--获取博客总访问量-->
+    <select id="getViews" resultType="java.lang.Integer">
+        SELECT SUM(views) FROM b_blog
     </select>
 
     <resultMap id="blogs" type="Blog">

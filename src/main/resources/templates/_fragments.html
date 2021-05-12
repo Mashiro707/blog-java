@@ -19,26 +19,25 @@
 
 <!-- 手机工具栏和跟随导航 -->
 <th:block th:fragment="hideMenu(n)">
-
     <!-- Following Menu -->
-    <div class="ui large top fixed hidden secondary menu">
+    <div class="ui large top fixed hidden secondary menu" style="background: rgba(0,0,0,0.7);">
         <div class="ui container">
-
-            <a class="item" th:href="@{/}" th:classappend="${n==1} ? 'active'"><i class="teal home icon"></i>首页</a>
-            <a class="item" th:href="@{/types/-1}" th:classappend="${n==2} ? 'active'"><i class="teal idea icon"></i>分类</a>
-            <a class="item" th:href="@{/tags/-1}" th:classappend="${n==3} ? 'active'"><i class="teal tags icon"></i>标签</a>
-            <a class="item" th:href="@{/archives}" th:classappend="${n==4} ? 'active'"><i class="teal calendar icon"></i>归档</a>
-            <a class="item" th:href="@{/about}" th:classappend="${n==5} ? 'active'"><i class="teal user secret icon"></i>关于我</a>
-
+            <div class="ui inverted secondary stackable menu">
+            <a class="item" th:href="@{/}" th:classappend="${n==1} ? 'active'"><i class="home icon"></i>首页</a>
+            <a class="item" th:href="@{/types/-1}" th:classappend="${n==2} ? 'active'"><i class="idea icon"></i>分类</a>
+            <a class="item" th:href="@{/tags/-1}" th:classappend="${n==3} ? 'active'"><i class="tags icon"></i>标签</a>
+            <a class="item" th:href="@{/archives}" th:classappend="${n==4} ? 'active'"><i class="calendar icon"></i>归档</a>
+            <a class="item" th:href="@{/about}" th:classappend="${n==5} ? 'active'"><i class="user secret icon"></i>关于我</a>
+            </div>
                 <div class="right menu" style="z-index: 1 !important;">
                 <div class="ui dropdown  item" th:if="${session.user}==null">
                     <div class="text">
                         <img class="ui avatar image" src="../static/images/nullavatar.jpg" th:src="@{/images/nullavatar.jpg}" >
-                        <span>游客</span>
+                        <span style="color: #d7d4f0">游客</span>
                     </div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a href="#" th:href="@{/login}"class="m-item item m-mobile-hide"><i class="user secret icon"></i>管理员登录</a>
+                        <a href="#" th:href="@{/admin}"class="m-item item m-mobile-hide"><i class="user secret icon"></i>管理员登录</a>
                     </div>
                 </div>
                 <div class="ui dropdown item"  th:if="${session.user}!=null">
@@ -48,17 +47,16 @@
                     </div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a href="#" th:href="@{/admin/index}" class="item"><i class="teal table icon"></i>管理博客</a>
-                        <a href="#" th:href="@{/admin/user/update}" class="item"><i class="teal sliders horizontal icon"></i>编辑资料</a>
+                        <a href="#" th:href="@{/admin/blogs}" class="item"><i class="teal table icon"></i>管理博客</a>
                         <a href="#" th:href="@{/logout}" class="item"><i class="red power off icon"></i>注销账号</a>
                     </div>
                 </div>
                 <div class="item">
                 </div>
             </div>
+
         </div>
     </div>
-
     <!-- Sidebar Menu -->
     <div class="ui vertical inverted sidebar menu">
         <a class="item" th:href="@{/}" th:classappend="${n==1} ? 'active'"><i class="home icon"></i>首页</a>
@@ -67,7 +65,6 @@
         <a class="item" th:href="@{/archives}" th:classappend="${n==4} ? 'active'"><i class="calendar icon"></i>归档</a>
         <a class="item" th:href="@{/about}" th:classappend="${n==5} ? 'active'"><i class="user secret icon"></i>关于我</a>
     </div>
-
 </th:block>
 
 <!--导航-->
@@ -100,7 +97,7 @@
                         </div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
-                            <a href="#" th:href="@{/login}"class="m-item item m-mobile-hide"><i class="user secret icon"></i>管理员登录</a>
+                            <a href="#" th:href="@{/admin}"class="m-item item m-mobile-hide"><i class="user secret icon"></i>管理员登录</a>
                         </div>
                     </div>
                     <div class="ui dropdown  item"  th:if="${session.user}!=null">
@@ -110,8 +107,7 @@
                         </div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
-                            <a href="#" th:href="@{/admin/index}" class="item"><i class="teal table icon"></i>管理博客</a>
-                            <a href="#" th:href="@{/admin/user/update}" class="item"><i class="teal sliders horizontal icon"></i>编辑资料</a>
+                            <a href="#" th:href="@{/admin/blogs}" class="item"><i class="teal table icon"></i>管理博客</a>
                             <a href="#" th:href="@{/logout}" class="item"><i class="red power off icon"></i>注销账号</a>
                         </div>
                     </div>
@@ -129,7 +125,7 @@
 
 
 <!-- 底部footer -->
-<footer th:fragment="footer" class="ui inverted vertical segment m-padded-tb-huge ">
+<footer th:fragment="footer" class="ui inverted vertical segment m-padded-tb-huge" style="background: rgba(0,0,0,0.7);">
     <div class="ui center aligned container">
         <div class="ui inverted divided stackable grid">
             <div class="three wide column">
@@ -145,15 +141,15 @@
                     <div class="ui inverted link list" th:fragment="blogInfo" th:if="${blogInfo}">
                         <div class="item">访问总数: <span class="m-teal" th:text="${blogInfo.views}">2020</span> 次</div>
                         <div class="item">评论总数: <span class="m-teal" th:text="${blogInfo.commentCount}">2020</span> 条</div>
-                        <div class="item">留言总数: <span class="m-teal" th:text="${blogInfo.messageCount}">2020</span> 条</div>
+                        <!--<div class="item">留言总数: <span class="m-teal" th:text="${blogInfo.messageCount}">2020</span> 条</div>-->
                     </div>
                 </div>
             </div>
             <div class="three wide column">
                 <h4 class="ui inverted header m-text-thin m-text-spaced">联系我</h4>
                 <div class="ui inverted link list">
-                    <a href="" class="item">Email: <span th:text="#{index.email}">11799220@qq.com</span></a>
-                    <a href="" class="item">QQ: <span th:text="#{index.QQ}">11799220</span></a>
+                    <a href="" class="item">Email: <span>11799220@qq.com</span></a>
+                    <a href="" class="item">QQ: <span>11799220</span></a>
                 </div>
             </div>
             <div class="seven wide column">
@@ -220,7 +216,7 @@
         //网站创建时间
         function setTime() {
             // 博客创建时间秒数，时间格式中，月比较特殊，是从0开始的，所以想要显示12月，得写11才行，如下
-            var create_time = Math.round(new Date(Date.UTC(2020, 11, 09, 00, 00, 00)).getTime() / 1000);
+            var create_time = Math.round(new Date(Date.UTC(2021, 04, 09, 00, 00, 00)).getTime() / 1000);
             var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
             currentTime = secondToDate((timestamp - create_time));
             currentTimeHtml = currentTime[0] + '年' + currentTime[1] + '天'

@@ -37,7 +37,7 @@
 
     <!--删除评论-->
     <delete id="deleteComment">
-        delete t_comment from t_comment where b_comment.id = #{id};
+        delete b_comment from b_comment where b_comment.id = #{id};
     </delete>
 
     <!--查询自身-->
@@ -46,6 +46,11 @@
                c.create_time, c.blog_id, c.parent_comment_id, c.parent_nickname
         from b_comment c
         where c.id = #{id}
+    </select>
+
+    <!--获取总评论数目-->
+    <select id="getCommentCount" resultType="java.lang.Integer">
+        select count(id) from b_comment
     </select>
 
     <resultMap id="comments" type="Comment">

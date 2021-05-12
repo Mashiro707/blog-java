@@ -55,10 +55,13 @@ public class TypeServiceImpl implements TypeService {
     public List<Type> getFiveTypeAndBlog() {
         List<Type> tmpType = new ArrayList<>();
         List<Type> allType = typeMapper.getAllTypeAndBlog();
-        for (int i = 0; i < 5; i++) {
-            tmpType.add(allType.get(i));
+        if (allType.size()>5){
+            for (int i = 0; i < 5; i++) {
+                tmpType.add(allType.get(i));
+            }
+            return tmpType;
         }
-        return tmpType;
+        return allType;
     }
 
     @Transactional

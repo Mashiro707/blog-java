@@ -85,4 +85,14 @@ public interface CommentMapper {
     */
     Comment findSelfById(@Param("id") Long id);
 
+    /**
+    * @Description: 获取总评论数目
+    * @param
+    * @return {@link Integer}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/12 14:50
+    *
+    */
+    Integer getCommentCount();
 }

@@ -39,7 +39,7 @@
           </div>
           <i class="dropdown icon"></i>
           <div class="menu">
-            <a href="#" th:href="@{/login}"class="m-item item m-mobile-hide"><i class="user outline icon"></i>管理员登录</a>
+            <a href="#" th:href="@{/admin}"class="m-item item m-mobile-hide"><i class="user outline icon"></i>管理员登录</a>
           </div>
         </div>
         <div class="ui dropdown item"  th:if="${session.user}!=null">
@@ -49,9 +49,8 @@
           </div>
           <i class="dropdown icon"></i>
           <div class="menu">
-            <a href="#" th:href="@{/admin/index}" class="item"><i class="teal table icon"></i>管理博客</a>
-            <a href="#" th:href="@{/admin/user/update}" class="item"><i class="teal sliders horizontal icon"></i>编辑资料</a>
-            <a href="#" th:href="@{/logout}" class="item"><i class="red power off icon"></i>注销账号</a>
+            <a href="#" th:href="@{/admin/blogs}" class="item"><i class="teal table icon"></i>管理博客</a>
+            <a href="#" th:href="@{/admin/logout}" class="item"><i class="red power off icon"></i>注销账号</a>
           </div>
         </div>
         <div class="item">
@@ -94,7 +93,7 @@
             </div>
             <i class="dropdown icon"></i>
             <div class="menu">
-              <a href="#" th:href="@{/login}"class="m-item item m-mobile-hide"><i class="user secret icon"></i>管理员登录</a>
+              <a href="#" th:href="@{/admin}"class="m-item item m-mobile-hide"><i class="user secret icon"></i>管理员登录</a>
             </div>
           </div>
 
@@ -105,9 +104,8 @@
             </div>
             <i class="dropdown icon"></i>
             <div class="menu">
-              <a href="#" th:href="@{/admin/index}" class="item"><i class="teal table icon"></i>管理博客</a>
-              <a href="#" th:href="@{/admin/user/update}" class="item"><i class="teal sliders horizontal icon"></i>编辑资料</a>
-              <a href="#" th:href="@{/logout}" class="item"><i class="red power off icon"></i>注销账号</a>
+              <a href="#" th:href="@{/admin/blogs}" class="item"><i class="teal table icon"></i>管理博客</a>
+              <a href="#" th:href="@{/admin/logout}" class="item"><i class="red power off icon"></i>注销账号</a>
             </div>
           </div>
         </div>
@@ -139,7 +137,7 @@
           <div class="ui inverted link list" th:fragment="blogInfo" th:if="${blogInfo}">
             <div class="item">访问总数: <span class="m-teal" th:text="${blogInfo.views}">2020</span> 次</div>
             <div class="item">评论总数: <span class="m-teal" th:text="${blogInfo.commentCount}">2020</span> 条</div>
-            <div class="item">留言总数: <span class="m-teal" th:text="${blogInfo.messageCount}">2020</span> 条</div>
+            <!--<div class="item">留言总数: <span class="m-teal" th:text="${blogInfo.messageCount}">2020</span> 条</div>-->
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ import com.shili.service.BlogService;
 import com.shili.service.CommentService;
 import com.shili.service.TagService;
 import com.shili.service.TypeService;
+import com.shili.vo.BlogInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -112,7 +114,7 @@ public class IndexController {
     }
 
     /**
-    * @Description: 底部最新博客
+    * @Description: 底部最新博客(已过时)
     * @param model
     * @return {@link String}
     * @throws
@@ -126,4 +128,37 @@ public class IndexController {
         return "_fragments :: newblogList";
     }
 
+    /**
+    * @Description: 登出
+    * @param session
+    * @return {@link String}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/12 14:37
+    *
+    */
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        System.out.println("执行用户登出操作");
+        session.removeAttribute("user");
+        return "redirect:/";
+    }
+
+    /**
+    * @Description: 底部博客信息统计（后期可以用Redis实现）
+    * @param model
+    * @return {@link String}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/12 14:41
+    *
+    */
+    @GetMapping("/footer/blogInfo")
+    public String blogInfo(Model model){
+        System.out.println("获取博客信息统计");
+        BlogInfoVo blogInfoVo = blogService.getBlogInfo();
+        model.addAttribute("blogInfo", blogInfoVo);
+
+        return "_fragments :: blogInfo";
+    }
 }

@@ -206,4 +206,15 @@ public interface BlogMapper {
     */
     List<Blog> findByYear(@Param("year") String year);
 
+    /**
+    * @Description: 获取博客总访问量
+    * @param
+    * @return {@link Integer}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/12 14:47
+    *
+    */
+    Integer getViews();
+
 }

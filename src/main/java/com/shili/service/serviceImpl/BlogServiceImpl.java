@@ -2,11 +2,15 @@ package com.shili.service.serviceImpl;
 
 import com.shili.NotFoundException;
 import com.shili.mapper.BlogMapper;
+import com.shili.mapper.CommentMapper;
 import com.shili.pojo.Blog;
+import com.shili.pojo.Comment;
 import com.shili.pojo.Tag;
 import com.shili.service.BlogService;
+import com.shili.service.TagService;
 import com.shili.util.MarkdownUtils;
 import com.shili.vo.BlogAndTag;
+import com.shili.vo.BlogInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +28,8 @@ public class BlogServiceImpl implements BlogService {
     /*注入持久层接口*/
     @Autowired
     private BlogMapper blogMapper;
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Override
     public int createBlog(Blog blog) {
@@ -45,7 +51,17 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public int deleteBlog(Long id) {
+        List<Comment> replyComments = commentMapper.findByBlogId(id);
+        for (Comment replyComment : replyComments) {
+            commentMapper.deleteComment(replyComment);
+        }
+        blogMapper.deleteBlogAndTag(id);
         return blogMapper.deleteBlog(id);
+    }
+
+    @Override
+    public int deleteBlogAndTag(Long id) {
+        return blogMapper.deleteBlogAndTag(id);
     }
 
     @Override
@@ -86,7 +102,6 @@ public class BlogServiceImpl implements BlogService {
     public List<Blog> getIndexBlog() {
         return blogMapper.getIndexBlog();
     }
-
     @Override
     public List<Blog> getAllRecommendBlog() {
         return blogMapper.getAllRecommendBlog();
@@ -99,7 +114,6 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Blog getDetailedBlog(Long id) {
-        System.out.println("blogId:" + id);
         Blog blog = blogMapper.getDetailedBlog(id);
         if (blog == null) {
             throw new NotFoundException("该博客不存在");
@@ -156,4 +170,15 @@ public class BlogServiceImpl implements BlogService {
     public int countBlog() {
         return blogMapper.getAllBlog().size();
     }
+
+    @Override
+    public BlogInfoVo getBlogInfo() {
+        Integer views = blogMapper.getViews();
+        Integer commentCount = commentMapper.getCommentCount();
+        BlogInfoVo blogInfoVo = new BlogInfoVo();
+        blogInfoVo.setViews(views);
+        blogInfoVo.setCommentCount(commentCount);
+        return blogInfoVo;
+    }
+
 }
