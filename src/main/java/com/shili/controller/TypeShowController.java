@@ -43,7 +43,7 @@ public class TypeShowController {
     @GetMapping("/types/{id}")
     public String types(@PathVariable Long id, @RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum,
                         Model model){
-        PageHelper.startPage(pageNum,7);
+        PageHelper.startPage(pageNum,2);
         List<Type> types = typeService.getAllTypeAndBlog();
         if (id == -1){
             id = types.get(0).getId();  //默认为列表第一个

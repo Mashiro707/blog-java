@@ -46,11 +46,12 @@ public class TagShowController {
     @GetMapping("/tags/{id}")
     public String types(@PathVariable Long id, @RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum,
                         Model model){
-        PageHelper.startPage(pageNum,7);
+        PageHelper.startPage(pageNum,5);
         List<Tag> tags = tagService.getAllTagAndBlog();
         if (id == -1){
             id = tags.get(0).getId();  //默认为列表第一个
         }
+        System.out.println(tags.size());
         List<Blog> blogs = blogService.getBlogByTagId(id);
         for (Blog blog : blogs) {
             System.out.println(blog);

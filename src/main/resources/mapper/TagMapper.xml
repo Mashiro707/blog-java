@@ -30,15 +30,6 @@
         where t.id = bt.tag_id and b.id = bt.blog_id
     </select>
 
-    <resultMap id="tags" type="Tag">
-        <id property="id" column="tid"/>
-        <result property="name" column="name"/>
-        <collection property="blogs" ofType="Blog">
-            <id property="id" column="bid"/>
-            <result property="title" column="title"/>
-        </collection>
-    </resultMap>
-
     <!--更新修改标签-->
     <update id="updateTag" parameterType="Tag">
         update blog.b_type t set t.name = #{name} where id = #{id}
@@ -48,4 +39,13 @@
     <delete id="deleteTag" parameterType="long">
         delete from blog.b_type where id = #{id}
     </delete>
+
+    <resultMap id="tags" type="Tag">
+        <id property="id" column="tid"/>
+        <result property="name" column="name"/>
+        <collection property="blogs" ofType="Blog">
+            <id property="id" column="bid"/>
+            <result property="title" column="title"/>
+        </collection>
+    </resultMap>
 </mapper>

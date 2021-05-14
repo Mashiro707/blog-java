@@ -73,7 +73,7 @@ public class IndexController {
 
     /**
     * @Description: 全局搜索
-    * @param pageNUm
+    * @param pageNum
     * @param query
     * @param model
     * @return {@link String}
@@ -82,16 +82,28 @@ public class IndexController {
     * @data 2021/4/28 18:11
     *
     */
-    @PostMapping("/search")
-    public String search(@RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNUm,
+    @GetMapping("/search")
+    public String search(@RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum,
                          @RequestParam String query,
                          Model model){
-        PageHelper.startPage(pageNUm,2);
+        PageHelper.startPage(pageNum,2);
         List<Blog> searchBlog = blogService.getSearchBlog(query);
         PageInfo<Blog> pageInfo = new PageInfo<Blog>(searchBlog);
         model.addAttribute("pageInfo",pageInfo);
         model.addAttribute("query",query);
         return "search";
+    }
+
+    @PostMapping("/search")
+    public String searchPage(@RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum,
+                         @RequestParam String query,
+                         Model model){
+        PageHelper.startPage(pageNum,2);
+        List<Blog> searchBlog = blogService.getSearchBlog(query);
+        PageInfo<Blog> pageInfo = new PageInfo<Blog>(searchBlog);
+        model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("query",query);
+        return "search :: searchBlogList";
     }
 
     /**
