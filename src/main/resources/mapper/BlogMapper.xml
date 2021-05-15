@@ -102,11 +102,6 @@
     </select>
 
     <!--获取首页博客，-->
-    <!--select b.id, b.title, b.first_picture, b.views, b.update_time, b.description, b.tag_ids,
-               t.name typename, t.id typeid,
-               u.nickname, u.avatar
-        from b_blog b, b_type t, b_user u
-        where b.type_id = t.id and u.id = b.user_id order by b.update_time desc-->
     <select id="getIndexBlog" resultMap="blogs">
         select b.id, b.title, b.first_picture, b.views, b.update_time, b.description, b.tag_ids,
                t.name typename, t.id typeid,
@@ -114,7 +109,24 @@
         from b_blog b, b_type t, b_user u
         where b.type_id = t.id and u.id = b.user_id order by b.update_time desc
     </select>
+    <select id="getBlogList" resultMap="blogs">
 
+    </select>
+    <resultMap id="indexBlogsVo" type="com.shili.vo.BlogList">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="firstPicture" column="first_picture"/>
+        <result property="views" column="views"/>
+        <result property="createTime" column="create_time"/>
+        <result property="description" column="description"/>
+        <result property="sticky" column="sticky"/>
+
+        <result property="typeName" column="name"/>
+        <result property="typeId" column="typeId"/>
+
+        <result property="nickName" column="nickname"/>
+        <result property="avatar" column="avatar"/>
+    </resultMap>
     <!--获取所有推荐博客-->
     <select id="getAllRecommendBlog" resultMap="blogs">
         select id, title, recommend from b_blog order by update_time desc;

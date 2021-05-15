@@ -2,6 +2,7 @@ package com.shili.mapper;
 
 import com.shili.pojo.Blog;
 import com.shili.vo.BlogAndTag;
+import com.shili.vo.BlogList;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -137,6 +138,7 @@ public interface BlogMapper {
     *
     */
     List<Blog> getIndexBlog();
+    List<BlogList> getBlogList();
 
     /**
     * @Description: 首页推荐博客展示
@@ -183,7 +185,6 @@ public interface BlogMapper {
     int updateViews(Blog blog);
     
     /**
-    *
     * @Description: 查询所有年份
     * @param 
     * @return {@link List< String>}
@@ -195,7 +196,6 @@ public interface BlogMapper {
     List<String> findGroupYear();
     
     /**
-    *
     * @Description: 按年份查询博
     * @param year
     * @return {@link List< Blog>}

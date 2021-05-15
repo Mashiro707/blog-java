@@ -72,6 +72,26 @@ public class IndexController {
     }
 
     /**
+    * @Description: 页面局部刷新
+    * @param pageNum
+    * @param model
+    * @return {@link String}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/14 21:53
+    *
+    */
+    @PostMapping("/")
+    public String indexPage(@RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum, Model model){
+        PageHelper.startPage(pageNum,5);
+        List<Blog> allBlog = blogService.getIndexBlog();
+        PageInfo<Blog> pageInfo = new PageInfo<Blog>(allBlog);
+        model.addAttribute("pageInfo",pageInfo);
+        return "index :: indexBlogList";
+    }
+
+
+    /**
     * @Description: 全局搜索
     * @param pageNum
     * @param query
@@ -94,6 +114,17 @@ public class IndexController {
         return "search";
     }
 
+    /**
+    * @Description: 页面局部刷新
+    * @param pageNum
+    * @param query
+    * @param model
+    * @return {@link java.lang.String}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/14 21:52
+    *
+    */
     @PostMapping("/search")
     public String searchPage(@RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum,
                          @RequestParam String query,

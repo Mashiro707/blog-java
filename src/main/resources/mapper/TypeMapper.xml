@@ -20,7 +20,7 @@
 
     <!--查询所有分类-->
     <select id="getAllType" resultType="Type">
-        select * from blog.b_type;
+        select * from blog.b_type
     </select>
 
     <!--查询分类下的所有博客-->
