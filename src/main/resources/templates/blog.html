@@ -91,7 +91,6 @@
                 <!--标签-->
                 <div class="m-padded-lr-responsive">
                     <div class="ui basic teal left pointing label" th:each="tag : ${blog.tags}" th:text="${tag.name}">
-                        方法论
                     </div>
                 </div>
                 <!--赞赏-->
@@ -161,15 +160,15 @@
                                         <a class="reply" data-commentid="1" data-commentnickname="Matt"
                                            th:attr="data-commentid=${comment.id},data-commentnickname=${comment.nickname}"
                                            onclick="reply(this)">回复</a>
-                                        <a class="delete" href="#"
+                                        <!--<a class="delete" href="#"
                                            th:href="@{/comment/{param1}/{param2}/delete(param1=${comment.blogId},param2=${comment.id})}"
-                                           th:if="${session.user}">删除</a>
+                                           th:if="${session.user}">删除</a>-->
                                     </div>
                                 </div>
                                 <div class="comments" th:if="${#arrays.length(comment.replyComments)}>0">
                                     <div class="comment" th:each="replycomment : ${comment.replyComments}">
                                         <a class="avatar">
-                                            <img src="https://unsplash.it/100/100?image=1005"
+                                            <img src=""
                                                  th:src="@{${replycomment.avatar}}">
                                         </a>
                                         <div class="content">
@@ -189,9 +188,9 @@
                                                 <a class="reply" data-commentid="1" data-commentnickname="Matt"
                                                    th:attr="data-commentid=${replycomment.id},data-commentnickname=${replycomment.nickname}"
                                                    onclick="reply(this)">回复</a>
-                                                <a class="delete" href="#"
+                                                <!--<a class="delete" href="#"
                                                    th:href="@{/comment/{param1}/{param2}/delete(param1=${replycomment.blogId},param2=${replycomment.id})}"
-                                                   th:if="${session.user}">删除</a>
+                                                   th:if="${session.user}">删除</a>-->
                                             </div>
                                         </div>
                                     </div>
@@ -237,7 +236,6 @@
         <div class="ui vertical icon buttons ">
             <button type="button" class="ui toc teal button">目录</button>
             <a href="#comment-container" class="ui teal button">留言</a>
-            <button class="ui wechat icon button"><i class="weixin icon"></i></button>
             <div id="toTop-button" class="ui icon button"><i class="chevron up icon"></i></div>
         </div>
     </div>

@@ -139,7 +139,7 @@
                                                 <div class="right aligned column">
                                                     <a href="" th:href="@{/tags/{id}(id=${tag.id})}" target="_blank"
                                                        class="ui basic teal left pointing label m-margin-bottom-tiny m-padded-tiny"
-                                                       th:each="tag : ${blog.tags}" th:text="${tag.name}">方法论</a>
+                                                       th:each="tag : ${blog.tags}" th:text="${tag.name}"></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -246,7 +246,6 @@
 <script type="text/javascript" th:inline="javascript">
 
     $(function () {
-
         $('.menu.toggle').click(function () {
             $('.m-item').toggleClass('m-mobile-hide');
         });
@@ -264,6 +263,5 @@
         });
     }
 </script>
-
 </body>
 </html>
