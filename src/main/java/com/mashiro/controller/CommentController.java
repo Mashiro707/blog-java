@@ -5,6 +5,7 @@ import com.mashiro.pojo.Comment;
 import com.mashiro.pojo.User;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.CommentService;
+import com.mashiro.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Description: 评论管理控制器
@@ -30,6 +34,9 @@ public class CommentController {
 
     @Autowired
     private BlogService blogService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Value("${comment.avatar}")
     private String avatar;
@@ -63,7 +70,7 @@ public class CommentController {
     *
     */
     @PostMapping("/comments")
-    public String postComment(Comment comment, HttpSession session, RedirectAttributes attributes){
+    public String postComment(Comment comment, HttpSession session, RedirectAttributes attributes) throws MessagingException {
         /*后端校验*/
         if(comment.getContent()=="" || comment.getEmail()=="" || comment.getNickname()=="") {
             attributes.addFlashAttribute("msg", "请填写完整评论信息");
@@ -72,15 +79,27 @@ public class CommentController {
         Long blogId = comment.getBlogId();
         comment.setBlog(blogService.getDetailedBlog(blogId));  //绑定博客与评论
         comment.setBlogId(blogId);
-        User user = (User) session.getAttribute("user");
         comment.setAvatar(avatar);
+        User user = (User) session.getAttribute("user");
         if (user != null) {   //用户为管理员
             if (comment.getNickname().equals(user.getNickname()) && comment.getEmail().equals(user.getEmail())) {
                 comment.setAdminComment(true);
                 comment.setAvatar(user.getAvatar());
             }
+        }else{
+            // 判断邮箱是否为qq邮箱
+            if (comment.getEmail().trim().toLowerCase().contains("@qq.com")){
+                String regEx = "[^0-9]";
+                Pattern p = Pattern.compile(regEx);
+                Matcher m = p.matcher(comment.getEmail());
+                comment.setAvatar("http://q1.qlogo.cn/g?b=qq&nk="+m.replaceAll("").trim()+"&s=100");
+            }else {
+                // 如果不是正确的qq邮箱，使用默认头像
+                comment.setAvatar(avatar);
+            }
         }
         commentService.saveComment(comment);
+        emailService.sendTemplateMail(comment);
         return "redirect:/comments/" + blogId;
     }
 

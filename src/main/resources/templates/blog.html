@@ -143,13 +143,13 @@
                             <h3 class="ui dividing header">评论</h3>
                             <div class="comment" th:each="comment : ${comments}">
                                 <a class="avatar">
-                                    <img src="" th:src="@{${comment.avatar}}">
+                                    <img src="../static/images/nullavatar.jpg" th:src="@{${comment.avatar}}">
                                 </a>
                                 <div class="content">
                                     <a class="author">
                                         <span th:text="${comment.nickname}"></span>
                                         <div class="ui mini basic teal left pointing label m-padded-mini"
-                                             th:if="${comment.adminComment}"></div>
+                                             th:if="${comment.adminComment}">博主</div>
                                     </a>
                                     <div class="metadata">
                                         <span class="date"
@@ -157,27 +157,27 @@
                                     </div>
                                     <div class="text" th:text="${comment.content}"></div>
                                     <div class="actions">
-                                        <a class="reply" data-commentid="1" data-commentnickname="Matt"
-                                           th:attr="data-commentid=${comment.id},data-commentnickname=${comment.nickname}"
+                                        <a class="reply" data-commentid="" data-commentnickname=""
+                                           th:attr="data-commentid=${comment.id}, data-commentnickname=${comment.nickname}"
                                            onclick="reply(this)">回复</a>
                                         <!--<a class="delete" href="#"
                                            th:href="@{/comment/{param1}/{param2}/delete(param1=${comment.blogId},param2=${comment.id})}"
                                            th:if="${session.user}">删除</a>-->
                                     </div>
                                 </div>
-                                <div class="comments" th:if="${#arrays.length(comment.replyComments)}>0">
+
+                                <div class="comments" ><!--th:if="${#arrays.length(comment.replyComments)}>0"-->
                                     <div class="comment" th:each="replycomment : ${comment.replyComments}">
                                         <a class="avatar">
-                                            <img src=""
-                                                 th:src="@{${replycomment.avatar}}">
+                                            <img src="../static/images/nullavatar.jpg"
+                                                 th:src="@{localhost/${replycomment.avatar}}">
                                         </a>
                                         <div class="content">
                                             <a class="author">
                                                 <span th:text="${replycomment.nickname}"></span>
                                                 <div class="ui mini basic teal left pointing label m-padded-mini"
-                                                     th:if="${replycomment.adminComment}"></div>
-                                                &nbsp;<span th:text="|@ ${replycomment.parentNickname}|"
-                                                            class="m-teal"</span>
+                                                     th:if="${replycomment.adminComment}">博主</div>
+                                                &nbsp;<span th:if="${replycomment.replyComment}!=null" th:text="|@ ${replycomment.replyComment.nickname}|" class="m-teal"></span>
                                             </a>
                                             <div class="metadata">
                                                 <span class="date"
@@ -185,8 +185,8 @@
                                             </div>
                                             <div class="text" th:text="${replycomment.content}"></div>
                                             <div class="actions">
-                                                <a class="reply" data-commentid="1" data-commentnickname="Matt"
-                                                   th:attr="data-commentid=${replycomment.id},data-commentnickname=${replycomment.nickname}"
+                                                <a class="reply" data-commentid="" data-replyid="" data-commentnickname=""
+                                                   th:attr="data-commentid=${comment.id},data-replyid=${replycomment.id},data-commentnickname=${replycomment.nickname}"
                                                    onclick="reply(this)">回复</a>
                                                 <!--<a class="delete" href="#"
                                                    th:href="@{/comment/{param1}/{param2}/delete(param1=${replycomment.blogId},param2=${replycomment.id})}"
@@ -201,8 +201,16 @@
                 </div>
                 <form id="blog-form" action="#" th:action="@{/comments}" method="post" class="ui form">
                     <div id="comment-form" class="ui form">
+                        <!--<br>
+                        <div class="ui basic teal pointing">
+                            <sapn class="m-teal">他人回复你的评论，或者你回复他人的评论都会以邮件的方式进行通知</sapn>
+                        </div>-->
+                        <div class="ui floating message">
+                            <p>他人回复你的评论，或者你回复他人的评论都会以邮件的方式进行通知!</p>
+                        </div>
                         <input type="hidden" name="blogId" th:value="${blog.id}">
-                        <input type="hidden" name="parentComment.id" value="-1">
+                        <input type="hidden" name="parentCommentId" value="-1">
+                        <input type="hidden" name="replyCommentId">
                         <div class="field">
                             <textarea name="content" placeholder="请输入评论信息..."></textarea>
                         </div>
@@ -375,31 +383,33 @@
 
         function postData() {
             $("#comment-container").load(/*[[@{/comments}]]*/"", {
-                "parentComment.id": $("[name='parentComment.id']").val(),
+                "parentCommentId": $("[name='parentCommentId']").val(),
                 "blogId": $("[name='blogId']").val(),
                 "nickname": $("[name='nickname']").val(),
                 "email": $("[name='email']").val(),
-                "content": $("[name='content']").val()
+                "content": $("[name='content']").val(),
+                "replyCommentId" : $("[name='replyCommentId']").val()
             }, function (responseTxt, statusTxt, xhr) {
-//        $(window).scrollTo($('#comment-container'),500);
+            //$(window).scrollTo($('#comment-container'),500);
                 clearContent();
             });
         }
 
         function clearContent() {
             $("[name='content']").val('');
-            $("[name='parentComment.id']").val(-1);
+            $("[name='parentCommentId']").val(-1);
             $("[name='content']").attr("placeholder", "请输入评论信息...");
         }
 
         function reply(obj) {
             var commentId = $(obj).data('commentid');
             var commentNickname = $(obj).data('commentnickname');
+            var replyId = $(obj).data('replyid');
             $("[name='content']").attr("placeholder", "@" + commentNickname).focus();
-            $("[name='parentComment.id']").val(commentId);
+            $("[name='parentCommentId']").val(commentId);
+            $("[name='replyCommentId']").val(replyId);
             $(window).scrollTo($('#comment-form'), 500);
         }
-
     </script>
 </body>
 </html>

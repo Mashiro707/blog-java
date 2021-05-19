@@ -20,13 +20,22 @@ public class Comment {
     private boolean adminComment;
     private Date createTime;
     private Blog blog;
-
     private Long blogId;
 
     private List<Comment> replyComments;
 
+    // 对应的超级父评论
     private Comment parentComment;
+
+    // 超级父评论的ID
     private Long parentCommentId;
-    private String parentNickname;
+
+    // 回复对应评论的id
+    private Long replyCommentId;
+
+    // 对应的父评论对象
+    private Comment replyComment;
+
+    //private String parentNickname;
 
 }

@@ -3,7 +3,7 @@
 <head th:replace="_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>博客</title>
+    <title>小白博客</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <link rel="stylesheet" href="../static/css/me.css">
 </head>
@@ -15,7 +15,7 @@
             linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),
             图片变暗
         */
-        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(http://ww1.sinaimg.cn/large/006gcE1fgy1gqflzb4wcnj32yo1o0e82.jpg) no-repeat center center !important;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://www.hualigs.cn/image/60a118721a8d3.jpg") no-repeat center center !important;
         -webkit-background-size: cover !important;
         -moz-background-size: cover !important;
         background-size: cover !important;
@@ -155,7 +155,7 @@
                             </div>
                         </div>
                         <!--footer-->
-                        <div class="ui bottom attached segment" th:if="${pageInfo.pageSize}>1">
+                        <div class="ui bottom attached segment" th:if="${pageInfo.pageSize}>7">
                             <div class="ui middle aligned two column grid">
                                 <div class="column">
                                     <a href="#" onclick="pageNum(this)"

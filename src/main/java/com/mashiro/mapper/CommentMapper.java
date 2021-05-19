@@ -30,7 +30,7 @@ public interface CommentMapper {
     List<Comment> findByBlogId(@Param("blogId") Long blogId);
 
     /**
-    * @Description: 根据博客Id查询没有父评论的评论
+    * @Description: 根据博客Id 查询没有父评论的评论
     * @param blogId
     * @param blogParentId
     * @return {@link List<Comment>}
@@ -51,6 +51,17 @@ public interface CommentMapper {
     *
     */
     List<Comment> findSecondaryCommentBySelfId(@Param("commentId") Long commentId);
+
+    /**
+    * @Description: 查询回复的评论
+    * @param replyCommentId
+    * @return {@link Comment}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/18 22:40
+    *
+    */
+    Comment getReplyCommendByReplyCommendId(@Param("replyCommentId") Long replyCommentId);
 
     /**
     * @Description: 保存评论

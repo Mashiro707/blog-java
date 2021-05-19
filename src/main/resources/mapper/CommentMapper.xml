@@ -10,10 +10,10 @@
         where c.blog_id = b.id and c.blog_id = #{blogId}
     </select>
 
-    <!--根据博客Id查询有没有父评论-->
+    <!--根据博客Id 查询有没有父评论-->
     <select id="findByBlogIdAndParentCommentNull" resultMap="comments">
         select c.id cid, c.nickname, c.email, c.content, c.avatar, c.admincomment,
-               c.create_time, c.blog_id, c.parent_comment_id, b.id bid, c.parent_nickname
+               c.create_time, c.blog_id, c.parent_comment_id, b.id bid, c.reply_comment_id
         from b_comment c, b_blog b
         where c.blog_id = b.id and c.blog_id = #{blogId} and c.parent_comment_id = #{blogParentId}
         order by c.create_time desc
@@ -22,17 +22,35 @@
     <!--根据自己的Id查询自己子类评论-->
     <select id="findSecondaryCommentBySelfId" resultMap="comments">
         select c.id cid, c.nickname, c.email, c.content, c.avatar, c.admincomment,
-               c.create_time, c.blog_id, c.parent_comment_id, c.parent_nickname
+               c.create_time, c.blog_id, c.parent_comment_id, c.reply_comment_id
         from b_comment c
         where c.parent_comment_id = #{commentId}
     </select>
 
+    <!--通过回复评论的ID来查询回复哪条评论-->
+    <select id="getReplyCommendByReplyCommendId" resultType="Comment">
+        select
+            id,
+            nickname,
+            email,
+            content,
+            avatar,
+            create_time,
+            blog_id,
+            parent_comment_id,
+            admincomment,
+            reply_comment_id
+        from
+            b_comment
+        where
+            id=#{replyCommentId}
+    </select>
     <!--保存评论-->
     <insert id="saveComment" parameterType="Comment">
         insert into b_comment (nickname,email,content,avatar,
-                               create_time,blog_id,parent_comment_id, parent_nickname, admincomment)
+                               create_time,blog_id,parent_comment_id, reply_comment_id, admincomment)
         values (#{nickname},#{email},#{content},#{avatar},
-                #{createTime},#{blogId},#{parentCommentId}, #{parentNickname}, #{adminComment});
+                #{createTime},#{blogId},#{parentCommentId}, #{replyCommentId}, #{adminComment});
     </insert>
 
     <!--删除评论-->
@@ -43,7 +61,7 @@
     <!--查询自身-->
     <select id="findSelfById" resultMap="comments">
         select c.id cid, c.nickname, c.email, c.content, c.avatar, c.admincomment,
-               c.create_time, c.blog_id, c.parent_comment_id, c.parent_nickname
+               c.create_time, c.blog_id, c.parent_comment_id, c.reply_comment_id
         from b_comment c
         where c.id = #{id}
     </select>
@@ -63,7 +81,7 @@
         <result property="createTime" column="create_time"/>
         <result property="blogId" column="blog_id"/>
         <result property="parentCommentId" column="parent_comment_id"/>
-        <result property="parentNickname" column="parent_nickname"/>
+        <result property="replyCommentId" column="reply_comment_id"/>
         <association property="blog" javaType="Blog">
             <id property="id" column="bid"/>
         </association>
