@@ -71,7 +71,7 @@
                 and b.type_id = #{typeId}
             </if>
             /*根据博客推荐查询*/
-            <if test="recommend != null">
+            <if test="recommend = 1">
                 and b.recommend = #{recommend}
             </if>
             /*根据博客title模糊查询*/

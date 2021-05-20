@@ -21,6 +21,8 @@ public class Comment {
     private Date createTime;
     private Blog blog;
     private Long blogId;
+    private boolean replyEmail;
+
 
     private List<Comment> replyComments;
 

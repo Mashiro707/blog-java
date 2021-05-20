@@ -99,7 +99,18 @@ public class CommentController {
             }
         }
         commentService.saveComment(comment);
-        emailService.sendTemplateMail(comment);
+        //判断是否为超级父评论,如果是超级父评论则默认向管理员发送邮件通知
+        if (comment.getParentCommentId() == -1 && comment.getReplyCommentId()==null){
+            emailService.sendTemplateMail(comment);
+         //判断是否 是给超级父评论评论，如果是给超级父评论 评论的话，那么判断超级父评论是否开启邮件通知功能
+        }else if(comment.getReplyCommentId()==null && comment.getParentComment().isReplyEmail()){
+            emailService.sendTemplateMail(comment);
+        }else if(comment.getReplyCommentId()!=null && comment.getReplyComment().isReplyEmail()){
+            emailService.sendTemplateMail(comment);
+        }else if (comment.getReplyComment().isAdminComment()){
+            emailService.sendTemplateMail(comment);
+        }
+            //emailService.sendTemplateMail(comment);
         return "redirect:/comments/" + blogId;
     }
 

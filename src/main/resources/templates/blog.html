@@ -160,9 +160,9 @@
                                         <a class="reply" data-commentid="" data-commentnickname=""
                                            th:attr="data-commentid=${comment.id}, data-commentnickname=${comment.nickname}"
                                            onclick="reply(this)">回复</a>
-                                        <!--<a class="delete" href="#"
+                                        <a class="delete" href="#"
                                            th:href="@{/comment/{param1}/{param2}/delete(param1=${comment.blogId},param2=${comment.id})}"
-                                           th:if="${session.user}">删除</a>-->
+                                           th:if="${session.user}">删除</a>
                                     </div>
                                 </div>
 
@@ -188,9 +188,9 @@
                                                 <a class="reply" data-commentid="" data-replyid="" data-commentnickname=""
                                                    th:attr="data-commentid=${comment.id},data-replyid=${replycomment.id},data-commentnickname=${replycomment.nickname}"
                                                    onclick="reply(this)">回复</a>
-                                                <!--<a class="delete" href="#"
+                                                <a class="delete" href="#"
                                                    th:href="@{/comment/{param1}/{param2}/delete(param1=${replycomment.blogId},param2=${replycomment.id})}"
-                                                   th:if="${session.user}">删除</a>-->
+                                                   th:if="${session.user}">删除</a>
                                             </div>
                                         </div>
                                     </div>
@@ -201,12 +201,8 @@
                 </div>
                 <form id="blog-form" action="#" th:action="@{/comments}" method="post" class="ui form">
                     <div id="comment-form" class="ui form">
-                        <!--<br>
-                        <div class="ui basic teal pointing">
-                            <sapn class="m-teal">他人回复你的评论，或者你回复他人的评论都会以邮件的方式进行通知</sapn>
-                        </div>-->
                         <div class="ui floating message">
-                            <p>他人回复你的评论，或者你回复他人的评论都会以邮件的方式进行通知!</p>
+                            <p>开启邮件提醒功能后，他人回复你的评论会发送到你填入的邮箱。</p>
                         </div>
                         <input type="hidden" name="blogId" th:value="${blog.id}">
                         <input type="hidden" name="parentCommentId" value="-1">
@@ -214,7 +210,7 @@
                         <div class="field">
                             <textarea name="content" placeholder="请输入评论信息..."></textarea>
                         </div>
-                        <div class="fields">
+                        <div class="inline fields">
                             <div class="field m-mobile-wide m-margin-bottom-small">
                                 <div class="ui left icon input">
                                     <i class="user icon"></i>
@@ -229,10 +225,16 @@
                                            th:value="${session.user}!=null ? ${session.user.email}">
                                 </div>
                             </div>
-                            <div class="field  m-margin-bottom-small m-mobile-wide">
+                            <div class="field m-margin-bottom-small m-mobile-wide">
                                 <button id="commentpost-btn" type="button" class="ui teal button m-mobile-wide"><i
                                         class="edit icon"></i>发布
                                 </button>
+                            </div>
+                            <div class=""field>
+                                <div class="ui checkbox">
+                                    <input type="checkbox" id="replyEmail" name="replyEmail">
+                                    <label for="replyEmail">开启邮件提醒</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -388,7 +390,8 @@
                 "nickname": $("[name='nickname']").val(),
                 "email": $("[name='email']").val(),
                 "content": $("[name='content']").val(),
-                "replyCommentId" : $("[name='replyCommentId']").val()
+                "replyCommentId" : $("[name='replyCommentId']").val(),
+                "replyEmail" : $("[name='replyEmail']").prop("checked")
             }, function (responseTxt, statusTxt, xhr) {
             //$(window).scrollTo($('#comment-container'),500);
                 clearContent();

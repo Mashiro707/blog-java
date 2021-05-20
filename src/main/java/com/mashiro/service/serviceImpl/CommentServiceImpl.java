@@ -52,6 +52,7 @@ public class CommentServiceImpl implements CommentService {
         //Union-Find算法（Union操作），若父级评论不是顶级，则向上迭代找到顶级评论作为父评论，只改Id，不改父亲name
         Long curId = comment.getParentCommentId();
         if(curId != -1) {
+            comment.setReplyComment(commentMapper.getReplyCommendByReplyCommendId(comment.getReplyCommentId()));
             while (commentMapper.findSelfById(curId).getParentCommentId() != -1) {
                 curId = commentMapper.findSelfById(curId).getParentCommentId();
             }
