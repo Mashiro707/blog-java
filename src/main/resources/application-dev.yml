@@ -47,6 +47,7 @@ spring:
         max-idle: 5
         #连接池中最小空闲连接
         min-idle: 0
+    password: Sl941114.
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml

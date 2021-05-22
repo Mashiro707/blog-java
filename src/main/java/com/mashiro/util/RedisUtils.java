@@ -22,6 +22,9 @@ public class RedisUtils {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
     // =============================common============================
     /**
      * 指定缓存失效时间

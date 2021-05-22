@@ -3,6 +3,7 @@ package com.mashiro.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mashiro.util.RedisUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -19,6 +20,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
         //Json序列化配置
@@ -36,6 +38,22 @@ public class RedisConfig {
         template.setValueSerializer(jackson2JsonRedisSerializer);
         template.afterPropertiesSet();
         return template;
+    }
+
+    /**
+     * 注入封装RedisTemplate
+     *
+     * @return RedisUtil
+     * @throws
+     * @Title: redisUtil
+     * @autor admin
+     * @date
+     */
+    @Bean(name = "redisUtil")
+    public RedisUtils redisUtils(RedisTemplate<String, Object> redisTemplate) {
+        RedisUtils redisUtils = new RedisUtils();
+        redisUtils.setRedisTemplate(redisTemplate);
+        return redisUtils;
     }
 
 }
