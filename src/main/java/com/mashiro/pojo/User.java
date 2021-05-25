@@ -14,16 +14,16 @@ import java.util.List;
 public class User {
 
     private Long id;
-    private String nickname;
-    private String username;
-    private String password;
-    private String email;
-    private String avatar;
-    private Integer type;
-    //创建时间
-    private Date createTime;
-    //更新时间
-    private Date updateTime;
+    private String nickname; //用户昵称
+    private String username; //用户名
+    private String password; //密码
+    private String email; //邮箱
+    private String avatar; //头像地址
+    private String role; //用户权限
+
+    private Date createTime; //创建时间
+
+    private Date updateTime; //更新时间
 
     private List<Blog> blogs = new ArrayList<>();
 

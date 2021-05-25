@@ -13,16 +13,16 @@ import java.util.List;
 public class Comment {
 
     private Long id;
-    private String nickname;
-    private String email;
-    private String content;
-    private String avatar;
-    private boolean adminComment;
-    private Date createTime;
+    private String nickname; //昵称
+    private String email; //邮箱
+    private String content; //内容
+    private String avatar; //头像
+    private boolean adminComment; //是否为博主回复
+    private Date createTime; //评论时间
+    private boolean replyEmail; //是否接受邮件提示
+
     private Blog blog;
     private Long blogId;
-    private boolean replyEmail;
-
 
     private List<Comment> replyComments;
 
@@ -37,7 +37,5 @@ public class Comment {
 
     // 对应的父评论对象
     private Comment replyComment;
-
-    //private String parentNickname;
 
 }

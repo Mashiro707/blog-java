@@ -13,8 +13,8 @@ import java.util.List;
 public class Tag {
 
     private Long id;
-    private String name;
+    private String name; //标签名称
 
-    private List<Blog> blogs = new ArrayList<>();
+    private List<Blog> blogs = new ArrayList<>(); //该标签下的博客
 
 }

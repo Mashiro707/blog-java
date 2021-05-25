@@ -13,8 +13,8 @@ import java.util.List;
 public class Type {
 
     private Long id;
-    private String name;
+    private String name; // 分类名称
 
-    private List<Blog> blogs = new ArrayList<>();
+    private List<Blog> blogs = new ArrayList<>(); //该分类下博客文章
 
 }
