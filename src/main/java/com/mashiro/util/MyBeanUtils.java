@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyBeanUtils {
-
-
     /**
      * 获取所有的属性值为空属性名数组
      * @param source

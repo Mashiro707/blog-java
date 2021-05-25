@@ -48,8 +48,6 @@ public class RedisUtils {
     public long getExpire(String key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
-
-
     /**
      * 判断key是否存在
      * @param key 键
@@ -63,8 +61,6 @@ public class RedisUtils {
             return false;
         }
     }
-
-
     /**
      * 删除缓存
      * @param key 可以传一个值 或多个
@@ -90,14 +86,12 @@ public class RedisUtils {
     public Object get(String key) {
         return key == null ? null : redisTemplate.opsForValue().get(key);
     }
-
     /**
      * 普通缓存放入
      * @param key   键
      * @param value 值
      * @return true成功 false失败
      */
-
     public boolean set(String key, Object value) {
         try {
             redisTemplate.opsForValue().set(key, value);
@@ -107,8 +101,6 @@ public class RedisUtils {
             return false;
         }
     }
-
-
     /**
      * 普通缓存放入并设置时间
      * @param key   键
@@ -130,8 +122,6 @@ public class RedisUtils {
             return false;
         }
     }
-
-
     /**
      * 递增
      * @param key   键
@@ -144,7 +134,6 @@ public class RedisUtils {
         return redisTemplate.opsForValue().increment(key, delta);
     }
 
-
     /**
      * 递减
      * @param key   键
@@ -156,8 +145,6 @@ public class RedisUtils {
         }
         return redisTemplate.opsForValue().increment(key, -delta);
     }
-
-
     // ================================Map=================================
 
     /**
@@ -457,8 +444,6 @@ public class RedisUtils {
             return false;
         }
     }
-
-
     /**
      * 将list放入缓存
      * @param key   键
@@ -477,8 +462,6 @@ public class RedisUtils {
         }
 
     }
-
-
     /**
      * 将list放入缓存
      * @param key   键
@@ -495,8 +478,6 @@ public class RedisUtils {
         }
 
     }
-
-
     /**
      * 将list放入缓存
      * @param key   键
@@ -515,8 +496,6 @@ public class RedisUtils {
             return false;
         }
     }
-
-
     /**
      * 根据索引修改list中的某条数据
      * @param key   键
@@ -524,7 +503,6 @@ public class RedisUtils {
      * @param value 值
      * @return
      */
-
     public boolean lUpdateIndex(String key, long index, Object value) {
         try {
             redisTemplate.opsForList().set(key, index, value);
@@ -534,8 +512,6 @@ public class RedisUtils {
             return false;
         }
     }
-
-
     /**
      * 移除N个值为value
      * @param key   键
