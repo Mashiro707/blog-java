@@ -1,31 +1,72 @@
 package com.mashiro.handler;
+
+import com.mashiro.common.Result;
+import com.mashiro.exception.NotFoundException;
+import com.mashiro.exception.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-@ControllerAdvice
-public class ControllerExceptionHandler {
 
+/**
+ * @Description:
+ * @Author: BeforeOne
+ * @Date: Created in 2021/5/27 20:56
+ */
+public class ControllerExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * 捕获自定义的404异常
+     *
+     * @param request 请求
+     * @param e       自定义抛出的异常信息
+     * @return
+     */
+    @ExceptionHandler(NotFoundException.class)
+    public Result notFoundExceptionHandler(HttpServletRequest request, NotFoundException e) {
+        logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
+        return Result.create(404, e.getMessage());
+    }
 
+    /**
+     * 捕获自定义的持久化异常
+     *
+     * @param request 请求
+     * @param e       自定义抛出的异常信息
+     * @return
+     */
+    @ExceptionHandler(PersistenceException.class)
+    public Result persistenceExceptionHandler(HttpServletRequest request, PersistenceException e) {
+        logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
+        return Result.create(500, e.getMessage());
+    }
+
+    /**
+     * 捕获自定义的登录失败异常
+     *
+     * @param request 请求
+     * @param e       自定义抛出的异常信息
+     * @return
+     */
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public Result usernameNotFoundExceptionHandler(HttpServletRequest request, UsernameNotFoundException e) {
+        logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
+        return Result.create(401, "用户名或密码错误！");
+    }
+
+    /**
+     * 捕获其它异常
+     *
+     * @param request 请求
+     * @param e       异常信息
+     * @return
+     */
     @ExceptionHandler(Exception.class)
-    public ModelAndView exceptionHander(HttpServletRequest request, Exception e) throws Exception {
-        logger.error("Requst URL : {}，Exception : {}", request.getRequestURL(),e);
-
-        if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
-            throw e;
-        }
-
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("url",request.getRequestURL());
-        mav.addObject("exception", e);
-        mav.setViewName("error/error");
-        return mav;
+    public Result exceptionHandler(HttpServletRequest request, Exception e) {
+        logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
+        return Result.create(500, "异常错误");
     }
 }

@@ -1,16 +1,17 @@
+/*
 package com.mashiro.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mashiro.pojo.Blog;
-import com.mashiro.pojo.Comment;
-import com.mashiro.pojo.Tag;
-import com.mashiro.pojo.Type;
+import com.mashiro.entity.Blog;
+import com.mashiro.entity.Comment;
+import com.mashiro.entity.Tag;
+import com.mashiro.entity.Category;
 import com.mashiro.service.BlogService;
+import com.mashiro.service.CategoryService;
 import com.mashiro.service.CommentService;
 import com.mashiro.service.TagService;
-import com.mashiro.service.TypeService;
-import com.mashiro.vo.BlogInfoVo;
+import com.mashiro.vo.WebInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+*/
 /**
  * @Description: 首页控制管理器
  * @Author: BeforeOne
  * @Date: Created in 2021/4/28 13:07
- */
+ *//*
+
 
 @Controller
 public class IndexController {
@@ -34,13 +37,14 @@ public class IndexController {
     @Autowired
     private BlogService blogService;
     @Autowired
-    private TypeService typeService;
+    private CategoryService categoryService;
     @Autowired
     private TagService tagService;
     @Autowired
     private CommentService commentService;
 
-    /**
+    */
+/**
     * @Description: 首页博客展示
     * @param pageNum
     * @param model
@@ -49,15 +53,22 @@ public class IndexController {
     * @author BeforeOne
     * @data 2021/4/28 13:08
     *
-    */
+    *//*
+
     @GetMapping("/")
     public String index(@RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum, Model model){
 
-        /*获取博客的类型(联表查询)(首页右侧类型栏，每个类型多少博客blogs.size())*/
-        List<Type> allType = typeService.getFiveTypeAndBlog();
-        /*获取博客的标签(同类型原理)*/
+        */
+/*获取博客的类型(联表查询)(首页右侧类型栏，每个类型多少博客blogs.size())*//*
+
+        List<Category> allType = categoryService.getFiveTypeAndBlog();
+        */
+/*获取博客的标签(同类型原理)*//*
+
         List<Tag> allTag = tagService.getAllTagAndBlog();
-        /*右侧显示七条最新推荐博客*/
+        */
+/*右侧显示七条最新推荐博客*//*
+
         List<Blog> recommendBlog = blogService.getAllRecommendBlog();
         if(recommendBlog.size() > 7)
             recommendBlog = blogService.getPortRecommendBlog();
@@ -73,7 +84,8 @@ public class IndexController {
         return "index";
     }
 
-    /**
+    */
+/**
     * @Description: 页面局部刷新
     * @param pageNum
     * @param model
@@ -82,7 +94,8 @@ public class IndexController {
     * @author BeforeOne
     * @data 2021/5/14 21:53
     *
-    */
+    *//*
+
     @PostMapping("/")
     public String indexPage(@RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum, Model model){
         PageHelper.startPage(pageNum,7);
@@ -92,7 +105,8 @@ public class IndexController {
         return "index :: indexBlogList";
     }
 
-    /**
+    */
+/**
     * @Description: 全局搜索
     * @param pageNum
     * @param query
@@ -102,7 +116,8 @@ public class IndexController {
     * @author BeforeOne
     * @data 2021/4/28 18:11
     *
-    */
+    *//*
+
     @GetMapping("/search")
     public String search(@RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum,
                          @RequestParam String query,
@@ -115,7 +130,8 @@ public class IndexController {
         return "search";
     }
 
-    /**
+    */
+/**
     * @Description: 页面局部刷新
     * @param pageNum
     * @param query
@@ -125,7 +141,8 @@ public class IndexController {
     * @author BeforeOne
     * @data 2021/5/14 21:52
     *
-    */
+    *//*
+
     @PostMapping("/search")
     public String searchPage(@RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum,
                          @RequestParam String query,
@@ -138,7 +155,8 @@ public class IndexController {
         return "search :: searchBlogList";
     }
 
-    /**
+    */
+/**
     * @Description: 博客详情
     * @param id
     * @param model
@@ -147,7 +165,8 @@ public class IndexController {
     * @author BeforeOne
     * @data 2021/4/28 18:11
     *
-    */
+    *//*
+
     @GetMapping("/blog/{id}")
     public String blog(@PathVariable Long id, Model model){
         Blog blog = blogService.getDetailedBlog(id);
@@ -157,7 +176,8 @@ public class IndexController {
         return "blog";
     }
 
-    /**
+    */
+/**
     * @Description: 底部最新博客(已过时)
     * @param model
     * @return {@link String}
@@ -165,14 +185,16 @@ public class IndexController {
     * @author BeforeOne
     * @data 2021/4/28 18:12
     *
-    */
+    *//*
+
     @GetMapping("/footer/newblog")
     public String newblogs(Model model) {
         model.addAttribute("newblogs",blogService.getThreeRecommendBlog());
         return "_fragments :: newblogList";
     }
 
-    /**
+    */
+/**
     * @Description: 登出
     * @param session
     * @return {@link String}
@@ -180,7 +202,8 @@ public class IndexController {
     * @author BeforeOne
     * @data 2021/5/12 14:37
     *
-    */
+    *//*
+
     @GetMapping("/logout")
     public String logout(HttpSession session){
         System.out.println("执行用户登出操作");
@@ -188,7 +211,8 @@ public class IndexController {
         return "redirect:/ ";
     }
 
-    /**
+    */
+/**
     * @Description: 底部博客信息统计（后期可以用Redis实现）
     * @param model
     * @return {@link String}
@@ -196,12 +220,14 @@ public class IndexController {
     * @author BeforeOne
     * @data 2021/5/12 14:41
     *
-    */
+    *//*
+
     @GetMapping("/footer/blogInfo")
     public String blogInfo(Model model){
         System.out.println("获取博客信息统计");
-        BlogInfoVo blogInfoVo = blogService.getBlogInfo();
-        model.addAttribute("blogInfo", blogInfoVo);
+        WebInfoVo webInfoVo = blogService.getWebInfo();
+        model.addAttribute("blogInfo", webInfoVo);
         return "_fragments :: blogInfo";
     }
 }
+*/

@@ -1,6 +1,6 @@
 package com.mashiro.service;
 
-import com.mashiro.pojo.Tag;
+import com.mashiro.entity.Tag;
 
 import java.util.List;
 

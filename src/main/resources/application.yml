@@ -25,7 +25,11 @@ spring:
           starttls:
             enable: true
             required: true
-    port: 587
 
 comment:
   avatar: https://www.hualigs.cn/image/60a11871c8904.jpg
+
+token:
+  expireTime: 100000000
+  secretKey: qweroijasogj
+

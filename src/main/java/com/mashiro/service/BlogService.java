@@ -1,7 +1,7 @@
 package com.mashiro.service;
 
-import com.mashiro.pojo.Blog;
-import com.mashiro.vo.BlogInfoVo;
+import com.mashiro.entity.Blog;
+import com.mashiro.vo.WebInfoVo;
 
 import java.util.List;
 import java.util.Map;
@@ -48,7 +48,7 @@ public interface BlogService {
     int deleteBlogAndTag(Long id);
 
     /**
-    * @Description:
+    * @Description: 更新博客
     * @param blog
     * @return {@link int}
     * @throws
@@ -204,12 +204,12 @@ public interface BlogService {
     /**
     * @Description: 获取博客统计信息
     * @param
-    * @return {@link BlogInfoVo}
+    * @return {@link WebInfoVo}
     * @throws
     * @author BeforeOne
     * @data 2021/5/12 14:44
     *
     */
-    BlogInfoVo getBlogInfo();
+    WebInfoVo getWebInfo();
 
 }

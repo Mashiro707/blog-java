@@ -1,7 +1,8 @@
 package com.mashiro.service;
 
-import com.mashiro.pojo.User;
+import com.mashiro.entity.User;
 
 public interface UserService {
-    User checkUser(String username, String password);
+
+    User findUserByUsernameAndPassword(String username, String password);
 }

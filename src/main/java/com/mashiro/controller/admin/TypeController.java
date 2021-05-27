@@ -2,8 +2,8 @@ package com.mashiro.controller.admin;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mashiro.pojo.Type;
-import com.mashiro.service.TypeService;
+import com.mashiro.entity.Category;
+import com.mashiro.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ import java.util.List;
 public class TypeController {
     /*注入业务层接口*/
     @Autowired
-    private TypeService typeService;
+    private CategoryService categoryService;
 
     /**
     * @Description: 跳转至分类新增页面
@@ -36,7 +36,7 @@ public class TypeController {
     */
     @GetMapping("/types/input")
     public String input(Model model){
-        model.addAttribute("type", new Type());
+        model.addAttribute("type", new Category());
         return "admin/types-input";
     }
 
@@ -51,13 +51,13 @@ public class TypeController {
     *
     */
     @PostMapping("/types")
-    public String post(@Valid Type type, RedirectAttributes attributes){
-        Type type1 = typeService.getTypeByName(type.getName());
+    public String post(@Valid Category type, RedirectAttributes attributes){
+        Category type1 = categoryService.getTypeByName(type.getName());
         if (type1 != null){
             attributes.addFlashAttribute("message", "不能添加重复的分类");
             return "redirect:admin/types/input";
         }
-        int i = typeService.createType(type);
+        int i = categoryService.createType(type);
         if (i == 0){
             attributes.addFlashAttribute("message", "新增失败");
         }else {
@@ -80,9 +80,9 @@ public class TypeController {
         /*根据id，倒序*/
         String orderBy = "id desc";
         PageHelper.startPage(pageNum, 7, orderBy);
-        List<Type> list = typeService.getAllType();
+        List<Category> list = categoryService.getAllType();
         /*得到分页结果对象*/
-        PageInfo<Type> pageInfo = new PageInfo<Type>(list);
+        PageInfo<Category> pageInfo = new PageInfo<Category>(list);
         model.addAttribute("pageInfo", pageInfo);
         return "admin/types";
     }
@@ -99,7 +99,7 @@ public class TypeController {
     */
     @GetMapping("/types/{id}/input")
     public String editInput(@PathVariable Long id, Model model){
-        model.addAttribute("type", typeService.getTypeById(id));
+        model.addAttribute("type", categoryService.getTypeById(id));
         return "admin/types-input";
     }
 
@@ -114,13 +114,13 @@ public class TypeController {
     *
     */
     @PostMapping("/types/{id}")
-    public String editPost(@Valid Type type, RedirectAttributes attributes){
-        Type type1 = typeService.getTypeByName(type.getName());
+    public String editPost(@Valid Category type, RedirectAttributes attributes){
+        Category type1 = categoryService.getTypeByName(type.getName());
         if (type1 != null){
             attributes.addFlashAttribute("message", "不能添加重复的分类");
             return "redirect:admin/types/input";
         }
-        int i = typeService.updateType(type);
+        int i = categoryService.updateType(type);
         if (i == 0){
             attributes.addFlashAttribute("message", "编辑失败");
         }else {
@@ -141,7 +141,7 @@ public class TypeController {
     */
     @GetMapping("/types/{id}/delete")
         public String delete(@PathVariable Long id, RedirectAttributes attributes){
-        typeService.deleteType(id);
+        categoryService.deleteType(id);
         attributes.addFlashAttribute("message", "删除成功");
         return "redirect:/admin/types";
     }

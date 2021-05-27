@@ -1,7 +1,9 @@
 package com.mashiro.mapper;
 
-import com.mashiro.pojo.Blog;
-import com.mashiro.vo.BlogAndTag;
+import com.mashiro.dto.BlogViewDTO;
+import com.mashiro.dto.BlogVisibilityDTO;
+import com.mashiro.entity.Blog;
+import com.mashiro.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -26,18 +28,19 @@ public interface BlogMapper {
     * @data 2021/4/25 20:39
     *
     */
-    int createBlog(Blog blog);
+    int saveBlog(Blog blog);
 
     /**
-    * @Description: 博客与标签关联存储
-    * @param blogAndTag
+    * @Description:
+    * @param tagId
+    * @param blogId
     * @return {@link int}
     * @throws
     * @author BeforeOne
-    * @data 2021/4/26 10:43
+    * @data 2021/5/27 13:30
     *
     */
-    int createBlogAndTag(BlogAndTag blogAndTag);
+    int saveBlogAndTag(Long tagId, Long blogId);
 
     /**
     * @Description: 删除博客和标签关联
@@ -48,7 +51,7 @@ public interface BlogMapper {
     * @data 2021/4/26 11:05
     *
     */
-    int deleteBlogAndTag(@Param("id") Long id);
+    int deleteBlogAndTagByBlogId(Long id);
 
     /**
     * @Description: 删除博客
@@ -59,7 +62,7 @@ public interface BlogMapper {
     * @data 2021/4/25 20:40
     *
     */
-    int deleteBlog(@Param("id") Long id);
+    int deleteBlogById(Long id);
 
     /**
     * @Description: 编辑博客
@@ -73,6 +76,42 @@ public interface BlogMapper {
     int updateBlog(Blog blog);
 
     /**
+    * @Description: 更新博客推荐状态
+    * @param blogId
+    * @param recommend
+    * @return {@link int}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:18
+    *
+    */
+    int updateBlogRecommendById(Long blogId, Boolean recommend);
+
+    /**
+    * @Description: 更新博客置顶状态
+    * @param blogId
+    * @param top
+    * @return {@link int}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:17
+    *
+    */
+    int updateBlogTopById(Long blogId, Boolean top);
+
+    /**
+    * @Description: 更新博客可见性状态
+    * @param blogId
+    * @param bv
+    * @return {@link int}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:18
+    *
+    */
+    int updateBlogVisibilityById(Long blogId, BlogVisibilityDTO bv);
+
+    /**
     * @Description: 根据Id查询博客，用于新增博客
     * @param id
     * @return {@link Blog}
@@ -81,128 +120,153 @@ public interface BlogMapper {
     * @data 2021/4/25 21:05
     *
     */
-    Blog getBlogById(@Param("id") Long id);
+    Blog getBlogById(Long id);
 
     /**
-    * @Description: 查询所有博客，用于后台展示。
-    * @param
-    * @return {@link List<Blog>}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/25 21:14
-    *
-    */
-    List<Blog> getAllBlog();
-    
-    /**
-    * @Description: 根据类型id获取博客
-    * @param typeId
+    * @Description: 根据类型名称获取博客List
+    * @param categoryName
     * @return {@link List< Blog>}
     * @throws 
     * @author BeforeOne
     * @data 2021/4/26 8:25
     *
     */
-    List<Blog> getBlogByTypeId(@Param("typeId") Long typeId);
+    List<BlogInfoVO> getBlogInfoListByCategoryNameAndIsPublished(String categoryName);
     
     /**
-    * @Description: 根据标签id获取博客
-    * @param tagId
+    * @Description: 根据标签名称获取博客列表
+    * @param tagName
     * @return {@link List< Blog>}
     * @throws 
     * @author BeforeOne
     * @data 2021/4/26 8:26
     *
     */
-    List<Blog> getBlogByTagId(@Param("tagId") Long tagId);
+    List<BlogInfoVO> getBlogInfoListByTagNameAndIsPublished(String tagName);
 
     /**
-    * @Description: 后台根据标题、分类、推荐搜索博客
-    * @param blog
+    * @Description: 按标题和分类查询博客List
+    * @param title
+    * @param categoryId
     * @return {@link List< Blog>}
     * @throws
     * @author BeforeOne
-    * @data 2021/4/26 8:27
+    * @data 2021/5/27 14:02
     *
     */
-    List<Blog> searchAllBlog(Blog blog);
+    List<Blog> getBlogListByTitleAndCategoryId(String title, Integer categoryId);
+
 
     /**
-    * @Description: 主页博客展示
-    * @param
-    * @return {@link List< Blog>}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/28 13:00
-    *
-    */
-    List<Blog> getIndexBlog();
-
-    /**
-    * @Description: 首页推荐博客展示
-    * @param
-    * @return {@link List<Blog>}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/28 13:17
-    *
-    */
-    List<Blog> getAllRecommendBlog();
-
-    /**
-    * @Description: 首页全局搜索
+    * @Description: 按关键字根据文章内容搜索公开且无密码保护的博客文章
     * @param query
-    * @return {@link List<Blog>}
+    * @return {@link List<SearchBlogVO>}
     * @throws
     * @author BeforeOne
-    * @data 2021/4/28 13:51
+    * @data 2021/5/27 14:06
     *
     */
-    List<Blog> getSearchBlog(@Param("query") String query);
-    
-    /**
-    * @Description: 博客详情
-    * @param id
-    * @return {@link Blog}
-    * @throws 
-    * @author BeforeOne
-    * @data 2021/4/28 14:11
-    *
-    */
-    Blog getDetailedBlog(@Param("id") Long id);
+    List<SearchBlogVO> getSearchBlogListByQueryAndIsPublished(String query);
 
     /**
-    * @Description: 更新浏览次数
-    * @param blog
-    * @return {@link int}
+    * @Description: 查询最新的公开博客
+    * @param
+    * @return {@link List< NewBlogVO>}
     * @throws
     * @author BeforeOne
-    * @data 2021/4/28 14:18
+    * @data 2021/5/27 14:27
     *
     */
-    int updateViews(Blog blog);
+    List<NewBlogVO> getNewBlogListByIsPublished();
     
     /**
-    * @Description: 查询所有年份
-    * @param 
-    * @return {@link List< String>}
+    * @Description: 查询所有博客id和title
+    * @param
+    * @return {@link List< Blog>}
     * @throws 
     * @author BeforeOne
-    * @data 2021/4/28 16:39
+    * @data 2021/5/27 14:10
     *
     */
-    List<String> findGroupYear();
-    
+    List<Blog> getBlogIdAndTitleList();
+
+    /**
+    * @Description: 查询公开博客的简要信息
+    * @param
+    * @return {@link List< BlogInfoVO>}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:15
+    *
+    */
+    List<BlogInfoVO> getBlogInfoListByIsPublished();
+
+    /**
+    * @Description: <!--按id查询公开博客-->
+    * @param id
+    * @return {@link BlogDetailVO}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:14
+    *
+    */
+    BlogDetailVO getBlogByIdAndIsPublished(Long id);
+
+    /**
+    * @Description: 查询公开博客年月List
+    * @param
+    * @return {@link List< String>}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:15
+    *
+    */
+    List<String> getGroupYearMonthByIsPublished();
+
     /**
     * @Description: 按年份查询博
-    * @param year
+    * @param yearMonth
     * @return {@link List< Blog>}
     * @throws 
     * @author BeforeOne
     * @data 2021/4/28 16:40
     *
     */
-    List<Blog> findByYear(@Param("year") String year);
+    List<ArchiveBlogVO> getArchiveBlogListByYearMonthAndIsPublished(String yearMonth);
+
+    /**
+    * @Description: 查询随机的公开且推荐文章
+    * @param limitNum
+    * @return {@link List< RandomBlogVO>}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:17
+    *
+    */
+    List<RandomBlogVO> getRandomBlogListByLimitNumAndIsPublishedAndIsRecommend(Integer limitNum);
+
+    /**
+    * @Description: 查询所有文章的浏览量
+    * @param
+    * @return {@link List< BlogViewDTO>}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:17
+    *
+    */
+    List<BlogViewDTO> getBlogViewsList();
+
+    /**
+    * @Description: 更新博客阅读次数
+    * @param blogId
+    * @param views
+    * @return {@link int}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:29
+    *
+    */
+    int updateViews(Long blogId, Integer views);
 
     /**
     * @Description: 获取博客总访问量
@@ -213,6 +277,84 @@ public interface BlogMapper {
     * @data 2021/5/12 14:47
     *
     */
-    Integer getViews();
+    int getViews();
+
+    /**
+    * @Description: 查询博客总数
+    * @param
+    * @return {@link int}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 13:58
+    *
+    */
+    int countBlog();
+
+    /**
+    * @Description: 查询公开博客总数
+    * @param
+    * @return {@link int}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:29
+    *
+    */
+    int countBlogByIsPublished();
+
+    /**
+    * @Description: 按分类id查询博客数量
+    * @param categoryId
+    * @return {@link int}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:29
+    *
+    */
+    int countBlogByCategoryId(Long categoryId);
+
+    /**
+    * @Description: 按标签id查询博客数量
+    * @param tagId
+    * @return {@link int}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:29
+    *
+    */
+    int countBlogByTagId(Long tagId);
+
+    /**
+    * @Description: 查询博客是否启用评论
+    * @param blogId
+    * @return {@link Boolean}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:28
+    *
+    */
+    Boolean getCommentEnabledByBlogId(Long blogId);
+
+    /**
+    * @Description: 查询博客是否公开
+    * @param blogId
+    * @return {@link Boolean}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:28
+    *
+    */
+    Boolean getPublishedByBlogId(Long blogId);
+
+    /**
+    * @Description: 查询每个分类的博客数量
+    * @param
+    * @return {@link List< CategoryBlogCountVO>}
+    * @throws
+    * @author BeforeOne
+    * @data 2021/5/27 15:28
+    *
+    */
+    List<CategoryBlogCountVO> getCategoryBlogCountList();
+
 
 }

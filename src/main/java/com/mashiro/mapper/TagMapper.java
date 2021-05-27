@@ -1,6 +1,6 @@
 package com.mashiro.mapper;
 
-import com.mashiro.pojo.Tag;
+import com.mashiro.entity.Tag;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

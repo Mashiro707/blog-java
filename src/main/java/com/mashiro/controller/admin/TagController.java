@@ -2,7 +2,7 @@ package com.mashiro.controller.admin;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mashiro.pojo.Tag;
+import com.mashiro.entity.Tag;
 import com.mashiro.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
 package com.mashiro.service;
 
-import com.mashiro.pojo.Comment;
+import com.mashiro.entity.Comment;
 
 import java.util.List;
 

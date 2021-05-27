@@ -1,9 +1,10 @@
+/*
 package com.mashiro.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mashiro.pojo.Blog;
-import com.mashiro.pojo.Tag;
+import com.mashiro.entity.Blog;
+import com.mashiro.entity.Tag;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+*/
 /**
  * @Description: 标签管理控制器
  * @Author: BeforeOne
  * @Date: Created in 2021/4/28 16:05
- */
+ *//*
+
 
 @Controller
 public class TagShowController {
@@ -31,7 +34,8 @@ public class TagShowController {
     @Autowired
     private BlogService blogService;
 
-    /**
+    */
+/**
     * @Description: 通过标签Id展示博客列表
     * @param id
     * @param pageNum
@@ -41,7 +45,8 @@ public class TagShowController {
     * @author BeforeOne
     * @data 2021/4/28 16:20
     *
-    */
+    *//*
+
     @GetMapping("/tags/{id}")
     public String types(@PathVariable Long id, @RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum,
                         Model model){
@@ -76,7 +81,8 @@ public class TagShowController {
         return "tags :: tagList";
     }
 
-    /**
+    */
+/**
     * @Description: 分页
     * @param activeTagId
     * @param pageNum
@@ -86,7 +92,8 @@ public class TagShowController {
     * @author BeforeOne
     * @data 2021/5/15 14:05
     *
-    */
+    *//*
+
     @PostMapping("/tags/page")
     public String typesPage(@RequestParam Long activeTagId, @RequestParam(required = false, defaultValue = "1", value = "pageNum")int pageNum,
                         Model model){
@@ -103,3 +110,4 @@ public class TagShowController {
         return "tags :: tagBlogList";
     }
 }
+*/

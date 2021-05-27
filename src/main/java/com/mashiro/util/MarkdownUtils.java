@@ -11,9 +11,11 @@ import org.commonmark.renderer.html.AttributeProvider;
 import org.commonmark.renderer.html.AttributeProviderContext;
 import org.commonmark.renderer.html.AttributeProviderFactory;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class MarkdownUtils {
 
     /**

@@ -1,7 +1,7 @@
 package com.mashiro.mapper;
 
-import com.mashiro.pojo.Blog;
-import com.mashiro.pojo.Comment;
+import com.mashiro.entity.Blog;
+import com.mashiro.entity.Comment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -105,5 +105,5 @@ public interface CommentMapper {
     * @data 2021/5/12 14:50
     *
     */
-    Integer getCommentCount();
+    Integer countComment();
 }

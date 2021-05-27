@@ -19,9 +19,11 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        // 1.创建 redisTemplate 模版
         RedisTemplate<String, Object> template = new RedisTemplate<>();
+        // 2.关联 redisConnectionFactory
         template.setConnectionFactory(redisConnectionFactory);
-        //Json序列化配置
+        // 3.创建 序列化类
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);

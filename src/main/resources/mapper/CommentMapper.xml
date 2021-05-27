@@ -68,7 +68,7 @@
     </select>
 
     <!--获取总评论数目-->
-    <select id="getCommentCount" resultType="java.lang.Integer">
+    <select id="countComment" resultType="java.lang.Integer">
         select count(id) from b_comment
     </select>
 

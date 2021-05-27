@@ -1,8 +1,9 @@
+/*
 package com.mashiro.controller;
 
-import com.mashiro.pojo.Blog;
-import com.mashiro.pojo.Comment;
-import com.mashiro.pojo.User;
+import com.mashiro.entity.Blog;
+import com.mashiro.entity.Comment;
+import com.mashiro.entity.User;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.CommentService;
 import com.mashiro.service.EmailService;
@@ -21,11 +22,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+*/
 /**
  * @Description: 评论管理控制器
  * @Author: BeforeOne
  * @Date: Created in 2021/4/28 17:03
- */
+ *//*
+
 
 @Controller
 public class CommentController {
@@ -41,7 +44,8 @@ public class CommentController {
     @Value("${comment.avatar}")
     private String avatar;
 
-    /**
+    */
+/**
     * @Description: 展示评论
     * @param blogId
     * @param model
@@ -50,7 +54,8 @@ public class CommentController {
     * @author BeforeOne
     * @data 2021/4/28 17:12
     *
-    */
+    *//*
+
     @GetMapping("/comments/{blogId}")
     public String comments(@PathVariable Long blogId, Model model){
         model.addAttribute("comments", commentService.getCommentByBlogId(blogId));
@@ -58,7 +63,8 @@ public class CommentController {
         return "blog :: commentList";
     }
 
-    /**
+    */
+/**
     * @Description: 提交评论
     * @param comment
     * @param session
@@ -68,10 +74,13 @@ public class CommentController {
     * @author BeforeOne
     * @data 2021/4/28 17:35
     *
-    */
+    *//*
+
     @PostMapping("/comments")
     public String postComment(Comment comment, HttpSession session, RedirectAttributes attributes) throws MessagingException {
-        /*后端校验*/
+        */
+/*后端校验*//*
+
         if(comment.getContent()=="" || comment.getEmail()=="" || comment.getNickname()=="") {
             attributes.addFlashAttribute("msg", "请填写完整评论信息");
             return "redirect:/comments/" + comment.getBlogId();
@@ -114,7 +123,8 @@ public class CommentController {
         return "redirect:/comments/" + blogId;
     }
 
-    /**
+    */
+/**
     * @Description: 删除评论
     * @param blogId
     * @param id
@@ -126,7 +136,8 @@ public class CommentController {
     * @author BeforeOne
     * @data 2021/4/28 17:54
     *
-    */
+    *//*
+
     @GetMapping("/comment/{blogId}/{id}/delete")
     public String delete(@PathVariable Long blogId, @PathVariable Long id, Comment comment, RedirectAttributes attributes, Model model){
         commentService.deleteComment(comment);
@@ -138,3 +149,4 @@ public class CommentController {
     }
 
 }
+*/
