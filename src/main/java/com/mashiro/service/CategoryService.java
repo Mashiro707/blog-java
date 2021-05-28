@@ -1,6 +1,7 @@
 package com.mashiro.service;
 
 import com.mashiro.entity.Category;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 /**
@@ -9,91 +10,80 @@ import java.util.List;
  * @Date: Created in 2021/4/25 8:25
  */
 public interface CategoryService {
-    /**
-    * @Description: 新增分类
-    * @param type
-    * @return {@link int}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/25 8:26
-    *
-    */
-    int createType(Category type);
 
     /**
-    * @Description: 根据id获取分类
-    * @param id
-    * @return {@link Category}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/25 8:27
-    *
-    */
-    Category getTypeById(Long id);
+     * @Description: 新增分类
+     * @param category  分类对象
+     * @return {@link int}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 8:19
+     *
+     */
+    int saveCategory(Category category);
 
     /**
-    * @Description: 根据Name获取分类
-    * @param name
-    * @return {@link Category}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/25 8:28
-    *
-    */
+     * @Description: 通过id获取分类
+     * @param id
+     * @return {@link Category}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 8:20
+     *
+     */
+    Category getCategoryById(Long id);
+
+    /**
+     * @Description: 通过Name获取分类
+     * @param name
+     * @return {@link Category}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 8:20
+     *
+     */
     Category getTypeByName(String name);
 
     /**
-    * @Description: 获取所有分类
-    * @param
-    * @return {@link List<   Category  >}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/25 8:29
-    *
-    */
-    List<Category> getAllType();
-
-    /**
-    * @Description: 查询分类下的所有博客
-    * @param
-    * @return {@link List<   Category  >}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/25 8:29
-    *
-    */
-    List<Category> getAllTypeAndBlog();
-
-    /**
-     * @Description: 限制主页上显示的分类数量
+     * @Description: 获取所有分类，生成List
      * @param
-     * @return {@link List<   Category  >}
+     * @return {@link List<Category>}
      * @throws
      * @author BeforeOne
-     * @data 2021/4/25 8:29
+     * @data 2021/4/25 8:20
      *
      */
-    List<Category> getFiveTypeAndBlog();
+    List<Category> getCategoryList();
 
     /**
-    * @Description: 根据id修改分类
-    * @param type
-    * @return {@link int}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/25 8:30
-    *
-    */
-    int updateType(Category type);
+     * 获取所有分类List不查询id
+     * @param
+     * @return {@link List< Category>}
+     * @author Mashiro
+     * @data 2021/5/28 10:19
+     *
+     */
+    List<Category> getCategoryNameList();
 
     /**
-    * @Description: 根据id删除分类
-    * @param id
-    * @return {@link int}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/25 8:30
-    *
-    */
-    int deleteType(Long id);
+     * @Description: 根据id修改分类信息
+     * @param category
+     * @return {@link int}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 8:22
+     *
+     */
+    int updateCategory(Category category);
+
+    /**
+     * @Description: 根据id删除分类
+     * @param id
+     * @return {@link int}
+     * @throws
+     * @author BeforeOne
+     * @data 2021/4/25 8:23
+     *
+     */
+    int deleteCategoryById(Long id);
 }

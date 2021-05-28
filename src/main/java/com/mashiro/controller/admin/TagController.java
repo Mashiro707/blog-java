@@ -39,7 +39,7 @@ public class TagController {
     public String tags(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum){
         String orderBy = "id desc";
         PageHelper.startPage(pageNum, 7 ,orderBy);
-        List<Tag> tags = tagService.getAllTag();
+        List<Tag> tags = tagService.getTagList();
         PageInfo<Tag> pageInfo = new PageInfo<Tag>(tags);
         model.addAttribute("pageInfo",pageInfo);
         return "admin/tags";
@@ -94,7 +94,7 @@ public class TagController {
             attributes.addFlashAttribute("msg", "不能添加重复的标签");
             return "redirect:/admin/tags/input";
         }
-        int i = tagService.createTag(tag);
+        int i = tagService.saveTag(tag);
         if (i == 0){
             attributes.addFlashAttribute("message", "新增失败");
         }else {
@@ -144,7 +144,7 @@ public class TagController {
     */
     @GetMapping("/tags/{id}/delete")
     public String deleteTag(@PathVariable Long id, RedirectAttributes attributes){
-        tagService.deleteTag(id);
+        tagService.deleteTagById(id);
         attributes.addFlashAttribute("msg", "删除成功");
         return "redirect:/admin/tags";
     }

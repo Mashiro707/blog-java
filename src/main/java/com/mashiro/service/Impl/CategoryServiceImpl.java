@@ -1,8 +1,13 @@
 package com.mashiro.service.Impl;
 
+import com.mashiro.common.RedisKey;
+import com.mashiro.exception.NotFoundException;
 import com.mashiro.mapper.CategoryMapper;
 import com.mashiro.entity.Category;
 import com.mashiro.service.CategoryService;
+import com.mashiro.service.TagService;
+import com.mashiro.util.RedisUtils;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,59 +24,68 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private TagService tagService;
+    @Autowired
+    private RedisUtils redisUtils;
 
     @Transactional
     @Override
-    public int createType(Category type) {
-        return categoryMapper.createType(type);
+    public int saveCategory(Category category) {
+        if (categoryMapper.saveCategory(category) != 1){
+            throw new PersistenceException("新增分类失败");
+        }
+        redisUtils.deleteCacheByKey(RedisKey.CATEGORY_NAME_LIST);
+        return 1;
     }
 
-    @Transactional
     @Override
-    public Category getTypeById(Long id) {
-        return categoryMapper.getTypeById(id);
+    public Category getCategoryById(Long id) {
+        Category category = categoryMapper.getCategoryById(id);
+        if (category == null) {
+            throw new NotFoundException("分类不存在");
+        }
+        return category;
     }
 
-    @Transactional
     @Override
     public Category getTypeByName(String name) {
         return categoryMapper.getTypeByName(name);
     }
 
     @Override
-    public List<Category> getAllType() {
-        return categoryMapper.getAllType();
+    public List<Category> getCategoryList() {
+        return categoryMapper.getCategoryList();
     }
 
-    @Transactional
     @Override
-    public List<Category> getAllTypeAndBlog() {
-        return categoryMapper.getAllTypeAndBlog();
-    }
-
-    @Transactional
-    @Override
-    public List<Category> getFiveTypeAndBlog() {
-        List<Category> tmpType = new ArrayList<>();
-        List<Category> allType = categoryMapper.getAllTypeAndBlog();
-        if (allType.size()>5){
-            for (int i = 0; i < 5; i++) {
-                tmpType.add(allType.get(i));
-            }
-            return tmpType;
+    public List<Category> getCategoryNameList() {
+        //先从redis缓存中获取，获取不到再去数据库中查询
+        String redisKey = RedisKey.CATEGORY_NAME_LIST;
+        List<Category> categoryListFromRedis = redisUtils.getListByValue(redisKey);
+        if (categoryListFromRedis != null){
+            return categoryListFromRedis;
         }
-        return allType;
+        List<Category> categoryList = categoryMapper.getCategoryNameList();
+        redisUtils.saveListToValue(redisKey, categoryList);
+        return categoryList;
     }
 
-    @Transactional
     @Override
-    public int updateType(Category type) {
-        return categoryMapper.updateType(type);
+    public int updateCategory(Category category) {
+        if (categoryMapper.updateCategory(category) != 1){
+            throw new PersistenceException("更新失败");
+        }
+        redisUtils.deleteCacheByKey(RedisKey.CATEGORY_NAME_LIST);
+        return 1;
     }
 
-    @Transactional
     @Override
-    public int deleteType(Long id) {
-        return categoryMapper.deleteType(id);
+    public int deleteCategoryById(Long id) {
+        if (categoryMapper.deleteCategoryById(id) != 1){
+            throw new PersistenceException("删除失败");
+        }
+        redisUtils.deleteByHashKey(RedisKey.CATEGORY_NAME_LIST);
+        return 1;
     }
 }

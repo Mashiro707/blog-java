@@ -31,7 +31,7 @@ public class RedisServiceImpl implements RedisService {
         if (increment < 0) {
             throw new RuntimeException("递增因子必须大于0");
         }
-        redisUtils.incr(key, increment);
+        redisUtils.incrementByKey(key, increment);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.mashiro.service;
 
 import com.mashiro.entity.Tag;
+import com.mashiro.vo.TagBlogCountVO;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface TagService {
      * @data 2021/4/25 10:56
      *
      */
-    int createTag(Tag tag);
+    int saveTag(Tag tag);
 
     /**
      * @Description: 根据id获取标签
@@ -53,7 +54,7 @@ public interface TagService {
      * @data 2021/4/25 11:02
      *
      */
-    List<Tag> getAllTag();
+    List<Tag> getTagList();
 
     /**
      * @Description: 查询标签下所有的博客
@@ -64,7 +65,7 @@ public interface TagService {
      * @data 2021/4/25 11:04
      *
      */
-    List<Tag> getAllTagAndBlog();
+    List<Tag> getTagBlogList();
 
     /**
      * @Description: 更新修改标签
@@ -86,7 +87,7 @@ public interface TagService {
      * @data 2021/4/25 11:06
      *
      */
-    int deleteTag(Long id);
+    int deleteTagById(Long id);
 
     /**
     * @Description: 从字符串中获取tag集合
@@ -98,5 +99,25 @@ public interface TagService {
     *
     */
     List<Tag> getTagByString(String text);
+
+    /**
+     * 获取所有标签List不查询id
+     * @param
+     * @return {@link List< Tag>}
+     * @author Mashiro
+     * @data 2021/5/28 10:07
+     *
+     */
+    List<Tag> getTagListNotId();
+
+    /**
+     * 按博客id查询List
+     * @param blogId
+     * @return {@link List< Tag>}
+     * @author Mashiro
+     * @data 2021/5/28 10:06
+     *
+     */
+    List<Tag> getTagListByBlogId(Long blogId);
 
 }

@@ -1,5 +1,7 @@
 package com.mashiro.service;
 
+import com.mashiro.entity.CityVisitor;
+
 import java.util.List;
 import java.util.Map;
 

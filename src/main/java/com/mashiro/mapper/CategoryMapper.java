@@ -16,16 +16,17 @@ import java.util.List;
 @Mapper
 @Repository
 public interface CategoryMapper {
+
     /**
     * @Description: 新增分类
-    * @param type
+    * @param category  分类对象
     * @return {@link int}
     * @throws 
     * @author BeforeOne
     * @data 2021/4/25 8:19
     *
     */
-    int createType(Category type);
+    int saveCategory(Category category);
     
     /**
     * @Description: 通过id获取分类
@@ -36,7 +37,7 @@ public interface CategoryMapper {
     * @data 2021/4/25 8:20
     *
     */
-    Category getTypeById(@Param("id") Long id);
+    Category getCategoryById(@Param("id") Long id);
     
     /**
     * @Description: 通过Name获取分类
@@ -50,15 +51,25 @@ public interface CategoryMapper {
     Category getTypeByName(@Param("name") String name);
     
     /**
-    * @Description: 获取所有分类
+    * @Description: 获取所有分类，生成List
     * @param 
-    * @return {@link List<   Category  >}
+    * @return {@link List<Category>}
     * @throws 
     * @author BeforeOne
     * @data 2021/4/25 8:20
     *
     */
-    List<Category> getAllType();
+    List<Category> getCategoryList();
+
+    /**
+    * 获取所有分类List不查询id
+    * @param
+    * @return {@link List< Category>}
+    * @author Mashiro
+    * @data 2021/5/28 10:19
+    *
+    */
+    List<Category> getCategoryNameList();
 
     /**
     * @Description: 查询分类下的所有博客
@@ -69,18 +80,18 @@ public interface CategoryMapper {
     * @data 2021/4/25 8:22
     *
     */
-    List<Category> getAllTypeAndBlog();
+    List<Category> getCategoryBlogList();
 
     /**
     * @Description: 根据id修改分类信息
-    * @param type
+    * @param category
     * @return {@link int}
     * @throws
     * @author BeforeOne
     * @data 2021/4/25 8:22
     *
     */
-    int updateType(Category type);
+    int updateCategory(Category category);
 
     /**
     * @Description: 根据id删除分类
@@ -91,5 +102,5 @@ public interface CategoryMapper {
     * @data 2021/4/25 8:23
     *
     */
-    int deleteType(@Param("id") Long id);
+    int deleteCategoryById(@Param("id") Long id);
 }
