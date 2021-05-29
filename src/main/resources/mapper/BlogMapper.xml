@@ -102,7 +102,7 @@
     </resultMap>
 
     <!--新增博客-->
-    <insert id="saveBlog" parameterType="com.mashiro.entity.Blog" useGeneratedKeys="true" keyProperty="id">
+    <insert id="saveBlog" parameterType="com.mashiro.dto.BlogDTO" useGeneratedKeys="true" keyProperty="id">
         insert into b_blog(title, first_picture, content, description, is_published, is_recommend, is_appreciation, is_comment_enabled,
                            is_top, create_time, update_time, views, category_id, user_id)
         values (#{title}, #{firstPicture}, #{content}, #{description}, #{published}, #{recommend}, #{appreciation}, #{commentEnabled},
@@ -125,7 +125,7 @@
     </delete>
 
     <!--编辑更新博客-->
-    <update id="updateBlog" parameterType="com.mashiro.entity.Blog">
+    <update id="updateBlog" parameterType="com.mashiro.dto.BlogDTO">
         update tb_blog set title=#{title}, first_picture=#{firstPicture}, content=#{content}, description=#{description},
                            is_recommend=#{recommend}, is_published=#{published}, is_appreciation=#{appreciation}, is_comment_enabled=#{commentEnabled},
                            is_top=#{top}, create_time=#{createTime}, update_time=#{updateTime}, views=#{views},
@@ -259,6 +259,10 @@
     <!--查询所有文章的浏览量-->
     <select id="getBlogViewsList" resultType="com.mashiro.dto.BlogViewDTO">
         select id, views from tb_blog
+    </select>
+
+    <select id="getTitleByBlogId" resultType="java.lang.String">
+        select title from tb_blog where id = #{id}
     </select>
 
     <!--更新博客阅读次数-->

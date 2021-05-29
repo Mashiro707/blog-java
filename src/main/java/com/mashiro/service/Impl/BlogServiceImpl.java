@@ -1,240 +1,416 @@
-/*
 package com.mashiro.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.mashiro.common.RedisKey;
+import com.mashiro.dto.BlogDTO;
+import com.mashiro.dto.BlogViewDTO;
+import com.mashiro.dto.BlogVisibilityDTO;
+import com.mashiro.entity.Blog;
 import com.mashiro.exception.NotFoundException;
 import com.mashiro.mapper.BlogMapper;
-import com.mashiro.mapper.CommentMapper;
-import com.mashiro.entity.Blog;
-import com.mashiro.entity.Comment;
-import com.mashiro.entity.Tag;
+import com.mashiro.mapper.TagMapper;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.TagService;
+import com.mashiro.task.RedisSyncScheduleTask;
+import com.mashiro.util.JacksonUtils;
 import com.mashiro.util.MarkdownUtils;
-import com.mashiro.vo.BlogAndTagVO;
-import com.mashiro.vo.WebInfoVo;
+import com.mashiro.util.RedisUtils;
+import com.mashiro.vo.*;
+import io.swagger.models.auth.In;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-*/
 /**
- * @Description: 博客业务实现类
- * @Author: BeforeOne
- * @Date: Created in 2021/4/25 20:59
- *//*
-
-
+ * @Description:
+ * @Author: Mashiro
+ * @Date: Created in 2021/5/28 16:54
+ */
 @Service
 public class BlogServiceImpl implements BlogService {
-
-    */
-/*注入持久层接口*//*
 
     @Autowired
     private BlogMapper blogMapper;
     @Autowired
-    private CommentMapper commentMapper;
-    @Autowired
     private TagService tagService;
+    @Autowired
+    private RedisUtils redisUtils;
+    @Autowired
+    private RedisSyncScheduleTask redisSyncScheduleTask;
+    //随机博客显示5条
+    private static final int randomBlogLimitNum = 5;
+    //最新推荐博客显示3条
+    private static final int newBlogPageSize = 3;
+    //每页显示7条博客简介
+    private static final int pageSize = 7;
+    //博客简介列表排序方式
+    private static final String orderBy = "is_top desc, create_time desc";
 
+    /**
+     * 项目启动时，保存所有博客的浏览量到Redis
+     */
+    @PostConstruct
+    private void saveBlogViewsToRedis() {
+        String redisKey = RedisKey.BLOG_VIEWS_MAP;
+        //Redis中没有存储博客浏览量的Hash
+        if (!redisUtils.hasKey(redisKey)) {
+            //从数据库中读取并存入Redis
+            Map<Long, Integer> blogViewsMap = getBlogViewsMap();
+            redisUtils.saveMapToHash(redisKey, blogViewsMap);
+        }
+    }
+
+    @Transactional
     @Override
-    public int createBlog(Blog blog) {
-        blog.setCreateTime(new Date());
-        blog.setUpdateTime(new Date());
-        blog.setViews(0);
-        blogMapper.saveBlog(blog);
-        Long id = blog.getId();
-        List<Tag> tags;
-        tags = blog.getTags();
-        BlogAndTagVO blogAndTagVO = null;
-        for (Tag tag : tags) {
-            //这里blog类中的指针相连，但是我们查tag是根据BlogAndTag查的，所以应该连接这个
-            blogAndTagVO = new BlogAndTagVO(tag.getId(), id);
-            blogMapper.saveBlogAndTag(blog.getId(),tag.getId());
+    public int saveBlog(BlogDTO blogDTO) {
+        if (blogMapper.saveBlog(blogDTO) != 1){
+            throw new PersistenceException("添加微博失败");
+        }
+        redisUtils.saveKVToHash(RedisKey.BLOG_VIEWS_MAP, blogDTO.getId(), 0);
+        deleteBlogRedisCache();
+        return 1;
+    }
+
+    @Transactional
+    @Override
+    public int saveBlogAndTag(Long tagId, Long blogId) {
+        if (blogMapper.saveBlogAndTag(blogId, tagId) != 1) {
+            throw new PersistenceException("维护博客标签关联表失败");
         }
         return 1;
     }
 
+    @Transactional
     @Override
-    public int deleteBlog(Long id) {
-        List<Comment> replyComments = commentMapper.findByBlogId(id);
-        for (Comment replyComment : replyComments) {
-            commentMapper.deleteComment(replyComment);
+    public int deleteBlogById(Long id) {
+        if (blogMapper.deleteBlogById(id) != 1){
+            throw new NotFoundException("该博客不存在");
         }
-        blogMapper.deleteBlogAndTag(id);
-        return blogMapper.deleteBlog(id);
+        deleteBlogRedisCache();
+        redisUtils.deleteByHashKey(RedisKey.BLOG_VIEWS_MAP,id);
+        return 1;
+    }
+
+    @Transactional
+    @Override
+    public int deleteBlogAndTagByBlogId(Long id) {
+        if (blogMapper.deleteBlogAndTagByBlogId(id) != 1){
+            throw new PersistenceException("维护博客和标签列表失败");
+        }
+        return 1;
+    }
+
+    @Transactional
+    @Override
+    public int updateBlog(BlogDTO blogDTO) {
+        if (blogMapper.updateBlog(blogDTO) != 1){
+            throw new PersistenceException("更新失败");
+        }
+        deleteBlogRedisCache();
+        redisUtils.saveKVToHash(RedisKey.BLOG_VIEWS_MAP, blogDTO.getId(), blogDTO.getViews());
+        return 1;
+    }
+
+    @Transactional
+    @Override
+    public int updateBlogRecommendById(Long blogId, Boolean recommend) {
+        if (blogMapper.updateBlogRecommendById(blogId, recommend) != 1) {
+            throw new PersistenceException("操作失败");
+        }
+        return 1;
+    }
+
+    @Transactional
+    @Override
+    public int updateBlogTopById(Long blogId, Boolean top) {
+        if (blogMapper.updateBlogTopById(blogId, top) != 1) {
+            throw new PersistenceException("操作失败");
+        }
+        redisUtils.deleteByHashKey(RedisKey.HOME_BLOG_INFO_LIST);
+        return 1;
+    }
+
+    @Transactional
+    @Override
+    public int updateBlogVisibilityById(Long blogId, BlogVisibilityDTO bv) {
+        if (blogMapper.updateBlogVisibilityById(blogId, bv) != 1) {
+            throw new PersistenceException("操作失败");
+        }
+        deleteBlogRedisCache();
+        return 1;
+    }
+
+    @Transactional
+    @Override
+    public int updateViews(Long blogId, Integer views) {
+        if (blogMapper.updateViews(blogId, views) != 1) {
+            throw new PersistenceException("更新失败");
+        }
+        return 1;
+    }
+
+    @Transactional
+    @Override
+    public void updateViewsToRedis(Long blogId) {
+        redisUtils.incrementByHashKey(RedisKey.BLOG_VIEWS_MAP, blogId, 1);
     }
 
     @Override
-    public int deleteBlogAndTag(Long id) {
-        return blogMapper.deleteBlogAndTag(id);
-    }
-
-    @Override
-    public int updateBlog(Blog blog) {
-        blog.setUpdateTime(new Date());
-        //将标签的数据存到t_blogs_tag表中
-        List<Tag> tags = blog.getTags();
-        BlogAndTagVO blogAndTagVO = null;
-        //这里应该先删，再更新
-        blogMapper.deleteBlogAndTag(blog.getId());
-        //防止null值
-        for (int i = 0; i < tags.size(); i++) {
-            Tag tag = tags.get(i);
-            if (tag == null)
-                continue;
-            blogAndTagVO = new BlogAndTagVO(tag.getId(), blog.getId());
-            blogMapper.createBlogAndTag(blogAndTagVO);
-        }
-        return blogMapper.updateBlog(blog);
+    public String getTitleByBlogId(Long id) {
+        return blogMapper.getTitleByBlogId(id);
     }
 
     @Override
     public Blog getBlogById(Long id) {
-        return blogMapper.getBlogById(id);
-    }
-
-    @Override
-    public List<Blog> getAllBlog() {
-        return blogMapper.getAllBlog();
-    }
-
-    @Override
-    public List<Blog> searchAllBlog(Blog blog) {
-        return blogMapper.searchAllBlog(blog);
-    }
-
-    @Override
-    public List<Blog> getIndexBlog() {
-        List<Blog> blogList = blogMapper.getIndexBlog();
-        List<Blog> blogs = setTags(blogList);
-        return blogs;
-    }
-
-
-    @Override
-    public List<Blog> getAllRecommendBlog() {
-        return blogMapper.getAllRecommendBlog();
-    }
-
-    @Override
-    public List<Blog> getSearchBlog(String query) {
-        List<Blog> blogList = blogMapper.getSearchBlog(query);
-        List<Blog> blogs = setTags(blogList);
-        return blogs;
-    }
-
-    @Override
-    public Blog getDetailedBlog(Long id) {
-        Blog blog = blogMapper.getDetailedBlog(id);
+        Blog blog = blogMapper.getBlogById(id);
         if (blog == null) {
-            throw new NotFoundException("该博客不存在");
+            throw new NotFoundException("博客不存在");
         }
-        String content = blog.getContent();
-        blog.setContent(MarkdownUtils.markdownToHtmlExtensions(content));  //将Markdown格式转换成html
-        blog.setViews(blog.getViews() + 1);
-        blogMapper.updateViews(blog);
+        //将浏览量设置为Redis中的最新值
+        int view = (int) redisUtils.getValueByHashKey(RedisKey.BLOG_VIEWS_MAP, blog.getId());
+        blog.setViews(view);
         return blog;
     }
 
+
     @Override
-    public List<Blog> getPortRecommendBlog() {
-        List<Blog> tmpRecommendBlog = new ArrayList();
-        List<Blog> allRecommendBlog = blogMapper.getAllRecommendBlog();
-        for (int i = 0; i < 7; i++)
-            tmpRecommendBlog.add(allRecommendBlog.get(i));
-        return tmpRecommendBlog;
+    public PageResultVO<BlogInfoVO> getBlogInfoListByCategoryNameAndIsPublished(String categoryName, Integer pageNum) {
+        //设置分页属性
+        PageHelper.startPage(pageNum, pageSize, orderBy);
+        //获取 按分类名称查询的博客
+        List<BlogInfoVO> blogInfoVOList = processBlogInfo(blogMapper.getBlogInfoListByCategoryNameAndIsPublished(categoryName));
+        PageInfo<BlogInfoVO> pageInfo = new PageInfo<>(blogInfoVOList);
+        PageResultVO<BlogInfoVO> pageResultVO = new PageResultVO<>(pageInfo.getPages(), pageInfo.getList());
+        //将pageResultVO数据中博客的访问量设置成redis中的最新值
+        setBlogViewsFromRedisToPageResult(pageResultVO);
+        return pageResultVO;
+    }
+
+
+    @Override
+    public PageResultVO<BlogInfoVO> getBlogInfoListByTagNameAndIsPublished(String tagName, Integer pageNum) {
+        //设置分页属性
+        PageHelper.startPage(pageNum, pageSize, orderBy);
+        //获取 按标签名称查询的博客
+        List<BlogInfoVO> blogInfoVOList = processBlogInfo(blogMapper.getBlogInfoListByTagNameAndIsPublished(tagName));
+        PageInfo<BlogInfoVO> pageInfo = new PageInfo<>(blogInfoVOList);
+        PageResultVO<BlogInfoVO> pageResultVO = new PageResultVO<>(pageInfo.getPages(), pageInfo.getList());
+        //将pageResultVO数据中博客的访问量设置成redis中的最新值
+        setBlogViewsFromRedisToPageResult(pageResultVO);
+        return pageResultVO;
     }
 
     @Override
-    public List<Blog> getThreeRecommendBlog() {
-        List<Blog> tmpRecommendBlog = new ArrayList();
-        List<Blog> allRecommendBlog = blogMapper.getAllRecommendBlog();
-        if (allRecommendBlog.size() > 3) {
-            for (int i = 0; i < 3; i++)
-                tmpRecommendBlog.add(allRecommendBlog.get(i));
-            return tmpRecommendBlog;
-        } else
-            return allRecommendBlog;
+    public List<Blog> getBlogListByTitleAndCategoryId(String title, Integer categoryId) {
+        return blogMapper.getBlogListByTitleAndCategoryId(title, categoryId);
     }
 
     @Override
-    public List<Blog> getBlogByTypeId(Long typeId) {
-        List<Blog> blogList = blogMapper.getBlogByTypeId(typeId);
-        List<Blog> blogs = setTags(blogList);
-        return blogs;
+    public List<SearchBlogVO> getSearchBlogListByQueryAndIsPublished(String query) {
+        List<SearchBlogVO> searchBlogVOList = blogMapper.getSearchBlogListByQueryAndIsPublished(query);
+        for (SearchBlogVO searchBlogVO : searchBlogVOList) {
+            //获取文章的内容
+            String content = searchBlogVO.getContent();
+            //设置内容长度为 contentLength
+            int contentLength = content.length();
+            //获取搜索的关键词 query 第一次出现在文章时候的索引
+            //并且将头坐标begin设置为 关键字第一次索引前面第十个
+            int begin = content.indexOf(query) - 10;
+            //判断begin是否超出文章，如果超出文章头部边界则默认从文章开头
+            begin = begin < 0 ? 0 : begin;
+            //以begin之后21个字符为末尾
+            int end = begin + 21;
+            //判断是否超出文章尾部便捷
+            end = end < contentLength -1 ? end : contentLength - 1;
+            searchBlogVO.setContent(content.substring(begin, end));
+        }
+        return searchBlogVOList;
     }
 
     @Override
-    public List<Blog> getBlogByTagId(Long tagId) {
-        List<Blog> blogList = blogMapper.getBlogByTagId(tagId);
-        List<Blog> blogs = setTags(blogList);
-        return blogs;
+    public List<NewBlogVO> getNewBlogListByIsPublished() {
+        //设置 最新博客列表rediskey
+        String redisKey = RedisKey.NEW_BLOG_LIST;
+        //如果redis中有最新的博客列表，就返回redis中的最新博客列表
+        List<NewBlogVO> newBlogVOListFromRedis = redisUtils.getListByValue(redisKey);
+        if (newBlogVOListFromRedis != null){
+            return newBlogVOListFromRedis;
+        }
+        //设置分页信息
+        PageHelper.startPage(1,newBlogPageSize);
+        //从数据库中获取最新博客信息
+        List<NewBlogVO> newBlogVOList = blogMapper.getNewBlogListByIsPublished();
+        //存入redis
+        redisUtils.saveListToValue(redisKey,newBlogVOList);
+        return newBlogVOList;
     }
 
     @Override
-    public Map<String, List<Blog>> archiveBlog() {
-        List<String> years = blogMapper.findGroupYear();
-        Set<String> set = new HashSet<>(years);  //set去掉重复的年份
-        Map<String, List<Blog>> map = new HashMap<>();
-        for (String year : set)
-            map.put(year, blogMapper.findByYear(year));
+    public List<Blog> getBlogIdAndTitleList() {
+        return blogMapper.getBlogIdAndTitleList();
+    }
+
+    @Override
+    public PageResultVO<BlogInfoVO> getBlogInfoListByIsPublished(Integer pageNum) {
+        String redisKey = RedisKey.HOME_BLOG_INFO_LIST;
+        //从redis中获取当前页的文章
+        PageResultVO<BlogInfoVO> pageResultVOFromRedis = redisUtils.getBlogInfoPageResultByHash(redisKey, pageNum);
+        //如果不为空，则读取redis中最新的访客数后返回
+        if (pageResultVOFromRedis != null){
+            setBlogViewsFromRedisToPageResult(pageResultVOFromRedis);
+            return pageResultVOFromRedis;
+        }
+        //redis中没有数据，则从数据库中查询，并且存入到redis中
+        PageHelper.startPage(pageNum, pageSize, orderBy);
+        //随机获取公开且随机的文章
+        List<BlogInfoVO> blogInfoVOList = blogMapper.getBlogInfoListByIsPublished();
+        //将文章描述转换成html，给文章添加标签list
+        processBlogInfo(blogInfoVOList);
+        //将文章list放入pageInfo
+        PageInfo<BlogInfoVO> pageInfo = new PageInfo<>(blogInfoVOList);
+        //将页数信息和文章列表放入PageResultVO对象中
+        PageResultVO<BlogInfoVO> pageResultVO = new PageResultVO<>(pageInfo.getPages(), pageInfo.getList());
+        setBlogViewsFromRedisToPageResult(pageResultVO);
+        //放入缓存中
+        redisUtils.saveKVToHash(redisKey, pageNum, pageResultVO);
+        return pageResultVO;
+    }
+
+    @Override
+    public BlogDetailVO getBlogByIdAndIsPublished(Long id) {
+        BlogDetailVO blogDetailVO = blogMapper.getBlogByIdAndIsPublished(id);
+        if (blogDetailVO == null){
+            throw new NotFoundException("博客不存在");
+        }
+        blogDetailVO.setContent(MarkdownUtils.markdownToHtmlExtensions(blogDetailVO.getContent()));
+        blogDetailVO.setTags(tagService.getTagListByBlogId(blogDetailVO.getId()));
+        int views = (int) redisUtils.getValueByHashKey(RedisKey.BLOG_VIEWS_MAP, blogDetailVO.getId());
+        blogDetailVO.setViews(views);
+        return blogDetailVO;
+    }
+
+    @Override
+    public List<RandomBlogVO> getRandomBlogListByLimitNumAndIsPublishedAndIsRecommend() {
+        List<RandomBlogVO> randomBlogVOList = blogMapper.getRandomBlogListByLimitNumAndIsPublishedAndIsRecommend(randomBlogLimitNum);
+        return randomBlogVOList;
+    }
+
+    @Override
+    public Map<String, Object> getArchiveBlogAndCountByIsPublished() {
+        //首先尝试从缓存中获取
+        String redisKey = RedisKey.ARCHIVE_BLOG_MAP;
+        Map<String, Object> archiveMapFromRedis = redisUtils.getMapByValue(redisKey);
+        if (archiveMapFromRedis != null){
+            return archiveMapFromRedis;
+        }
+        //从数据库中获取，并且存入redis
+        Map<String, Object> map = new HashMap<>();
+        //获取年月
+        List<String> groupYearMonth = blogMapper.getGroupYearMonthByIsPublished();
+        //将对应的年月和博客列表以 键值 对的方式存储
+        Map<String, List<ArchiveBlogVO>> archiveBlogMap = new LinkedHashMap<>();
+        for (String s : groupYearMonth) {
+            List<ArchiveBlogVO> archiveBlogVOList = blogMapper.getArchiveBlogListByYearMonthAndIsPublished(s);
+            archiveBlogMap.put(s,archiveBlogVOList);
+        }
+        //统计博客数量
+        Integer count = countBlogByIsPublished();
+        map.put("BlogMap",archiveBlogMap);
+        map.put("count", count);
+        //存入redis
+        redisUtils.saveMapToValue(redisKey,map);
         return map;
     }
 
     @Override
-    public int countBlog() {
-        return blogMapper.getAllBlog().size();
+    public int countBlogByIsPublished() {
+        return blogMapper.countBlogByIsPublished();
     }
 
     @Override
-    public WebInfoVo getWebInfo() {
-        Integer views = blogMapper.getViews();
-        Integer commentCount = commentMapper.getCommentCount();
-        WebInfoVo webInfoVo = new WebInfoVo();
-        webInfoVo.setViews(views);
-        webInfoVo.setCommentCount(commentCount);
-        return webInfoVo;
+    public int countBlogByCategoryId(Long categoryId) {
+        return blogMapper.countBlogByTagId(categoryId);
     }
 
-    */
-/**
-    * @Description: 将tags_id字符串转换成 list
-    * @param ids
-    * @return {@link List< Long>}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/5/15 16:32
+    @Override
+    public int countBlogByTagId(Long tagId) {
+        return blogMapper.countBlogByTagId(tagId);
+    }
+
+    @Override
+    public Boolean getCommentEnabledByBlogId(Long blogId) {
+        return blogMapper.getCommentEnabledByBlogId(blogId);
+    }
+
+    @Override
+    public Boolean getPublishedByBlogId(Long blogId) {
+        return blogMapper.getPublishedByBlogId(blogId);
+    }
+
+    /**
+    * 获取博客访客map
+    * @param
+    * @return {@link Map< Long, Integer>}
+    * @author Mashiro
+    * @data 2021/5/28 21:39
     *
-    *//*
-
-    private List<Long> convertToList(String ids) {
-        List<Long> list = new ArrayList<>();
-        if (!"".equals(ids) && ids != null) {
-            String[] idarray = ids.split(",");
-            for (int i=0; i < idarray.length;i++) {
-                list.add(new Long(idarray[i]));
-            }
+    */
+    private Map<Long, Integer> getBlogViewsMap() {
+        List<BlogViewDTO> blogViewDTOList = blogMapper.getBlogViewsList();
+        Map<Long, Integer> blogViewsMap = new HashMap<>();
+        for (BlogViewDTO blogView : blogViewDTOList) {
+            blogViewsMap.put(blogView.getId(), blogView.getViews());
         }
-        return list;
+        return blogViewsMap;
     }
 
-    // 设置tags
-    private List<Blog> setTags(List<Blog> blogList){
-        for (Blog blog : blogList) {
-            List<Tag> tags = new ArrayList<>();
-            Long blogId = blog.getId();
-            List<Long> tagIds =convertToList(blog.getTagIds());
-            for (Long tagId : tagIds) {
-                Tag tag = tagService.getTagById(tagId);
-                tags.add(tag);
-            }
-            blog.setTags(tags);
+    /**
+    * 将pageResultVO数据中博客的访问量设置成redis中的最新值
+    * @param pageResultVO`
+    * @return
+    * @author Mashiro
+    * @data 2021/5/28 19:16
+    *
+    */
+    private void setBlogViewsFromRedisToPageResult(PageResultVO<BlogInfoVO> pageResultVO){
+        String redisKey = RedisKey.BLOG_VIEWS_MAP;
+        List<BlogInfoVO> blogInfoVOList = pageResultVO.getList();
+        for (int i = 0; i < blogInfoVOList.size(); i++) {
+            //转换成可用的BlogInfoVO对象
+            BlogInfoVO blogInfoVO = JacksonUtils.convertValue(blogInfoVOList.get(i), BlogInfoVO.class);
+            Long blogId = blogInfoVO.getId();
+            //获取redis中的 views
+            int views = (int) redisUtils.getValueByHashKey(redisKey,blogId);
+            //将获取到的views设置给blogInfoVOList
+            blogInfoVO.setViews(views);
+            blogInfoVOList.set(i,blogInfoVO);
+
         }
-        return blogList;
     }
 
+    private List<BlogInfoVO> processBlogInfo(List<BlogInfoVO> blogInfoVOList){
+        for (BlogInfoVO blogInfoVO : blogInfoVOList) {
+            blogInfoVO.setDescription(MarkdownUtils.markdownToHtmlExtensions(blogInfoVO.getDescription()));
+            blogInfoVO.setTags(tagService.getTagListByBlogId(blogInfoVO.getId()));
+        }
+        return blogInfoVOList;
+    }
 
+    /**
+     * 删除首页缓存、最新推荐缓存、归档页面缓存、博客浏览量缓存
+     */
+    private void deleteBlogRedisCache() {
+        redisUtils.deleteCacheByKey(RedisKey.HOME_BLOG_INFO_LIST);
+        redisUtils.deleteCacheByKey(RedisKey.NEW_BLOG_LIST);
+        redisUtils.deleteCacheByKey(RedisKey.ARCHIVE_BLOG_MAP);
+    }
 }
-*/
+

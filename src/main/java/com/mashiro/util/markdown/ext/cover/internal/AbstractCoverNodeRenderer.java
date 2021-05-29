@@ -1,8 +1,8 @@
 package com.mashiro.util.markdown.ext.cover.internal;
 
+import com.mashiro.util.markdown.ext.cover.Cover;
 import org.commonmark.node.Node;
 import org.commonmark.renderer.NodeRenderer;
-import top.naccl.util.markdown.ext.cover.Cover;
 
 import java.util.Collections;
 import java.util.Set;

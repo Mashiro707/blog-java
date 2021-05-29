@@ -52,7 +52,7 @@
 
     <!--查询每个标签的博客数量-->
     <select id="getTagBlogCount" resultMap="tagBlogCount">
-        select tag_id, count(tag_id) as blog_count from tb_blog_tag group by tag_id
+        select tag_id, count(tag_id) as blog_count from tb_blog_tags group by tag_id
     </select>
 
     <!--获取所有标签List不查询id-->
@@ -63,7 +63,7 @@
     <!--按博客id查询List-->
     <select id="getTagListByBlogId" resultMap="tag">
         select t.tag_name
-        from tb_blog_tag as bt left join tb_tag as t on bt.tag_id=t.id
+        from tb_blog_tags as bt left join tb_tag as t on bt.tag_id=t.id
         where bt.blog_id=#{blogId}
     </select>
 

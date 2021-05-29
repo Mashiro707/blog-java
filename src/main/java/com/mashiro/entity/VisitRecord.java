@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VisitRecord {
     private Long id;
-    private Integer pv;//访问量
+    private Integer pv;//访问量(点击量)
     private Integer uv;//独立用户
     private String date;//日期"02-23"
 

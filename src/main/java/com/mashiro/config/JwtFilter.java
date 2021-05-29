@@ -28,7 +28,7 @@ public class JwtFilter extends GenericFilter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         //非后台请求跳过
-        if (request.getRequestURI().startsWith("/admin")){
+        if (!request.getRequestURI().startsWith("/admin")){
             filterChain.doFilter(request, servletResponse);
             return;
         }

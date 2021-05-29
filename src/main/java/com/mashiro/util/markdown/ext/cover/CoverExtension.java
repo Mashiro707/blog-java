@@ -1,5 +1,8 @@
 package com.mashiro.util.markdown.ext.cover;
 
+import com.mashiro.util.markdown.ext.cover.internal.CoverDelimiterProcessor;
+import com.mashiro.util.markdown.ext.cover.internal.CoverHtmlNodeRenderer;
+import com.mashiro.util.markdown.ext.cover.internal.CoverTextContentNodeRenderer;
 import org.commonmark.Extension;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.NodeRenderer;
@@ -9,9 +12,7 @@ import org.commonmark.renderer.html.HtmlRenderer;
 import org.commonmark.renderer.text.TextContentNodeRendererContext;
 import org.commonmark.renderer.text.TextContentNodeRendererFactory;
 import org.commonmark.renderer.text.TextContentRenderer;
-import top.naccl.util.markdown.ext.cover.internal.CoverDelimiterProcessor;
-import top.naccl.util.markdown.ext.cover.internal.CoverHtmlNodeRenderer;
-import top.naccl.util.markdown.ext.cover.internal.CoverTextContentNodeRenderer;
+
 
 /**
  * @Description: 自定义遮盖层拓展

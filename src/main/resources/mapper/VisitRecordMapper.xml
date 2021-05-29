@@ -3,6 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.mashiro.mapper.VisitRecordMapper">
 
+    <!--按天数查询访问记录-->
+    <select id="getVisitRecordListByLimit" resultType="com.mashiro.entity.VisitRecord">
+        select pv, uv, date from tb_visit_record order by id desc limit #{limit}
+    </select>
+
 
 
 </mapper>

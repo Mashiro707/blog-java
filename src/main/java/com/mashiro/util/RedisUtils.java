@@ -155,12 +155,12 @@ public class RedisUtils {
     // ================================Map=================================
 
     /**
-     * HashGet
-     * @param key  键 不能为null
-     * @param item 项 不能为null
+     *
+     * @param hash  键
+     * @param key  键
      */
-    public Object getValueByHashKey(String key, Object item) {
-        return redisTemplate.opsForHash().get(key, item);
+    public Object getValueByHashKey(String hash, Object key) {
+        return redisTemplate.opsForHash().get(hash, key);
     }
 
     /**
@@ -177,7 +177,7 @@ public class RedisUtils {
      * @param key 键
      * @param map 对应多个键值
      */
-    public boolean saveMapToHash(String key, Map<String, Object> map) {
+    public boolean saveMapToHash(String key, Map map) {
         try {
             redisTemplate.opsForHash().putAll(key, map);
             return true;

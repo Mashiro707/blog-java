@@ -1,34 +1,43 @@
+/*
 package com.mashiro.util.quartz;
 
 import org.quartz.*;
 import com.mashiro.entity.ScheduleJob;
 
 
+*/
 /**
  * @Description: 定时任务操作工具类
  * @Author: Naccl
  * @Date: 2020-11-01
- */
+ *//*
+
 public class ScheduleUtils {
 	private final static String JOB_NAME = "TASK_";
 
-	/**
+	*/
+/**
 	 * 获取触发器key
-	 */
+	 *//*
+
 	public static TriggerKey getTriggerKey(Long jobId) {
 		return TriggerKey.triggerKey(JOB_NAME + jobId);
 	}
 
-	/**
+	*/
+/**
 	 * 获取jobKey
-	 */
+	 *//*
+
 	public static JobKey getJobKey(Long jobId) {
 		return JobKey.jobKey(JOB_NAME + jobId);
 	}
 
-	/**
+	*/
+/**
 	 * 获取表达式触发器
-	 */
+	 *//*
+
 	public static CronTrigger getCronTrigger(Scheduler scheduler, Long jobId) {
 		try {
 			return (CronTrigger) scheduler.getTrigger(getTriggerKey(jobId));
@@ -37,9 +46,11 @@ public class ScheduleUtils {
 		}
 	}
 
-	/**
+	*/
+/**
 	 * 创建定时任务
-	 */
+	 *//*
+
 	public static void createScheduleJob(Scheduler scheduler, ScheduleJob scheduleJob) {
 		try {
 			//构建job信息
@@ -59,9 +70,11 @@ public class ScheduleUtils {
 		}
 	}
 
-	/**
+	*/
+/**
 	 * 更新定时任务
-	 */
+	 *//*
+
 	public static void updateScheduleJob(Scheduler scheduler, ScheduleJob scheduleJob) {
 		try {
 			TriggerKey triggerKey = getTriggerKey(scheduleJob.getJobId());
@@ -81,9 +94,11 @@ public class ScheduleUtils {
 		}
 	}
 
-	/**
+	*/
+/**
 	 * 立即执行任务
-	 */
+	 *//*
+
 	public static void run(Scheduler scheduler, ScheduleJob scheduleJob) {
 		try {
 			//参数
@@ -95,9 +110,11 @@ public class ScheduleUtils {
 		}
 	}
 
-	/**
+	*/
+/**
 	 * 暂停任务
-	 */
+	 *//*
+
 	public static void pauseJob(Scheduler scheduler, Long jobId) {
 		try {
 			scheduler.pauseJob(getJobKey(jobId));
@@ -106,9 +123,11 @@ public class ScheduleUtils {
 		}
 	}
 
-	/**
+	*/
+/**
 	 * 恢复任务
-	 */
+	 *//*
+
 	public static void resumeJob(Scheduler scheduler, Long jobId) {
 		try {
 			scheduler.resumeJob(getJobKey(jobId));
@@ -117,9 +136,11 @@ public class ScheduleUtils {
 		}
 	}
 
-	/**
+	*/
+/**
 	 * 删除定时任务
-	 */
+	 *//*
+
 	public static void deleteScheduleJob(Scheduler scheduler, Long jobId) {
 		try {
 			scheduler.deleteJob(getJobKey(jobId));
@@ -128,3 +149,4 @@ public class ScheduleUtils {
 		}
 	}
 }
+*/

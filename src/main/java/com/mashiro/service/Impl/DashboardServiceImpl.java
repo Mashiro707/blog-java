@@ -2,13 +2,10 @@ package com.mashiro.service.Impl;
 
 import com.mashiro.entity.Category;
 import com.mashiro.entity.CityVisitor;
-import com.mashiro.mapper.BlogMapper;
-import com.mashiro.mapper.CommentMapper;
-import com.mashiro.mapper.VisitLogMapper;
-import com.mashiro.mapper.VisitorMapper;
-import com.mashiro.service.CategoryService;
+import com.mashiro.entity.Tag;
+import com.mashiro.entity.VisitRecord;
+import com.mashiro.mapper.*;
 import com.mashiro.service.DashboardService;
-import com.mashiro.service.TagService;
 import com.mashiro.vo.CategoryBlogCountVO;
 import com.mashiro.vo.TagBlogCountVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +30,15 @@ public class DashboardServiceImpl implements DashboardService {
     @Autowired
     private VisitLogMapper visitLogMapper;
     @Autowired
-    private CategoryService categoryService;
+    private CategoryMapper categoryMapper;
     @Autowired
-    private TagService tagService;
+    private TagMapper tagMapper;
+    @Autowired
+    private VisitRecordMapper visitRecordMapper;
+    @Autowired
+    private CityVisitorMapper cityVisitorMapper;
+
+    private static final Integer visitRecordLimit = 30;
 
 
     @Override
@@ -58,14 +61,14 @@ public class DashboardServiceImpl implements DashboardService {
         //获取每个分类Id下文章的数目，此时name为null
         List<CategoryBlogCountVO> categoryBlogCountVOList = blogMapper.getCategoryBlogCountList();
         //获取所有分类的名称和Id
-        List<Category> categoryList = categoryService.getCategoryList();
+        List<Category> categoryList = categoryMapper.getCategoryList();
         //所有分类名称
-        List<String> sector = new ArrayList<>();
+        List<String> legend = new ArrayList<>();
         for (Category category : categoryList) {
-            sector.add(category.getName());
+            legend.add(category.getName());
         }
         //分类名称对应博客数目
-        List<CategoryBlogCountVO> scallop = new ArrayList<>();
+        List<CategoryBlogCountVO> series = new ArrayList<>();
         //如果每个分类下都有对应的博客
         if (categoryBlogCountVOList.size() == categoryList.size()){
             Map<Long, String> m = new HashMap<>();
@@ -76,7 +79,7 @@ public class DashboardServiceImpl implements DashboardService {
             //因为每个分类下都有博客，所以可以通过 m 给 categoryBlogCountVOList 的 name 都赋上name，存入scallop中
             for (CategoryBlogCountVO categoryBlogCountVO : categoryBlogCountVOList) {
                 categoryBlogCountVO.setName(m.get(categoryBlogCountVO.getId()));
-                    scallop.add(categoryBlogCountVO);
+                    series.add(categoryBlogCountVO);
             }
         }else {
             Map<Long, Integer> m = new HashMap<>();
@@ -86,7 +89,7 @@ public class DashboardServiceImpl implements DashboardService {
             }
             //遍历所有分类，新建一个CategoryBlogCountVO对象，给每个对象设置name和value
             //value的值从 m 中取出，如果 m 中没有对应id的分类，则count为空，即将这个分类的博客数目设置为0
-            //最后每个对象都放入 scallop
+            //最后每个对象都放入 series
             for (Category category : categoryList) {
                 CategoryBlogCountVO categoryBlogCountVO = new CategoryBlogCountVO();
                 categoryBlogCountVO.setName(category.getName());
@@ -96,29 +99,86 @@ public class DashboardServiceImpl implements DashboardService {
                 }else {
                     categoryBlogCountVO.setValue(count);
                 }
-                scallop.add(categoryBlogCountVO);
+                series.add(categoryBlogCountVO);
             }
         }
         Map<String, List> map = new HashMap<>();
-        map.put("sector", sector);
-        map.put("scallop", scallop);
+        map.put("legend", legend);
+        map.put("series", series);
         return map;
     }
 
     @Override
     public Map<String, List> getTagBlogCountMap() {
-        List<TagBlogCountVO> tagBlogCountVOList = tagService.
-        return null;
+        //获取标签对应博客数量
+        List<TagBlogCountVO> tagBlogCountVOList = tagMapper.getTagBlogCount();
+        //获取所有标签Id和名称
+        List<Tag> tagList = tagMapper.getTagList();
+        //获取标签名字
+        List<String> legend = new ArrayList<>();
+        for (Tag tag : tagList) {
+            legend.add(tag.getName());
+        }
+        //标签名称对应博客数量
+        List<TagBlogCountVO> series = new ArrayList<>();
+        //判断每个标签下面是否都有博客, 逻辑同分类
+        if (tagBlogCountVOList.size() == tagList.size()){
+            Map<Long, String> m = new HashMap<>();
+            for (Tag tag : tagList) {
+                m.put(tag.getId(), tag.getName());
+            }
+            for (TagBlogCountVO tagBlogCountVO : tagBlogCountVOList) {
+                tagBlogCountVO.setName(m.get(tagBlogCountVO.getId()));
+                series.add(tagBlogCountVO);
+            }
+        }else {
+            Map<Long, Integer> m = new HashMap<>();
+            for (TagBlogCountVO tagBlogCountVO : tagBlogCountVOList) {
+                m.put(tagBlogCountVO.getId(),tagBlogCountVO.getValue());
+            }
+            for (Tag tag : tagList) {
+                TagBlogCountVO tagBlogCountVO = new TagBlogCountVO();
+                tagBlogCountVO.setName(tag.getName());
+                Integer count = m.get(tag.getId());
+                if (count == null){
+                    tagBlogCountVO.setValue(0);
+                }else {
+                    tagBlogCountVO.setValue(count);
+                }
+                series.add(tagBlogCountVO);
+            }
+        }
+        Map<String, List> map = new HashMap<>();
+        map.put("legend", legend);
+        map.put("series", series);
+        return map;
     }
 
     @Override
     public Map<String, List> getVisitRecordMap() {
-        return null;
+        Map<String, List> map = new HashMap<>();
+        //获取所有 访客记录 (pv,uv,data)
+        List<VisitRecord> visitRecordListByLimitList = visitRecordMapper.getVisitRecordListByLimit(visitRecordLimit);
+        //分别创建三个list存放 data，pv，uv
+        List<String> date = new ArrayList<>(visitRecordListByLimitList.size());
+        List<Integer> pv = new ArrayList<>(visitRecordListByLimitList.size());
+        List<Integer> uv = new ArrayList<>(visitRecordListByLimitList.size());
+        //将 所有访客记录 分别存放到对应数据list中
+        for (int i = visitRecordListByLimitList.size() - 1; i>=0; i--){
+            VisitRecord visitRecord = visitRecordListByLimitList.get(i);
+            date.add(visitRecord.getDate());
+            pv.add(visitRecord.getPv());
+            uv.add(visitRecord.getUv());
+        }
+        map.put("date",date);
+        map.put("pv",pv);
+        map.put("uv",uv);
+        return map;
     }
 
     @Override
     public List<CityVisitor> getCityVisitorList() {
-        return null;
+        return cityVisitorMapper.getCityVisitorLis();
     }
 
 }

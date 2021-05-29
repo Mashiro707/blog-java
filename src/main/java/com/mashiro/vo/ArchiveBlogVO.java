@@ -16,5 +16,4 @@ public class ArchiveBlogVO {
     private Long id;
     private String title;
     private String day;
-    private Boolean privacy;
 }

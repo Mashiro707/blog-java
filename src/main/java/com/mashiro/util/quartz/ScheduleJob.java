@@ -1,3 +1,4 @@
+/*
 package com.mashiro.util.quartz;
 
 import com.mashiro.entity.ScheduleJobLog;
@@ -12,11 +13,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+*/
 /**
  * @Description: 定时任务执行与结果记录
  * @Author: Naccl
  * @Date: 2020-11-01
- */
+ *//*
+
 @Slf4j
 public class ScheduleJob extends QuartzJobBean {
 	private ExecutorService service = Executors.newSingleThreadExecutor();
@@ -60,3 +63,4 @@ public class ScheduleJob extends QuartzJobBean {
 		}
 	}
 }
+*/

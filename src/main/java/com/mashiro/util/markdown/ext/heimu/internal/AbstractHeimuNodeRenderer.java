@@ -1,8 +1,9 @@
 package com.mashiro.util.markdown.ext.heimu.internal;
 
+import com.mashiro.util.markdown.ext.heimu.Heimu;
 import org.commonmark.node.Node;
 import org.commonmark.renderer.NodeRenderer;
-import top.naccl.util.markdown.ext.heimu.Heimu;
+
 
 import java.util.Collections;
 import java.util.Set;

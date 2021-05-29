@@ -15,5 +15,4 @@ import lombok.NoArgsConstructor;
 public class NewBlogVO {
     private Long id;
     private String title;
-    private Boolean privacy;
 }

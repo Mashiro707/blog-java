@@ -25,7 +25,7 @@
 
     <!--获取所有分类，生成List-->
     <select id="getCategoryList" resultMap="category">
-        select * from tb_category from category order by id desc
+        select * from tb_category order by id desc
     </select>
 
     <!--获取所有分类List不查询id-->

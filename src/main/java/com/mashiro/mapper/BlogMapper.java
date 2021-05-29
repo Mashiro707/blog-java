@@ -1,11 +1,11 @@
 package com.mashiro.mapper;
 
+import com.mashiro.dto.BlogDTO;
 import com.mashiro.dto.BlogViewDTO;
 import com.mashiro.dto.BlogVisibilityDTO;
 import com.mashiro.entity.Blog;
 import com.mashiro.vo.*;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,14 +21,14 @@ public interface BlogMapper {
 
     /**
     * @Description: 新增博客
-    * @param blog
-    * @return {@link int}
+    * @param blogDTO
+     * @return {@link int}
     * @throws
     * @author BeforeOne
     * @data 2021/4/25 20:39
     *
     */
-    int saveBlog(Blog blog);
+    int saveBlog(BlogDTO blogDTO);
 
     /**
     * @Description:
@@ -73,7 +73,7 @@ public interface BlogMapper {
     * @data 2021/4/25 20:40
     *
     */
-    int updateBlog(Blog blog);
+    int updateBlog(BlogDTO blogDTO);
 
     /**
     * @Description: 更新博客推荐状态
@@ -155,7 +155,6 @@ public interface BlogMapper {
     *
     */
     List<Blog> getBlogListByTitleAndCategoryId(String title, Integer categoryId);
-
 
     /**
     * @Description: 按关键字根据文章内容搜索公开且无密码保护的博客文章
@@ -255,6 +254,8 @@ public interface BlogMapper {
     *
     */
     List<BlogViewDTO> getBlogViewsList();
+
+    String getTitleByBlogId(Long id);
 
     /**
     * @Description: 更新博客阅读次数

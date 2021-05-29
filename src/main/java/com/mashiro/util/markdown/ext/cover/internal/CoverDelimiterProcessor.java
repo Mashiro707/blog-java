@@ -1,10 +1,11 @@
 package com.mashiro.util.markdown.ext.cover.internal;
 
+import com.mashiro.util.markdown.ext.cover.Cover;
 import org.commonmark.node.Node;
 import org.commonmark.node.Text;
 import org.commonmark.parser.delimiter.DelimiterProcessor;
 import org.commonmark.parser.delimiter.DelimiterRun;
-import top.naccl.util.markdown.ext.cover.Cover;
+
 
 /**
  * @Description: 定界
