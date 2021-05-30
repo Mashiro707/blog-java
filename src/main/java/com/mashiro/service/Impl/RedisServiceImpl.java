@@ -14,14 +14,18 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Description:
+ * @Description: 读写Redis相关操作
  * @Author: BeforeOne
  * @Date: Created in 2021/5/27 16:56
  */
 @Service
 public class RedisServiceImpl implements RedisService {
-    @Autowired
-    RedisTemplate jsonRedisTemplate;
+
+    private final RedisTemplate jsonRedisTemplate;
+
+    public RedisServiceImpl(RedisTemplate jsonRedisTemplate) {
+        this.jsonRedisTemplate = jsonRedisTemplate;
+    }
 
     @Override
     public PageResultVO<BlogInfoVO> getBlogInfoPageResultByHash(String hash, Integer pageNum) {

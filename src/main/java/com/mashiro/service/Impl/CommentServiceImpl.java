@@ -14,14 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description: 博客评论业务层实现
  * @Author: Mashiro
  * @Date: Created in 2021/5/28 22:51
  */
 @Service
 public class CommentServiceImpl implements CommentService {
-    @Autowired
-    private CommentMapper commentMapper;
+
+    private final CommentMapper commentMapper;
+
+    public CommentServiceImpl(CommentMapper commentMapper) {
+        this.commentMapper = commentMapper;
+    }
 
     @Transactional
     @Override

@@ -39,12 +39,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        System.out.println("configure");
         auth.userDetailsService(userServiceImpl);
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("configure...");
         http
                 //禁用 csrf 防御
                 .csrf().disable()

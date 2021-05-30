@@ -17,28 +17,32 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description:
+ * @Description: 仪表盘业务层实现
  * @Author: BeforeOne
  * @Date: Created in 2021/5/27 20:04
  */
 @Service
 public class DashboardServiceImpl implements DashboardService {
-    @Autowired
-    private BlogMapper blogMapper;
-    @Autowired
-    private CommentMapper commentMapper;
-    @Autowired
-    private VisitLogMapper visitLogMapper;
-    @Autowired
-    private CategoryMapper categoryMapper;
-    @Autowired
-    private TagMapper tagMapper;
-    @Autowired
-    private VisitRecordMapper visitRecordMapper;
-    @Autowired
-    private CityVisitorMapper cityVisitorMapper;
+
+    private final BlogMapper blogMapper;
+    private final CommentMapper commentMapper;
+    private final VisitLogMapper visitLogMapper;
+    private final CategoryMapper categoryMapper;
+    private final TagMapper tagMapper;
+    private final VisitRecordMapper visitRecordMapper;
+    private final CityVisitorMapper cityVisitorMapper;
 
     private static final Integer visitRecordLimit = 30;
+
+    public DashboardServiceImpl(BlogMapper blogMapper, CommentMapper commentMapper, VisitLogMapper visitLogMapper, CategoryMapper categoryMapper, TagMapper tagMapper, VisitRecordMapper visitRecordMapper, CityVisitorMapper cityVisitorMapper) {
+        this.blogMapper = blogMapper;
+        this.commentMapper = commentMapper;
+        this.visitLogMapper = visitLogMapper;
+        this.categoryMapper = categoryMapper;
+        this.tagMapper = tagMapper;
+        this.visitRecordMapper = visitRecordMapper;
+        this.cityVisitorMapper = cityVisitorMapper;
+    }
 
 
     @Override

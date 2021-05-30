@@ -14,19 +14,22 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description:
+ * @Description: 登录日志业务层实现
  * @Author: BeforeOne
  * @Date: Created in 2021/5/27 8:54
  */
 @Service
 public class LoginLogServiceImpl implements LoginLogService {
 
-    @Autowired
-    private LoginLogMapper loginLogMapper;
-    @Autowired
-    private IpAddressUtils ipAddressUtils;
-    @Autowired
-    private UserAgentUtils userAgentUtils;
+    private final LoginLogMapper loginLogMapper;
+    private final IpAddressUtils ipAddressUtils;
+    private final UserAgentUtils userAgentUtils;
+
+    public LoginLogServiceImpl(LoginLogMapper loginLogMapper, IpAddressUtils ipAddressUtils, UserAgentUtils userAgentUtils) {
+        this.loginLogMapper = loginLogMapper;
+        this.ipAddressUtils = ipAddressUtils;
+        this.userAgentUtils = userAgentUtils;
+    }
 
     @Override
     public List<LoginLog> getLoginLogByDate(String startDate, String endDate) {

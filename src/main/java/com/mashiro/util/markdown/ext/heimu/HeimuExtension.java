@@ -1,5 +1,5 @@
-/*
 package com.mashiro.util.markdown.ext.heimu;
+
 
 import com.mashiro.util.markdown.ext.heimu.internal.HeimuDelimiterProcessor;
 import com.mashiro.util.markdown.ext.heimu.internal.HeimuHtmlNodeRenderer;
@@ -14,12 +14,6 @@ import org.commonmark.renderer.text.TextContentNodeRendererContext;
 import org.commonmark.renderer.text.TextContentNodeRendererFactory;
 import org.commonmark.renderer.text.TextContentRenderer;
 
-*/
-/**
- * @Description: 自定义黑幕拓展
- * @Author: Naccl
- * @Date: 2020-05-13
- *//*
 
 public class HeimuExtension implements Parser.ParserExtension, HtmlRenderer.HtmlRendererExtension, TextContentRenderer.TextContentRendererExtension {
 	private HeimuExtension() {
@@ -54,4 +48,3 @@ public class HeimuExtension implements Parser.ParserExtension, HtmlRenderer.Html
 		});
 	}
 }
-*/

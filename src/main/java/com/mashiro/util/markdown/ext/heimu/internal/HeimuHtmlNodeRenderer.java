@@ -9,8 +9,7 @@ import java.util.Map;
 
 /**
  * @Description: HTML节点渲染
- * @Author: Naccl
- * @Date: 2020-05-13
+ * @Author: Mashiro
  */
 public class HeimuHtmlNodeRenderer extends AbstractHeimuNodeRenderer {
 	private final HtmlNodeRendererContext context;

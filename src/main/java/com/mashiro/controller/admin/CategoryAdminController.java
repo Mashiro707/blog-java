@@ -19,10 +19,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/admin")
 public class CategoryAdminController {
-    @Autowired
-    private BlogService blogService;
-    @Autowired
-    private CategoryService categoryService;
+
+    private final BlogService blogService;
+    private final CategoryService categoryService;
+
+    public CategoryAdminController(BlogService blogService, CategoryService categoryService) {
+        this.blogService = blogService;
+        this.categoryService = categoryService;
+    }
 
     /**
     * 添加分类

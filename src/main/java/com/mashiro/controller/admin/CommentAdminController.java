@@ -22,10 +22,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 public class CommentAdminController {
-    @Autowired
-    private CommentService commentService;
-    @Autowired
-    private BlogService blogService;
+
+    private final CommentService commentService;
+    private final BlogService blogService;
+
+    public CommentAdminController(CommentService commentService, BlogService blogService) {
+        this.commentService = commentService;
+        this.blogService = blogService;
+    }
 
     /**
     * 删除评论

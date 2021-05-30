@@ -1,5 +1,9 @@
 package com.mashiro.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
 /**
@@ -7,6 +11,9 @@ import java.util.Date;
  * @Author: BeforeOne
  * @Date: Created in 2021/5/27 21:17
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class VisitLogUuidTimeDTO {
     private String uuid;
     private Date time;

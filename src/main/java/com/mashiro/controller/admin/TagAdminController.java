@@ -19,10 +19,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/admin")
 public class TagAdminController {
-    @Autowired
-    private TagService tagService;
-    @Autowired
-    private BlogService blogService;
+
+    private final TagService tagService;
+    private final BlogService blogService;
+
+    public TagAdminController(TagService tagService, BlogService blogService) {
+        this.tagService = tagService;
+        this.blogService = blogService;
+    }
 
     /**
     * 添加标签

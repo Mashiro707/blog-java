@@ -17,7 +17,7 @@
     </resultMap>
 
     <select id="getLoginLogByDate" resultMap="log">
-        select id, username, ip, ip_source, os, browser, status, description
+        select id, username, ip, ip_source, os, browser, status, description, create_time
         from tb_login_log
         <where>
             <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">

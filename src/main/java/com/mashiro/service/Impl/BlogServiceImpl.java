@@ -12,10 +12,12 @@ import com.mashiro.mapper.BlogMapper;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.RedisService;
 import com.mashiro.service.TagService;
+import com.mashiro.task.RedisSyncScheduleTask;
 import com.mashiro.util.JacksonUtils;
 import com.mashiro.util.MarkdownUtils;
 import com.mashiro.vo.*;
 import org.apache.ibatis.exceptions.PersistenceException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,16 +28,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Description:
+ * @Description: 博客文章业务层实现
  * @Author: Mashiro
  * @Date: Created in 2021/5/28 16:54
  */
 @Service
 public class BlogServiceImpl implements BlogService {
-
+    //必须注入，不然会报错No bean named 'RedisSyncScheduleTask' available
+    @Autowired
+    private RedisSyncScheduleTask redisSyncScheduleTask;
     private final BlogMapper blogMapper;
     private final TagService tagService;
     private final RedisService redisService;
+    //The dependencies of some of the beans in the application context form a cycle:
+    //private final RedisSyncScheduleTask redisSyncScheduleTask;
     //随机博客显示5条
     private static final int randomBlogLimitNum = 5;
     //最新推荐博客显示3条

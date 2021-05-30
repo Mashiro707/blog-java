@@ -1,5 +1,6 @@
 package com.mashiro.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,8 @@ import lombok.NoArgsConstructor;
  * @Date: Created in 2021/5/27 20:49
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SiteSetting {
     private Long id;
     private String nameEn;

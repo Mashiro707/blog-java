@@ -22,12 +22,15 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryMapper categoryMapper;
-    @Autowired
-    private TagService tagService;
-    @Autowired
-    private RedisService redisService;
+    private final CategoryMapper categoryMapper;
+    private final TagService tagService;
+    private final RedisService redisService;
+
+    public CategoryServiceImpl(CategoryMapper categoryMapper, TagService tagService, RedisService redisService) {
+        this.categoryMapper = categoryMapper;
+        this.tagService = tagService;
+        this.redisService = redisService;
+    }
 
     @Transactional
     @Override

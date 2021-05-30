@@ -1,6 +1,7 @@
-/*
 package com.mashiro.util.markdown;
 
+import com.mashiro.util.markdown.ext.cover.CoverExtension;
+import com.mashiro.util.markdown.ext.heimu.HeimuExtension;
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
 import org.commonmark.ext.gfm.tables.TableBlock;
@@ -14,23 +15,10 @@ import org.commonmark.renderer.html.AttributeProvider;
 import org.commonmark.renderer.html.AttributeProviderContext;
 import org.commonmark.renderer.html.AttributeProviderFactory;
 import org.commonmark.renderer.html.HtmlRenderer;
-import top.naccl.util.markdown.ext.cover.CoverExtension;
-import top.naccl.util.markdown.ext.heimu.HeimuExtension;
-
 import java.util.*;
 
-*/
-/**
- * @Description: Markdown转换
- * @Author: Naccl
- * @Date: 2020-04-29
- *//*
 
 public class MarkdownUtils {
-	*/
-/**
-	 * markdown格式转换成HTML格式
-	 *//*
 
 	public static String markdownToHtml(String markdown) {
 		Parser parser = Parser.builder().build();
@@ -38,11 +26,6 @@ public class MarkdownUtils {
 		HtmlRenderer renderer = HtmlRenderer.builder().build();
 		return renderer.render(document);
 	}
-
-	*/
-/**
-	 * 增加扩展
-	 *//*
 
 	public static String markdownToHtmlExtensions(String markdown) {
 		//为h标签生成id 供tocbot目录生成
@@ -82,10 +65,6 @@ public class MarkdownUtils {
 		return renderer.render(document);
 	}
 
-	*/
-/**
-	 * 处理标签的属性
-	 *//*
 
 	static class CustomAttributeProvider implements AttributeProvider {
 		@Override
@@ -106,4 +85,3 @@ public class MarkdownUtils {
 		System.out.println(markdownToHtmlExtensions(""));
 	}
 }
-*/

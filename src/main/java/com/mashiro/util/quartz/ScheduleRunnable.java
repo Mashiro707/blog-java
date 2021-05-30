@@ -1,19 +1,18 @@
-/*
 package com.mashiro.util.quartz;
 
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
-import top.naccl.util.common.SpringContextUtils;
+
 
 import java.lang.reflect.Method;
 
-*/
-/**
- * @Description: 执行定时任务
- * @Author: Naccl
- * @Date: 2020-11-01
- *//*
 
+import com.mashiro.util.common.SpringContextUtils;
+/**
+* 执行定时任务
+* @author Mashiro
+* @date 2021/5/30 20:36
+*/
 public class ScheduleRunnable implements Runnable {
 	private Object target;
 	private Method method;
@@ -43,4 +42,3 @@ public class ScheduleRunnable implements Runnable {
 		}
 	}
 }
-*/

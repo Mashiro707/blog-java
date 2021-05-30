@@ -1,18 +1,11 @@
-/*
+
 package com.mashiro.util.markdown.ext.heimu.internal;
 
 import org.commonmark.node.Node;
 import org.commonmark.node.Text;
 import org.commonmark.parser.delimiter.DelimiterProcessor;
 import org.commonmark.parser.delimiter.DelimiterRun;
-import top.naccl.util.markdown.ext.heimu.Heimu;
-
-*/
-/**
- * @Description: 定界
- * @Author: Naccl
- * @Date: 2020-05-13
- *//*
+import com.mashiro.util.markdown.ext.heimu.Heimu;
 
 public class HeimuDelimiterProcessor implements DelimiterProcessor {
     @Override
@@ -55,4 +48,4 @@ public class HeimuDelimiterProcessor implements DelimiterProcessor {
         opener.insertAfter(heimu);
     }
 }
-*/
+

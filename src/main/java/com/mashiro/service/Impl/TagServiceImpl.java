@@ -24,10 +24,13 @@ import java.util.List;
 @Service
 public class TagServiceImpl implements TagService {
 
-    @Autowired
-    private TagMapper tagMapper;
-    @Autowired
-    private RedisService redisService;
+    private final TagMapper tagMapper;
+    private final RedisService redisService;
+
+    public TagServiceImpl(TagMapper tagMapper, RedisService redisService) {
+        this.tagMapper = tagMapper;
+        this.redisService = redisService;
+    }
 
     @Transactional
     @Override

@@ -23,10 +23,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin")
 public class DashboardAdminController {
-    @Autowired
-    private DashboardService dashboardService;
-    @Autowired
-    private RedisUtils redisUtils;
+
+    private final DashboardService dashboardService;
+    private final RedisService redisService;
+
+    public DashboardAdminController(DashboardService dashboardService, RedisService redisService) {
+        this.dashboardService = dashboardService;
+        this.redisService = redisService;
+    }
 
     /**
     * 仪表盘显示数据
@@ -40,11 +44,10 @@ public class DashboardAdminController {
     */
     @GetMapping("/dashboard")
     public Result dashboard(){
-        System.out.println("进入了Controller 仪表盘");
         //今日点击量
         int todayPV = dashboardService.countVisitLogByToday();
         //今日用户访问量
-        int todayUV = redisUtils.countBySet(RedisKey.IDENTIFICATION_SET);
+        int todayUV = redisService.countBySet(RedisKey.IDENTIFICATION_SET);
         //博客总数量
         int blogCount = dashboardService.getBlogCount();
         //评论总数量
@@ -65,7 +68,7 @@ public class DashboardAdminController {
         map.put("commentCount",commentCount);
         map.put("category",categoryBlogCountMap);
         map.put("tag",tagBlogCountMap);
-        map.put("visitorRecord",visitorRecordMap);
+        map.put("visitRecord",visitorRecordMap);
         map.put("cityVisitor",cityVisitorList);
 
         return Result.success(map);

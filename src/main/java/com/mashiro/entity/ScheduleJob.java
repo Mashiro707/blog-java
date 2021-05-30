@@ -25,4 +25,5 @@ public class ScheduleJob {
     private Boolean status;//任务状态
     private String remark;//备注
     private Date createTime;//创建时间
+
 }

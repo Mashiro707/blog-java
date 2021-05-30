@@ -29,14 +29,18 @@ import java.util.*;
 @RestController
 @RequestMapping("/admin")
 public class BlogAdminController {
-    @Autowired
-    private BlogService blogService;
-    @Autowired
-    private CategoryService categoryService;
-    @Autowired
-    private TagService tagService;
-    @Autowired
-    private CommentService commentService;
+
+    private final BlogService blogService;
+    private final CategoryService categoryService;
+    private final TagService tagService;
+    private final CommentService commentService;
+
+    public BlogAdminController(BlogService blogService, CategoryService categoryService, TagService tagService, CommentService commentService) {
+        this.blogService = blogService;
+        this.categoryService = categoryService;
+        this.tagService = tagService;
+        this.commentService = commentService;
+    }
 
     /**
     * 保存草稿或者新增博客

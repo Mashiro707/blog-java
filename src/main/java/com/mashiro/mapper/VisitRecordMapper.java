@@ -14,6 +14,9 @@ import java.util.List;
 @Mapper
 @Repository
 public interface VisitRecordMapper {
+
+    int saveVisitRecord(VisitRecord visitRecord);
+
     /**
     * 按天数查询访问记录
     * @param limit
@@ -23,4 +26,6 @@ public interface VisitRecordMapper {
     *
     */
     List<VisitRecord> getVisitRecordListByLimit(Integer limit);
+
+
 }

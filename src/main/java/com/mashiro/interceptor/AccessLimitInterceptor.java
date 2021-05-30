@@ -22,10 +22,13 @@ import java.io.PrintWriter;
  */
 @Component
 public class AccessLimitInterceptor extends HandlerInterceptorAdapter {
-    @Autowired
-    private RedisService redisService;
-    @Autowired
-    private RedisUtils redisUtils;
+
+    private final RedisService redisService;
+
+    public AccessLimitInterceptor(RedisService redisService) {
+        this.redisService = redisService;
+    }
+
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
