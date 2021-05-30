@@ -42,7 +42,7 @@ public interface CategoryService {
      * @data 2021/4/25 8:20
      *
      */
-    Category getTypeByName(String name);
+    Category getCategoryByName(String name);
 
     /**
      * @Description: 获取所有分类，生成List

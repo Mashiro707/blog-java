@@ -5,8 +5,8 @@ import com.mashiro.exception.NotFoundException;
 import com.mashiro.mapper.CategoryMapper;
 import com.mashiro.entity.Category;
 import com.mashiro.service.CategoryService;
+import com.mashiro.service.RedisService;
 import com.mashiro.service.TagService;
-import com.mashiro.util.RedisUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private TagService tagService;
     @Autowired
-    private RedisUtils redisUtils;
+    private RedisService redisService;
 
     @Transactional
     @Override
@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryMapper.saveCategory(category) != 1){
             throw new PersistenceException("新增分类失败");
         }
-        redisUtils.deleteCacheByKey(RedisKey.CATEGORY_NAME_LIST);
+        redisService.deleteCacheByKey(RedisKey.CATEGORY_NAME_LIST);
         return 1;
     }
 
@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getTypeByName(String name) {
+    public Category getCategoryByName(String name) {
         return categoryMapper.getTypeByName(name);
     }
 
@@ -62,12 +62,12 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getCategoryNameList() {
         //先从redis缓存中获取，获取不到再去数据库中查询
         String redisKey = RedisKey.CATEGORY_NAME_LIST;
-        List<Category> categoryListFromRedis = redisUtils.getListByValue(redisKey);
+        List<Category> categoryListFromRedis = redisService.getListByValue(redisKey);
         if (categoryListFromRedis != null){
             return categoryListFromRedis;
         }
         List<Category> categoryList = categoryMapper.getCategoryNameList();
-        redisUtils.saveListToValue(redisKey, categoryList);
+        redisService.saveListToValue(redisKey, categoryList);
         return categoryList;
     }
 
@@ -76,7 +76,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryMapper.updateCategory(category) != 1){
             throw new PersistenceException("更新失败");
         }
-        redisUtils.deleteCacheByKey(RedisKey.CATEGORY_NAME_LIST);
+        redisService.deleteCacheByKey(RedisKey.CATEGORY_NAME_LIST);
         return 1;
     }
 
@@ -85,7 +85,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryMapper.deleteCategoryById(id) != 1){
             throw new PersistenceException("删除失败");
         }
-        redisUtils.deleteByHashKey(RedisKey.CATEGORY_NAME_LIST);
+        redisService.deleteCacheByKey(RedisKey.CATEGORY_NAME_LIST);
         return 1;
     }
 }

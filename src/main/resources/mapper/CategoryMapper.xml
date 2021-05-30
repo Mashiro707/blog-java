@@ -15,7 +15,7 @@
 
     <!--根据id获取分类-->
     <select id="getCategoryById" resultMap="category">
-        select id,categoy_name from tb_categoy where id = #{id}
+        select id,category_name from tb_category where id = #{id}
     </select>
 
     <!--根据名称来查询-->

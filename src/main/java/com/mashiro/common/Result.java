@@ -40,7 +40,10 @@ public class Result {
         return new Result(ResultInfo.SUCCESS.getCode(),
                             ResultInfo.SUCCESS.getMessage());
     }
-
+    public static Result success(String message){
+        return new Result(ResultInfo.SUCCESS.getCode(),
+                            message);
+    }
     public static Result success(Object data){
         return new Result(ResultInfo.SUCCESS.getCode(),
                             ResultInfo.SUCCESS.getMessage(),
@@ -49,6 +52,10 @@ public class Result {
     public static Result error(){
         return new Result(ResultInfo.ERROR.getCode(),
                             ResultInfo.ERROR.getMessage());
+    }
+    public static Result error(String message){
+        return new Result(ResultInfo.ERROR.getCode(),
+                message);
     }
     public static Result error(Object data){
         return new Result(ResultInfo.ERROR.getCode(),

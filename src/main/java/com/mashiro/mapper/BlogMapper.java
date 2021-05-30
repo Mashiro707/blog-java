@@ -66,7 +66,7 @@ public interface BlogMapper {
 
     /**
     * @Description: 编辑博客
-    * @param blog
+    * @param blogDTO
     * @return {@link int}
     * @throws
     * @author BeforeOne

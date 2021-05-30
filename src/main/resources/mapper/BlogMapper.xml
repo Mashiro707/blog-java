@@ -103,7 +103,7 @@
 
     <!--新增博客-->
     <insert id="saveBlog" parameterType="com.mashiro.dto.BlogDTO" useGeneratedKeys="true" keyProperty="id">
-        insert into b_blog(title, first_picture, content, description, is_published, is_recommend, is_appreciation, is_comment_enabled,
+        insert into tb_blog(title, first_picture, content, description, is_published, is_recommend, is_appreciation, is_comment_enabled,
                            is_top, create_time, update_time, views, category_id, user_id)
         values (#{title}, #{firstPicture}, #{content}, #{description}, #{published}, #{recommend}, #{appreciation}, #{commentEnabled},
                 #{top}, #{createTime}, #{updateTime}, #{views}, #{category.id}, #{user.id})
@@ -130,6 +130,7 @@
                            is_recommend=#{recommend}, is_published=#{published}, is_appreciation=#{appreciation}, is_comment_enabled=#{commentEnabled},
                            is_top=#{top}, create_time=#{createTime}, update_time=#{updateTime}, views=#{views},
                            category_id=#{category.id}, user_id=#{user.id}
+        where id=#{id}
     </update>
 
     <!--更新博客推荐状态-->
@@ -156,7 +157,7 @@
                c.id as category_id, c.category_name,
                bt.tag_id as tag_id, t.tag_name as tag_name
         from (((tb_blog as b left join tb_category as c on b.category_id=c.id)
-            left join tb_blog_tag as bt on b.id=bt.blog_id)
+            left join tb_blog_tags as bt on b.id=bt.blog_id)
             left join tb_tag as t on bt.tag_id=t.id)
         where b.id=#{id}
     </select>
@@ -188,7 +189,7 @@
     <select id="getBlogInfoListByTagNameAndIsPublished" resultMap="blogInfo">
         select b.id, b.title, b.description, b.is_top, b.create_time, b.views, c.category_name
         from ((
-            (tb_tag as t left join tb_blog_tag as bt on t.id=bt.tag_id) left join tb_blog as b on bt.blog_id=b.id)
+            (tb_tag as t left join tb_blog_tags as bt on t.id=bt.tag_id) left join tb_blog as b on bt.blog_id=b.id)
             left join tb_category as c on b.category_id=c.id)
         where t.tag_name=#{tagName} and b.is_published = true
     </select>
@@ -227,7 +228,7 @@
                b.create_time, b.update_time, b.views, b.read_time,
                c.category_name,
                t.tag_name as tag_name
-        from (((tb_blog as b left join tb_category as c on b.category_id=c.id) left join tb_blog_tag as bt on b.id=bt.blog_id) left join tb_tag as t on bt.tag_id=t.id)
+        from (((tb_blog as b left join tb_category as c on b.category_id=c.id) left join tb_blog_tags as bt on b.id=bt.blog_id) left join tb_tag as t on bt.tag_id=t.id)
         where b.id=#{id} and b.is_published=true
     </select>
 
@@ -292,7 +293,7 @@
 
     <!--按标签id查询博客数量-->
     <select id="countBlogByTagId" resultType="java.lang.Integer">
-        select count(*) from tb_blog_tag where tag_id=#{tagId}
+        select count(*) from tb_blog_tags where tag_id=#{tagId}
     </select>
 
     <!--查询博客是否启用评论-->

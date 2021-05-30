@@ -7,8 +7,6 @@ import com.mashiro.mapper.TagMapper;
 import com.mashiro.entity.Tag;
 import com.mashiro.service.RedisService;
 import com.mashiro.service.TagService;
-import com.mashiro.util.RedisUtils;
-import com.mashiro.vo.TagBlogCountVO;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,7 @@ public class TagServiceImpl implements TagService {
     @Autowired
     private TagMapper tagMapper;
     @Autowired
-    private RedisUtils redisUtils;
+    private RedisService redisService;
 
     @Transactional
     @Override
@@ -37,7 +35,7 @@ public class TagServiceImpl implements TagService {
         if (tagMapper.saveTag(tag) != 1){
             throw new PersistenceException("新增标签失败");
         }
-        redisUtils.deleteCacheByKey(RedisKey.TAG_CLOUD_LIST);
+        redisService.deleteCacheByKey(RedisKey.TAG_CLOUD_LIST);
         return 1;
     }
 
@@ -71,7 +69,7 @@ public class TagServiceImpl implements TagService {
         if (tagMapper.updateTag(tag) != 1) {
             throw new PersistenceException("标签更新失败");
         }
-        redisUtils.deleteCacheByKey(RedisKey.TAG_CLOUD_LIST);
+        redisService.deleteCacheByKey(RedisKey.TAG_CLOUD_LIST);
         return 1;
     }
 
@@ -81,19 +79,19 @@ public class TagServiceImpl implements TagService {
         if (tagMapper.deleteTagById(id) != 1) {
             throw new PersistenceException("标签删除失败");
         }
-        redisUtils.deleteCacheByKey(RedisKey.TAG_CLOUD_LIST);
+        redisService.deleteCacheByKey(RedisKey.TAG_CLOUD_LIST);
         return 1;
     }
 
     @Override
     public List<Tag> getTagListNotId() {
         String redisKey = RedisKey.TAG_CLOUD_LIST;
-        List<Tag> tagListFromRedis = redisUtils.getListByValue(redisKey);
+        List<Tag> tagListFromRedis = redisService.getListByValue(redisKey);
         if (tagListFromRedis != null){
             return tagListFromRedis;
         }
         List<Tag> tagList = tagMapper.getTagListNotId();
-        redisUtils.saveListToValue(redisKey, tagList);
+        redisService.saveListToValue(redisKey, tagList);
         return tagList;
     }
 
