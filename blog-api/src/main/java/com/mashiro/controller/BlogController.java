@@ -3,10 +3,13 @@ package com.mashiro.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mashiro.common.Result;
+import com.mashiro.entity.Blog;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.CategoryService;
 import com.mashiro.service.TagService;
+import com.mashiro.vo.BlogDetailVO;
 import com.mashiro.vo.BlogInfoVO;
+import com.mashiro.vo.NewBlogVO;
 import com.mashiro.vo.PageResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -65,4 +69,18 @@ public class BlogController {
         return Result.success(map);
     }
 
+    @GetMapping("/blogDetail")
+    public Result getBlogDetail(@RequestParam Long id){
+        BlogDetailVO blog = blogService.getBlogByIdAndIsPublished(id);
+        blogService.updateViewsToRedis(id);
+        return Result.success(blog);
+    }
+
+    @GetMapping("/articlesnewest")
+    public Result getBlogNewest(){
+        List<NewBlogVO> blogList = blogService.getNewBlogListByIsPublished();
+        Map<String, Object> map = new HashMap<>();
+        map.put("blogList", blogList);
+        return Result.success(map);
+    }
 }

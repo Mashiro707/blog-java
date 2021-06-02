@@ -7,15 +7,15 @@ spring:
     active: dev
 
   mail:
-    #smtp服务主机
+    #smtp\u670D\u52A1\u4E3B\u673A
     host: smtp.qq.com
-    #服务协议
+    #\u670D\u52A1\u534F\u8BAE
     protocol: smtp
-    # 编码集
+    # \u7F16\u7801\u96C6
     default-encoding: UTF-8
-    #发送邮件的账户
+    #\u53D1\u9001\u90AE\u4EF6\u7684\u8D26\u6237
     username: 11799220@qq.com
-    #授权码
+    #\u6388\u6743\u7801
     password: sjgoerretdrlbhcf
     test-connection: true
     properties:

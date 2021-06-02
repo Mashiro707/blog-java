@@ -6,6 +6,7 @@ import com.mashiro.entity.User;
 import com.mashiro.service.UserService;
 import com.mashiro.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,4 +46,5 @@ public class LoginController {
         map.put("token", jwt);
         return Result.success(map);
     }
+
 }

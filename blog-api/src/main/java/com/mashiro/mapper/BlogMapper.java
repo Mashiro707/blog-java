@@ -201,7 +201,7 @@ public interface BlogMapper {
     List<BlogInfoVO> getBlogInfoListByIsPublished();
 
     /**
-    * @Description: <!--按id查询公开博客-->
+    * @Description: 按id查询公开博客
     * @param id
     * @return {@link BlogDetailVO}
     * @throws
@@ -223,7 +223,7 @@ public interface BlogMapper {
     List<String> getGroupYearMonthByIsPublished();
 
     /**
-    * @Description: 按年份查询博
+    * @Description: 按年份查询博客
     * @param yearMonth
     * @return {@link List< Blog>}
     * @throws 

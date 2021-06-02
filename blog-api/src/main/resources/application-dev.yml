@@ -1,3 +1,11 @@
+# 部署上线需要修改为服务器ip，cms对应后台管理端口，website对应前台端口，如有域名则改为例如(https://admin.naccl.top、https://naccl.top)
+custom:
+  mail:
+    blog:
+      name: Mashiro's Blog
+    url:
+      cms: http://localhost:8080
+      website: http://localhost:8081
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -48,8 +56,5 @@ logging:
     path: log/blog-dev
 server:
   port: 8090
-custom:
-  mail:
-    url:
-      cms: http://localhost:8080
+
 

@@ -51,6 +51,8 @@
     <resultMap id="newBlog" type="com.mashiro.vo.NewBlogVO">
         <id property="id" column="id"/>
         <result property="title" column="title"/>
+        <result property="firstPicture" column="first_picture"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <resultMap id="blogInfo" type="com.mashiro.vo.BlogInfoVO">
@@ -82,6 +84,7 @@
     <resultMap id="blogDetail" type="com.mashiro.vo.BlogDetailVO">
         <id property="id" column="id"/>
         <result property="title" column="title"/>
+        <result property="firstPicture" column="first_picture"/>
         <result property="content" column="content"/>
         <result property="appreciation" column="is_appreciation"/>
         <result property="commentEnabled" column="is_comment_enabled"/>
@@ -205,7 +208,7 @@
 
     <!--查询最新公开博客-->
     <select id="getNewBlogListByIsPublished" resultMap="newBlog">
-        select id, title
+        select id, title, first_picture, create_time
         from tb_blog
         where is_published = true
         order by create_time desc
@@ -225,8 +228,8 @@
 
     <!--按id查询公开博客详细信息-->
     <select id="getBlogByIdAndIsPublished" resultMap="blogDetail">
-        select b.id, b.title, b.content, b.is_appreciation, b.is_comment_enabled, b.is_top,
-               b.create_time, b.update_time, b.views, b.read_time,
+        select b.id, b.title,b.first_picture, b.content, b.is_appreciation, b.is_comment_enabled, b.is_top,
+               b.create_time, b.update_time, b.views,
                c.category_name,
                t.tag_name as tag_name
         from (((tb_blog as b left join tb_category as c on b.category_id=c.id) left join tb_blog_tags as bt on b.id=bt.blog_id) left join tb_tag as t on bt.tag_id=t.id)

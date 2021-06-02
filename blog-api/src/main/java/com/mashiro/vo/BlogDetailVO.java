@@ -21,6 +21,7 @@ import java.util.List;
 public class BlogDetailVO {
     private Long id;
     private String title;//文章标题
+    private String firstPicture;//文章首图
     private String content;//文章正文
     private Boolean appreciation;//赞赏开关
     private Boolean commentEnabled;//评论开关

@@ -296,7 +296,7 @@ public class BlogServiceImpl implements BlogService {
         if (blogDetailVO == null){
             throw new NotFoundException("博客不存在");
         }
-        blogDetailVO.setContent(MarkdownUtils.markdownToHtmlExtensions(blogDetailVO.getContent()));
+        //blogDetailVO.setContent(MarkdownUtils.markdownToHtmlExtensions(blogDetailVO.getContent()));
         blogDetailVO.setTags(tagService.getTagListByBlogId(blogDetailVO.getId()));
         int views = (int) redisService.getValueByHashKey(RedisKey.BLOG_VIEWS_MAP, blogDetailVO.getId());
         blogDetailVO.setViews(views);
@@ -333,6 +333,11 @@ public class BlogServiceImpl implements BlogService {
         //存入redis
         redisService.saveMapToValue(redisKey,map);
         return map;
+    }
+
+    @Override
+    public int getViews() {
+        return blogMapper.getViews();
     }
 
     @Override

@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * @Description:
  * @Author: BeforeOne
@@ -14,5 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class NewBlogVO {
     private Long id;
+    private String firstPicture;
     private String title;
+    private Date createTime;
 }

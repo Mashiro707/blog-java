@@ -34,20 +34,22 @@ public class IndexController {
     private CategoryService categoryService;
 
     @GetMapping("/")
-    public Result Index(@RequestParam(defaultValue = "1") Integer pageNum){
+    public Result IndexInfo(){
         //网站信息
         IndexInfoVO indexInfo = blogService.getIndexInfo();
-        //博客列表
-        PageResultVO<BlogInfoVO> blogList = blogService.getBlogInfoListByIsPublished(pageNum);
         Map<String, Object> map = new HashMap<>();
         map.put("indexInfo", indexInfo);
-        map.put("blogList", blogList);
         return Result.success(map);
-
     }
 
-
-
+    @GetMapping("/indexBlogList")
+    public Result Index(@RequestParam(defaultValue = "1") Integer pageNum){
+        //首页博客列表
+        PageResultVO<BlogInfoVO> blogList = blogService.getBlogInfoListByIsPublished(pageNum);
+        Map<String, Object> map = new HashMap<>();
+        map.put("blogList", blogList);
+        return Result.success(map);
+    }
 
 
 }

@@ -304,7 +304,7 @@ public interface BlogService {
      * @data 2021/5/12 14:47
      *
      */
-    //int getViews();
+    int getViews();
 
     /**
      * @Description: 查询博客总数
@@ -350,6 +350,13 @@ public interface BlogService {
      */
     int countBlogByTagId(Long tagId);
 
+    /**
+    * 在redis中更新博客浏览量
+    * @param blogId
+    * @return
+    * @author Mashiro
+    * @date 2021/6/1 15:53
+    */
     void updateViewsToRedis(Long blogId);
 
     /**

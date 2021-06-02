@@ -1,152 +1,342 @@
-/*
 package com.mashiro.controller;
 
-import com.mashiro.entity.Blog;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.mashiro.common.Result;
+import com.mashiro.dto.CommentDTO;
 import com.mashiro.entity.Comment;
 import com.mashiro.entity.User;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.CommentService;
-import com.mashiro.service.EmailService;
+import com.mashiro.service.Impl.UserServiceImpl;
+import com.mashiro.util.*;
+import com.mashiro.vo.PageCommentVO;
+import com.mashiro.vo.PageResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Map;
 
-*/
 /**
- * @Description: 评论管理控制器
- * @Author: BeforeOne
- * @Date: Created in 2021/4/28 17:03
- *//*
-
-
-@Controller
+ * @Description:
+ * @Author: Mashiro
+ * @Date: Created in 2021/6/1 19:02
+ */
+@RestController
 public class CommentController {
     @Autowired
     private CommentService commentService;
-
     @Autowired
     private BlogService blogService;
-
     @Autowired
-    private EmailService emailService;
+    private UserServiceImpl userServiceImpl;
+    @Autowired
+    MailProperties mailProperties;
+    @Autowired
+    MailUtils mailUtils;
+    private String blogName;
+    private String cmsUrl;
+    private String websiteUrl;
 
-    @Value("${comment.avatar}")
-    private String avatar;
-
-    */
-/**
-    * @Description: 展示评论
-    * @param blogId
-    * @param model
-    * @return {@link String}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/28 17:12
-    *
-    *//*
-
-    @GetMapping("/comments/{blogId}")
-    public String comments(@PathVariable Long blogId, Model model){
-        model.addAttribute("comments", commentService.getCommentByBlogId(blogId));
-        //model.addAttribute("blog", blogService.getDetailedBlog(blogId));
-        return "blog :: commentList";
+    @Value("${custom.mail.blog.name}")
+    public void setBlogName(String blogName) {
+        this.blogName = blogName;
     }
 
-    */
-/**
-    * @Description: 提交评论
-    * @param comment
-    * @param session
-    * @param attributes
-    * @return {@link String}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/28 17:35
-    *
-    *//*
-
-    @PostMapping("/comments")
-    public String postComment(Comment comment, HttpSession session, RedirectAttributes attributes) throws MessagingException {
-        */
-/*后端校验*//*
-
-        if(comment.getContent()=="" || comment.getEmail()=="" || comment.getNickname()=="") {
-            attributes.addFlashAttribute("msg", "请填写完整评论信息");
-            return "redirect:/comments/" + comment.getBlogId();
-        }
-        Long blogId = comment.getBlogId();
-        comment.setBlog(blogService.getDetailedBlog(blogId));  //绑定博客与评论
-        comment.setBlogId(blogId);
-        comment.setAvatar(avatar);
-        User user = (User) session.getAttribute("user");
-        if (user != null) {   //用户为管理员
-            if (comment.getNickname().equals(user.getNickname()) && comment.getEmail().equals(user.getEmail())) {
-                comment.setAdminComment(true);
-                comment.setAvatar(user.getAvatar());
-            }
-        }else{
-            // 判断邮箱是否为qq邮箱
-            if (comment.getEmail().trim().toLowerCase().contains("@qq.com")){
-                String regEx = "[^0-9]";
-                Pattern p = Pattern.compile(regEx);
-                Matcher m = p.matcher(comment.getEmail());
-                comment.setAvatar("http://q1.qlogo.cn/g?b=qq&nk="+m.replaceAll("").trim()+"&s=100");
-            }else {
-                // 如果不是正确的qq邮箱，使用默认头像
-                comment.setAvatar(avatar);
-            }
-        }
-        commentService.saveComment(comment);
-        //判断是否为超级父评论,如果是超级父评论则默认向管理员发送邮件通知
-        if (comment.getParentCommentId() == -1 && comment.getReplyCommentId()==null){
-            emailService.sendTemplateMail(comment);
-         //判断是否 是给超级父评论评论，如果是给超级父评论 评论的话，那么判断超级父评论是否开启邮件通知功能
-        }else if(comment.getReplyCommentId()==null && comment.getParentComment().isReplyEmail()){
-            emailService.sendTemplateMail(comment);
-        }else if(comment.getReplyCommentId()!=null && comment.getReplyComment().isReplyEmail()){
-            emailService.sendTemplateMail(comment);
-        }else if (comment.getReplyComment().isAdminComment()){
-            emailService.sendTemplateMail(comment);
-        }
-            //emailService.sendTemplateMail(comment);
-        return "redirect:/comments/" + blogId;
+    @Value("${custom.mail.url.cms}")
+    public void setCmsUrl(String cmsUrl) {
+        this.cmsUrl = cmsUrl;
     }
 
-    */
-/**
-    * @Description: 删除评论
-    * @param blogId
-    * @param id
-    * @param comment
-    * @param attributes
-    * @param model
-    * @return {@link String}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/28 17:54
-    *
-    *//*
+    @Value("${custom.mail.url.website}")
+    public void setWebsiteUrl(String websiteUrl) {
+        this.websiteUrl = websiteUrl;
+    }
 
-    @GetMapping("/comment/{blogId}/{id}/delete")
-    public String delete(@PathVariable Long blogId, @PathVariable Long id, Comment comment, RedirectAttributes attributes, Model model){
-        commentService.deleteComment(comment);
-        Blog detailedBlog = blogService.getDetailedBlog(blogId);
-        List<Comment> comments = commentService.getCommentByBlogId(blogId);
-        model.addAttribute("blog", detailedBlog);
-        model.addAttribute("comments", comments);
-        return "blog";
+    /**
+    * 获取博客下面的评论列表
+    * @param page
+    * @param blogId
+    * @param pageNum
+    * @param pageSize
+    * @return {@link Result}
+    * @author Mashiro
+    * @date 2021/6/1 19:37
+    */
+    @GetMapping("/comments")
+    public Result comments(@RequestParam Integer page,
+                           @RequestParam(defaultValue = "") Long blogId,
+                           @RequestParam(defaultValue = "1") Integer pageNum,
+                           @RequestParam(defaultValue = "10") Integer pageSize){
+        int i = checkCommentEnabled(page, blogId);
+        if (i == 1){
+            return Result.error("评论已经关闭");
+        }
+        Integer count = commentService.countByPageAndIsPublished(page, blogId);
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<PageCommentVO> pageInfo = new PageInfo<>(commentService.getPageCommentList(page, blogId, (long) -1));
+        PageResultVO<PageCommentVO> pageResult = new PageResultVO<>(pageInfo.getPages(), pageInfo.getList());
+        Map<String, Object> map = new HashMap<>();
+        map.put("count", count);
+        map.put("comments", pageResult);
+        return Result.success(map);
+    }
+    /**
+    * 评论
+    * @param commentDTO
+    * @param request
+    * @param jwt
+    * @return {@link Result}
+    * @author Mashiro
+    * @date 2021/6/1 20:50
+    */
+    @PostMapping("/comment")
+    public Result postComment(@RequestBody CommentDTO commentDTO,
+                              HttpServletRequest request,
+                              @RequestHeader(value = "Authorization", defaultValue = "") String jwt){
+        //评论内容合法性校验
+        if (StringUtils.isEmpty(commentDTO.getContent()) || commentDTO.getContent().length() > 250 ||
+                commentDTO.getPage() == null || commentDTO.getParentCommentId() == null) {
+            return Result.error("参数有误");
+        }
+        //是否访客的评论
+        boolean isVisitorComment = false;
+        //父评论
+        Comment parentComment = null;
+        //对于有指定父评论的评论，应该以父评论为准，只判断页面可能会被绕过“评论开启状态检测”
+        if (commentDTO.getParentCommentId() != -1){
+            //当前评论为子评论
+            parentComment = commentService.getCommentById(commentDTO.getParentCommentId());
+            //所属页面
+            Integer page = parentComment.getPage();
+            //所属文章id
+            Long blogId = page == 0 ? parentComment.getBlog().getId() : null;
+            commentDTO.setPage(page);
+            commentDTO.setBlogId(blogId);
+        }else {
+            //当前评论为顶级评论
+            if (commentDTO.getPage() != 0) {
+                commentDTO.setBlogId(null);
+            }
+        }
+        //判断是否可评论
+        int checkResult = checkCommentEnabled(commentDTO.getPage(), commentDTO.getBlogId());
+        if (checkResult == 1){
+            return Result.error("评论已经关闭");
+        }
+        //博主评论
+        //验证Token合法性
+        if (JwtUtils.judgeTokenIsExist(jwt)){
+            String subject;
+            try {
+                subject = JwtUtils.getTokenBody(jwt).getSubject();;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Result.create(403, "Token已失效，请重新验证密码！");
+            }
+            if (subject.startsWith("admin:")){
+                //Token验证通过，获取Token中用户名
+                String username = subject.replace("admin:", "");
+                User admin = (User) userServiceImpl.loadUserByUsername(username);
+                if (admin == null) {
+                    return Result.create(403, "博主身份Token已失效，请重新登录！");
+                }
+                setAdminComment(commentDTO, request, admin);
+                isVisitorComment = false;
+            }
+        }else {//如果没有token，则为游客评论
+                //评论内容合法性校验
+            if (StringUtils.isEmpty(commentDTO.getContent()) || commentDTO.getContent().length() > 250 ||
+                    commentDTO.getPage() == null || commentDTO.getParentCommentId() == null) {
+                return Result.error("参数有误");
+            }
+            setVisitorComment(commentDTO, request);
+            isVisitorComment = true;
+        }
+        commentService.saveComment(commentDTO);
+        checkSendMail(commentDTO, isVisitorComment, parentComment);
+        return Result.success("评论成功");
+    }
+
+    /**
+     * 查询对应页面评论是否开启
+     *
+     * @param page   页面分类（0普通文章，1关于我，2友链）
+     * @param blogId 如果page==0，需要博客id参数，校验文章是否公开状态
+     * @return 0:公开可查询状态 1:评论关闭 2:该博客不存在 3:文章受密码保护
+     */
+    private int checkCommentEnabled(Integer page, Long blogId) {
+        if (page == 0) {//普通博客
+            Boolean commentEnabled = blogService.getCommentEnabledByBlogId(blogId);
+            Boolean published = blogService.getPublishedByBlogId(blogId);
+            if (commentEnabled == null || published == null) {//未查询到此博客
+                return 2;
+            } else if (!published) {//博客未公开
+                return 2;
+            } else if (!commentEnabled) {//博客评论已关闭
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 设置博主评论属性
+     *
+     * @param commentDTO 评论DTO
+     * @param request 获取ip
+     * @param admin   博主信息
+     */
+    private void setAdminComment(CommentDTO commentDTO, HttpServletRequest request, User admin) {
+        commentDTO.setAdminComment(true);
+        commentDTO.setCreateTime(new Date());
+        commentDTO.setPublished(true);
+        commentDTO.setAvatar(admin.getAvatar());
+        commentDTO.setNickname(admin.getNickname());
+        commentDTO.setEmail(admin.getEmail());
+        commentDTO.setIp(IpAddressUtils.getIpAddress(request));
+        commentDTO.setNotice(false);
+    }
+    /**
+     * 设置访客评论属性
+     *
+     * @param commentDTO 评论DTO
+     * @param request 用于获取ip
+     */
+    private void setVisitorComment(CommentDTO commentDTO, HttpServletRequest request) {
+        //获取评论的昵称
+        String commentNickname = commentDTO.getNickname();
+        try {
+            //判断评论昵称是否为QQ
+            if (QQInfoUtils.isQQNumber(commentNickname)) {
+                commentDTO.setQq(commentNickname);
+                commentDTO.setNickname(QQInfoUtils.getQQNickname(commentNickname));
+                commentDTO.setAvatar(QQInfoUtils.getQQAvatarURL(commentNickname));
+            } else {
+                commentDTO.setNickname(commentDTO.getNickname().trim());
+                setCommentRandomAvatar(commentDTO);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            commentDTO.setNickname(commentDTO.getNickname().trim());
+            setCommentRandomAvatar(commentDTO);
+        }
+        commentDTO.setAdminComment(false);
+        commentDTO.setCreateTime(new Date());
+        commentDTO.setPublished(true);//默认不需要审核
+        commentDTO.setEmail(commentDTO.getEmail().trim());
+        commentDTO.setIp(IpAddressUtils.getIpAddress(request));
+    }
+
+    /**
+     * 对于昵称不是QQ号的评论，根据昵称Hash设置头像
+     *
+     * @param commentDTO 评论DTO
+     */
+    private void setCommentRandomAvatar(CommentDTO commentDTO) {
+        //设置随机头像
+        long nicknameHash = HashUtils.getMurmurHash32(commentDTO.getNickname());//根据评论昵称取Hash，保证每一个昵称对应一个头像
+        long num = nicknameHash % 6 + 1;//计算对应的头像
+        String avatar = "/img/comment-avatar/" + num + ".jpg";
+        commentDTO.setAvatar(avatar);
+    }
+
+    /**
+     * 判断是否发送邮件
+     * 6种情况：
+     * 1.我以父评论提交：不用邮件提醒
+     * 2.我回复我自己：不用邮件提醒
+     * 3.我回复访客的评论：只提醒该访客
+     * 4.访客以父评论提交：只提醒我自己
+     * 5.访客回复我的评论：只提醒我自己
+     * 6.访客回复访客的评论(即使是他自己先前的评论)：提醒我自己和他回复的评论
+     *
+     * @param commentDTO          当前评论
+     * @param isVisitorComment 是否访客评论
+     * @param parentComment    父评论
+     */
+    private void checkSendMail(CommentDTO commentDTO, boolean isVisitorComment, Comment parentComment) {
+        if (parentComment != null && !parentComment.getAdminComment() && parentComment.getNotice()) {
+            //我回复访客的评论，且对方接收提醒，邮件提醒对方(3)
+            //访客回复访客的评论(即使是他自己先前的评论)，且对方接收提醒，邮件提醒对方(6)
+            sendMailToParentComment(parentComment, commentDTO);
+        }
+        if (isVisitorComment) {
+            //访客以父评论提交，只邮件提醒我自己(4)
+            //访客回复我的评论，邮件提醒我自己(5)
+            if (parentComment == null && parentComment.getAdminComment()){
+                sendMailToMe(commentDTO);
+            }
+        }
+    }
+
+    /**
+     * 发送邮件提醒回复对象
+     *
+     * @param parentComment 父评论
+     * @param commentDTO       当前评论
+     */
+    private void sendMailToParentComment(Comment parentComment, CommentDTO commentDTO) {
+        String path = "";
+        String title = "";
+        if (commentDTO.getPage() == 0) {
+            //普通博客
+            title = parentComment.getBlog().getTitle();
+            path = "/blog/" + commentDTO.getBlogId();
+        } else if (commentDTO.getPage() == 1) {
+            //关于我页面
+            title = "关于我";
+            path = "/about";
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("parentNickname", parentComment.getNickname());
+        map.put("nickname", commentDTO.getNickname());
+        map.put("title", title);
+        map.put("time", commentDTO.getCreateTime());
+        map.put("parentContent", parentComment.getContent());
+        map.put("content", commentDTO.getContent());
+        map.put("url", websiteUrl + path);
+        String toAccount = parentComment.getEmail();
+        String subject = "您在 " + blogName + " 的评论有了新回复";
+        mailUtils.sendHtmlTemplateMail(map, toAccount, subject, "guest.html");
+    }
+
+    /**
+     * 发送邮件提醒我自己
+     *
+     * @param commentDTO 当前评论
+     */
+    private void sendMailToMe(CommentDTO commentDTO) {
+        String path = "";
+        String title = "";
+        if (commentDTO.getPage() == 0) {
+            //普通博客
+            title = blogService.getTitleByBlogId(commentDTO.getBlogId());
+            path = "/blog/" + commentDTO.getBlogId();
+        } else if (commentDTO.getPage() == 1) {
+            //关于我页面
+            title = "关于我";
+            path = "/about";
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("title", title);
+        map.put("time", commentDTO.getCreateTime());
+        map.put("nickname", commentDTO.getNickname());
+        map.put("content", commentDTO.getContent());
+        map.put("ip", commentDTO.getIp());
+        map.put("email", commentDTO.getEmail());
+        map.put("status", commentDTO.getPublished() ? "公开" : "待审核");
+        map.put("url", websiteUrl + path);
+        map.put("manageUrl", cmsUrl + "/comments");
+        String toAccount = mailProperties.getUsername();
+        String subject = blogName + " 收到新评论";
+        mailUtils.sendHtmlTemplateMail(map, toAccount, subject, "owner.html");
     }
 
 }
-*/
