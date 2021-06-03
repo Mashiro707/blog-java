@@ -63,8 +63,8 @@ public class CommentController {
     * 获取博客下面的评论列表
     * @param page
     * @param blogId
-    * @param pageNum
-    * @param pageSize
+    * @param pageNum 页码
+    * @param pageSize 每页个数
     * @return {@link Result}
     * @author Mashiro
     * @date 2021/6/1 19:37
@@ -270,7 +270,7 @@ public class CommentController {
         if (isVisitorComment) {
             //访客以父评论提交，只邮件提醒我自己(4)
             //访客回复我的评论，邮件提醒我自己(5)
-            if (parentComment == null && parentComment.getAdminComment()){
+            if (parentComment == null || parentComment.getAdminComment()){
                 sendMailToMe(commentDTO);
             }
         }
