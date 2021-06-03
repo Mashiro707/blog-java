@@ -233,10 +233,10 @@ public class BlogServiceImpl implements BlogService {
             //判断begin是否超出文章，如果超出文章头部边界则默认从文章开头
             begin = Math.max(begin, 0);
             //以begin之后21个字符为末尾
-            int end = begin + 21;
+            int end = begin + 50;
             //判断是否超出文章尾部便捷
             end = Math.min(end, contentLength - 1);
-            searchBlogVO.setContent(content.substring(begin, end));
+            searchBlogVO.setContent(MarkdownUtils.markdownToHtmlExtensions(content.substring(begin, end)));
         }
         return searchBlogVOList;
     }
@@ -382,6 +382,14 @@ public class BlogServiceImpl implements BlogService {
         IndexInfoVO indexInfoVO = new IndexInfoVO(user.getNickname(),user.getAvatar(),blogCount,categoryCount,tagCount,
                 notice,viewCount);
         return indexInfoVO;
+    }
+
+    @Override
+    public PageResultVO<ArchiveInfoVO> getArchiveBlog(Integer pageNum) {
+        PageHelper.startPage(pageNum, 7, "create_time desc");
+        PageInfo<ArchiveInfoVO> pageInfo = new PageInfo<>(blogMapper.getTitleAndCreateTime());
+        PageResultVO<ArchiveInfoVO> pageResultVO = new PageResultVO<>(pageInfo.getPages(), pageInfo.getList());
+        return pageResultVO;
     }
 
     /**

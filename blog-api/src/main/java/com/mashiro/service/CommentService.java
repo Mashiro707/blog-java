@@ -89,6 +89,8 @@ public interface CommentService {
 
     List<PageCommentVO> getPageCommentList(Integer page, Long blogId, Long parentCommentId);
 
+    List<PageCommentVO> getReplyCommentList(Long parentCommentId);
+
     /**
     * 统计页面公开的评论
     * @param page 页面

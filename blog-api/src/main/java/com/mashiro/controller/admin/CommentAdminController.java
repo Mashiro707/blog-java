@@ -122,8 +122,7 @@ public class CommentAdminController {
                            @RequestParam(defaultValue = "10") Integer pageSize) {
         String orderBy = "create_time desc";
         PageHelper.startPage(pageNum, pageSize, orderBy);
-        List<Comment> comments = commentService.getListByPageAndParentCommentId(page, blogId, (long) -1);
-        PageInfo<Comment> pageInfo = new PageInfo<>(comments);
+        PageInfo<Comment> pageInfo = new PageInfo<>(commentService.getListByPageAndParentCommentId(page, blogId, (long) -1));
         return Result.success(pageInfo);
     }
 

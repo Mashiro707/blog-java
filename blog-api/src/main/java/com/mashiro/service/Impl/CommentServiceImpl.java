@@ -108,6 +108,16 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<PageCommentVO> getReplyCommentList(Long parentCommentId) {
+        List<PageCommentVO> comments = commentMapper.getReplyListByParentCommentId(parentCommentId);
+        for (PageCommentVO comment : comments) {
+            List<PageCommentVO> replyComments = getReplyCommentList(comment.getId());
+            comment.setReplyComments(replyComments);
+        }
+        return comments;
+    }
+
+    @Override
     public int countByPageAndIsPublished(Integer page, Long blogId) {
         return commentMapper.countByPageAndIsPublished(page, blogId);
     }

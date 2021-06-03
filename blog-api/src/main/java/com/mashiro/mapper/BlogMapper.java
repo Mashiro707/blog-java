@@ -257,6 +257,7 @@ public interface BlogMapper {
 
     String getTitleByBlogId(Long id);
 
+    List<ArchiveInfoVO>getTitleAndCreateTime();
     /**
     * @Description: 更新博客阅读次数
     * @param blogId

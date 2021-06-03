@@ -114,6 +114,7 @@ public interface CommentMapper {
     *
     */
     List<Comment> getListByParentCommentId(Long parentCommentId);
+    List<PageCommentVO> getReplyListByParentCommentId(Long parentCommentId);
 
     /**
     * 查询页面展示的评论List

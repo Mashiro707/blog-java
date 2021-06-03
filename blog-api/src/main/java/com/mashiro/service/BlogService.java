@@ -389,4 +389,6 @@ public interface BlogService {
     * @date 2021/5/31 18:54
     */
     IndexInfoVO getIndexInfo();
+
+    PageResultVO<ArchiveInfoVO> getArchiveBlog(Integer pageNum);
 }

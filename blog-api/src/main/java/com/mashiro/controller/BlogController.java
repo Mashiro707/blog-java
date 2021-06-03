@@ -7,10 +7,8 @@ import com.mashiro.entity.Blog;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.CategoryService;
 import com.mashiro.service.TagService;
-import com.mashiro.vo.BlogDetailVO;
-import com.mashiro.vo.BlogInfoVO;
-import com.mashiro.vo.NewBlogVO;
-import com.mashiro.vo.PageResultVO;
+import com.mashiro.util.StringUtils;
+import com.mashiro.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,6 +79,25 @@ public class BlogController {
         List<NewBlogVO> blogList = blogService.getNewBlogListByIsPublished();
         Map<String, Object> map = new HashMap<>();
         map.put("blogList", blogList);
+        return Result.success(map);
+    }
+
+    /**
+    * 按关键字根据文章内容搜索公开的博客文章
+    * @param keywords 搜索关键字
+    * @return {@link Result}
+    * @author Mashiro
+    * @date 2021/6/3 21:51
+    */
+    @GetMapping("/search")
+    public Result search(@RequestParam String keywords){
+        //校验关键字字符串合法性
+        if (StringUtils.isEmpty(keywords) || StringUtils.hasSpecialChar(keywords) || keywords.trim().length() > 20) {
+            return Result.error("参数错误");
+        }
+        List<SearchBlogVO> searchBlogs = blogService.getSearchBlogListByQueryAndIsPublished(keywords.trim());
+        Map<String, Object> map = new HashMap<>();
+        map.put("searchBlogs", searchBlogs);
         return Result.success(map);
     }
 }

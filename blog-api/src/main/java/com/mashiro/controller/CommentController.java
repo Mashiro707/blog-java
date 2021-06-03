@@ -87,6 +87,17 @@ public class CommentController {
         map.put("comments", pageResult);
         return Result.success(map);
     }
+
+    @GetMapping("/comments/reply")
+    public Result commentsReply(@RequestParam(defaultValue = "") Long parentCommentId){
+
+        List<PageCommentVO> replyCommentList = commentService.getReplyCommentList(parentCommentId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("replyCommentList",replyCommentList);
+        return Result.success(map);
+    }
+
+
     /**
     * 评论
     * @param commentDTO
@@ -152,7 +163,7 @@ public class CommentController {
             }
         }else {//如果没有token，则为游客评论
                 //评论内容合法性校验
-            if (StringUtils.isEmpty(commentDTO.getContent()) || commentDTO.getContent().length() > 250 ||
+            if (commentDTO.getContent().length() > 250 ||
                     commentDTO.getPage() == null || commentDTO.getParentCommentId() == null) {
                 return Result.error("参数有误");
             }
@@ -160,7 +171,7 @@ public class CommentController {
             isVisitorComment = true;
         }
         commentService.saveComment(commentDTO);
-        checkSendMail(commentDTO, isVisitorComment, parentComment);
+        //checkSendMail(commentDTO, isVisitorComment, parentComment);
         return Result.success("评论成功");
     }
 

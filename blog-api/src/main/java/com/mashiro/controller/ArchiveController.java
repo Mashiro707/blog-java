@@ -1,41 +1,36 @@
-/*
 package com.mashiro.controller;
 
+import com.mashiro.common.Result;
 import com.mashiro.service.BlogService;
+import com.mashiro.vo.ArchiveInfoVO;
+import com.mashiro.vo.PageResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-*/
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Description:
- * @Author: BeforeOne
- * @Date: Created in 2021/4/28 16:34
- *//*
+ * @Author: Mashiro
+ * @Date: Created in 2021/6/3 19:42
+ */
+@RestController
+public class ArchiveController {
 
-
-@Controller
-public class ArchiveShowController {
     @Autowired
-    private BlogService blogService;
-
-    */
-/**
-    * @Description: 归档页面展示
-    * @param model
-    * @return {@link String}
-    * @throws
-    * @author BeforeOne
-    * @data 2021/4/28 16:34
-    *
-    *//*
+    BlogService blogService;
 
     @GetMapping("/archives")
-    public String archives(Model model) {
-        model.addAttribute("archiveMap", blogService.archiveBlog());
-        model.addAttribute("blogCount", blogService.countBlog());
-        return "archives";
+    public Result archives(@RequestParam(defaultValue = "1") Integer pageNum) {
+        int i = blogService.countBlogByIsPublished();
+        PageResultVO<ArchiveInfoVO> archiveBlog = blogService.getArchiveBlog(pageNum);
+        Map<String, Object> map = new HashMap<>();
+        map.put("count", i);
+        map.put("archiveList", archiveBlog);
+        return Result.success(map);
     }
 }
-*/

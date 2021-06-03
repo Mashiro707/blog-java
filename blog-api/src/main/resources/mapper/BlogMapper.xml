@@ -270,6 +270,10 @@
         select title from tb_blog where id = #{id}
     </select>
 
+    <select id="getTitleAndCreateTime" resultType="com.mashiro.vo.ArchiveInfoVO">
+        select id,title,create_time from tb_blog
+    </select>
+
     <!--更新博客阅读次数-->
     <update id="updateViews">
         update tb_blog set views = #{views} where id = #{blogId};
