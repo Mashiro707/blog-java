@@ -8,7 +8,10 @@ import com.mashiro.entity.Category;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.CategoryService;
 import com.mashiro.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * @Author: Mashiro
  * @Date: Created in 2021/5/29 17:52
  */
+@Api(tags = "后台分类管理模块")
 @RestController
 @RequestMapping("/admin")
 public class CategoryAdminController {
@@ -35,6 +39,7 @@ public class CategoryAdminController {
     * @author Mashiro
     * @date 2021/5/29 18:17
     */
+    @ApiOperation(value = "添加分类")
     @OperationLogger("添加分类")
     @RequestMapping("/category")
     public Result saveCategory(@RequestBody Category category){
@@ -48,6 +53,8 @@ public class CategoryAdminController {
     * @author Mashiro
     * @date 2021/5/29 18:24
     */
+    @ApiOperation(value = "删除评论")
+    @ApiImplicitParam(name = "id", value = "分类id", required = true, dataType = "Long", paramType = "query")
     @OperationLogger("删除评论")
     @DeleteMapping("/category")
     public Result deleteCategory(@RequestParam Long id){
@@ -67,6 +74,7 @@ public class CategoryAdminController {
     * @author Mashiro
     * @date 2021/5/29 18:26
     */
+    @ApiOperation(value = "修改分类")
     @OperationLogger("修改分类")
     @PutMapping("/category")
     public Result updateCategory(@RequestBody Category category) {
@@ -81,6 +89,11 @@ public class CategoryAdminController {
     * @author Mashiro
     * @date 2021/5/29 18:29
     */
+    @ApiOperation(value = "分类列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", required = true, defaultValue = "1", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数目", required = true, defaultValue = "10", dataType = "Integer", paramType = "query")
+    })
     @GetMapping("/categories")
     public Result categoryList(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize){
         String orderBy = "id desc";

@@ -5,8 +5,8 @@ import com.mashiro.common.Result;
 import com.mashiro.entity.CityVisitor;
 import com.mashiro.service.DashboardService;
 import com.mashiro.service.RedisService;
-import com.mashiro.util.RedisUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +20,7 @@ import java.util.Map;
  * @Author: BeforeOne
  * @Date: Created in 2021/5/27 20:03
  */
+@Api(tags = "仪表盘管理模块")
 @RestController
 @RequestMapping("/admin")
 public class DashboardAdminController {
@@ -42,6 +43,7 @@ public class DashboardAdminController {
     * @data 2021/5/27 22:28
     *
     */
+    @ApiOperation(value = "获取仪表盘数据")
     @GetMapping("/dashboard")
     public Result dashboard(){
         //今日点击量

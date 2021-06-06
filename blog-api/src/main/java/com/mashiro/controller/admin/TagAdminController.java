@@ -8,14 +8,18 @@ import com.mashiro.entity.Tag;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.TagService;
 import com.mashiro.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @Description:
+ * @Description: 后台标签管理模块
  * @Author: Mashiro
  * @Date: Created in 2021/5/29 18:45
  */
+@Api(tags = "后台标签管理模块")
 @RestController
 @RequestMapping("/admin")
 public class TagAdminController {
@@ -35,6 +39,7 @@ public class TagAdminController {
     * @author Mashiro
     * @date 2021/5/29 18:59
     */
+    @ApiOperation(value = "添加标签")
     @OperationLogger("添加标签")
     @PostMapping("/tag")
     public Result saveTag(@RequestBody Tag tag){
@@ -48,6 +53,8 @@ public class TagAdminController {
     * @author Mashiro
     * @date 2021/5/29 18:59
     */
+    @ApiOperation(value = "删除标签")
+    @ApiImplicitParam(name = "id", value = "标签Id", required = true, dataType = "Long", paramType = "query")
     @OperationLogger("删除标签")
     @DeleteMapping("/tag")
     public Result deleteTagByBlogId(@RequestParam Long id){
@@ -67,6 +74,7 @@ public class TagAdminController {
     * @author Mashiro
     * @date 2021/5/29 19:00
     */
+    @ApiOperation(value = "修改标签")
     @OperationLogger("修改标签")
     @PutMapping("/tag")
     public Result updateTag(@RequestBody Tag tag){
@@ -81,8 +89,14 @@ public class TagAdminController {
     * @author Mashiro
     * @date 2021/5/29 19:02
     */
+    @ApiOperation(value = "标签列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", required = true, defaultValue = "1", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数目", required = true, defaultValue = "10", dataType = "Integer", paramType = "query")
+    })
     @GetMapping("/tags")
-    public Result tagList(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize){
+    public Result tagList(@RequestParam(defaultValue = "1") Integer pageNum,
+                          @RequestParam(defaultValue = "10") Integer pageSize){
         String orderBy = "id desc";
         PageHelper.startPage(pageNum, pageSize, orderBy);
         PageInfo<Tag> pageInfo = new PageInfo<>(tagService.getTagList());

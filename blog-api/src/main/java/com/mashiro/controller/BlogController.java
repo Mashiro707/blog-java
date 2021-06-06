@@ -4,10 +4,12 @@ package com.mashiro.controller;
 import com.mashiro.annotation.VisitLogger;
 import com.mashiro.common.Result;
 import com.mashiro.service.BlogService;
-import com.mashiro.service.CategoryService;
-import com.mashiro.service.TagService;
 import com.mashiro.util.StringUtils;
 import com.mashiro.vo.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,14 +24,11 @@ import java.util.Map;
  * @Author: Mashiro
  * @Date: Created in 2021/5/31 14:55
  */
+@Api(tags = "博客文章模块")
 @RestController
 public class BlogController {
     @Autowired
     private BlogService blogService;
-    @Autowired
-    private CategoryService categoryService;
-    @Autowired
-    private TagService tagService;
 
     /**
     * 根据分类名称查询博客列表
@@ -39,7 +38,12 @@ public class BlogController {
     * @author Mashiro
     * @date 2021/5/31 18:06
     */
-    @VisitLogger(behavior = "查看分类")
+    @ApiOperation(value = "查看分类对应博客")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "categoryName", value = "分类名称", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "pageNum", value = "页码", required = true, defaultValue = "1", dataType = "Integer", paramType = "query")
+    })
+    @VisitLogger(behavior = "查看分类对应博客")
     @GetMapping("/categoriesBlog")
     public Result blogListByCategory(@RequestParam(defaultValue = "") String categoryName,
                                      @RequestParam(defaultValue = "1") Integer pageNum){
@@ -57,7 +61,12 @@ public class BlogController {
     * @author Mashiro
     * @date 2021/5/31 19:21
     */
-    @VisitLogger(behavior = "查看标签")
+    @ApiOperation(value = "查看标签对应博客")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "tagName", value = "标签名称", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "pageNum", value = "页码", required = true, defaultValue = "1", dataType = "Integer", paramType = "query")
+    })
+    @VisitLogger(behavior = "查看标签对应博客")
     @GetMapping("/tagBlog")
     public Result blogListByTag(@RequestParam(defaultValue = "") String tagName,
                                 @RequestParam(defaultValue = "1") Integer pageNum){
@@ -67,6 +76,8 @@ public class BlogController {
         return Result.success(map);
     }
 
+    @ApiOperation(value = "查看博客")
+    @ApiImplicitParam(name = "id", value = "博客Id", required = true, dataType = "Long", paramType = "query")
     @VisitLogger(behavior = "查看博客")
     @GetMapping("/blogDetail")
     public Result getBlogDetail(@RequestParam Long id){
@@ -74,7 +85,7 @@ public class BlogController {
         blogService.updateViewsToRedis(id);
         return Result.success(blog);
     }
-
+    @ApiOperation(value = "最新博客列表")
     @GetMapping("/articlesnewest")
     public Result getBlogNewest(){
         List<NewBlogVO> blogList = blogService.getNewBlogListByIsPublished();
@@ -90,6 +101,8 @@ public class BlogController {
     * @author Mashiro
     * @date 2021/6/3 21:51
     */
+    @ApiOperation(value = "根据关键字搜索博客")
+    @ApiImplicitParam(name = "keywords", value = "关键字", required = true, dataType = "String", paramType = "query")
     @VisitLogger(behavior = "搜索博客")
     @GetMapping("/search")
     public Result search(@RequestParam String keywords){

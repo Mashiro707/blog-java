@@ -13,6 +13,10 @@ import com.mashiro.service.Impl.UserServiceImpl;
 import com.mashiro.util.*;
 import com.mashiro.vo.PageCommentVO;
 import com.mashiro.vo.PageResultVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
@@ -29,6 +33,7 @@ import java.util.Map;
  * @Author: Mashiro
  * @Date: Created in 2021/6/1 19:02
  */
+@Api(tags = "评论模块")
 @RestController
 public class CommentController {
     @Autowired
@@ -70,11 +75,18 @@ public class CommentController {
     * @author Mashiro
     * @date 2021/6/1 19:37
     */
+    @ApiOperation(value = "评论列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "所属页面（1.博客 2. 关于我（暂未开放））", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "blogId", value = "博客id", dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "pageNum", value = "页码", required = true, defaultValue = "1", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数目", required = true, defaultValue = "10", dataType = "Integer", paramType = "query")
+    })
     @GetMapping("/comments")
     public Result comments(@RequestParam Integer page,
                            @RequestParam(defaultValue = "") Long blogId,
                            @RequestParam(defaultValue = "1") Integer pageNum,
-                           @RequestParam(defaultValue = "10") Integer pageSize){
+                           @RequestParam(defaultValue = "7") Integer pageSize){
         int i = checkCommentEnabled(page, blogId);
         if (i == 1){
             return Result.error("评论已经关闭");
@@ -89,6 +101,8 @@ public class CommentController {
         return Result.success(map);
     }
 
+    @ApiOperation(value = "回复评论后重新加载父评论下所有评论")
+    @ApiImplicitParam(name = "parentCommentId", value = "父评论Id",defaultValue = "", required = true, dataType = "Long", paramType = "query")
     @GetMapping("/comments/reply")
     public Result commentsReply(@RequestParam(defaultValue = "") Long parentCommentId){
 
@@ -108,6 +122,11 @@ public class CommentController {
     * @author Mashiro
     * @date 2021/6/1 20:50
     */
+    @ApiOperation(value = "评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "commentDTO", value = "评论DTO对象", required = true, dataType = "CommentDTO", paramType = "body"),
+            @ApiImplicitParam(name = "jwt", value = "Token", required = true, dataType = "String", paramType = "header"),
+    })
     @AccessLimit(seconds = 30, maxCount = 1, msg = "30秒内只能提交一次评论")
     @PostMapping("/comment")
     public Result postComment(@RequestBody CommentDTO commentDTO,

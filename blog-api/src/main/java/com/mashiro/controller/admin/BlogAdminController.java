@@ -16,7 +16,10 @@ import com.mashiro.service.CategoryService;
 import com.mashiro.service.CommentService;
 import com.mashiro.service.TagService;
 import com.mashiro.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -26,6 +29,7 @@ import java.util.*;
  * @Author: Mashiro
  * @Date: Created in 2021/5/28 16:49
  */
+@Api(tags = "后台博客管理模块")
 @RestController
 @RequestMapping("/admin")
 public class BlogAdminController {
@@ -49,6 +53,8 @@ public class BlogAdminController {
     * @author Mashiro
     * @date 2021/5/29 10:18
     */
+    @ApiOperation(value = "发布博客")
+    @ApiImplicitParam(name = "blogDTO", value = "博客对象DTO", required = true, dataType = "BlogDTO", paramType = "body")
     @OperationLogger("发布博客")
     @PostMapping("/blog")
     public Result savaBlog(@RequestBody BlogDTO blogDTO){
@@ -61,6 +67,8 @@ public class BlogAdminController {
     * @author Mashiro
     * @date 2021/5/29 10:23
     */
+    @ApiOperation(value = "删除博客")
+    @ApiImplicitParam(name = "id", value = "博客Id", required = true, dataType = "Long", paramType = "query")
     @OperationLogger("删除博客")
     @DeleteMapping("/blog")
     public Result deleteBlog(@RequestParam Long id){
@@ -77,10 +85,11 @@ public class BlogAdminController {
     * @author Mashiro
     * @date 2021/5/29 10:28
     */
+    @ApiOperation(value = "更新博客")
+    @ApiImplicitParam(name = "blogDTO", value = "博客对象DTO", required = true, dataType = "BlogDTO", paramType = "body")
     @OperationLogger("更新博客")
     @PutMapping("/blog")
     public Result updateBlog(@RequestBody BlogDTO blogDTO){
-        System.out.println("进入了BlogAdminController----updateBlog");
         return saveAndUpdateCheckData(blogDTO, "update");
     }
 
@@ -92,10 +101,14 @@ public class BlogAdminController {
     * @author Mashiro
     * @date 2021/5/29 10:33
     */
+    @ApiOperation(value = "更新博客置顶状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "博客Id", required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "top", value = "是否置顶", required = true, dataType = "Boolean", paramType = "query")
+    })
     @OperationLogger("更新博客置顶状态")
     @PutMapping("/blog/top")
     public Result updateTop(@RequestParam Long id, @RequestParam Boolean top){
-        System.out.println("进入了BlogAdminController----updateTop");
         if(blogService.updateBlogTopById(id, top) != 1){
             return Result.error();
         }
@@ -110,6 +123,11 @@ public class BlogAdminController {
     * @author Mashiro
     * @date 2021/5/29 10:36
     */
+    @ApiOperation(value = "更新博客推荐状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "博客Id", required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "recommend", value = "是否推荐", required = true, dataType = "Boolean", paramType = "query")
+    })
     @OperationLogger("更新博客推荐状态")
     @PutMapping("/blog/recommend")
     public Result updateRecommend(@RequestParam Long id, @RequestParam Boolean recommend){
@@ -126,6 +144,11 @@ public class BlogAdminController {
     * @author Mashiro
     * @date 2021/5/29 10:39
     */
+    @ApiOperation(value = "更新博客可见性状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "博客Id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "blogVisibilityDTO", value = "博客可见性DTO", required = true, dataType = "BlogVisibilityDTO", paramType = "body")
+    })
     @OperationLogger("更新博客可见性状态")
     @PutMapping("/blog/{id}/visibility")
     public Result updateVisibility(@PathVariable Long id, @RequestBody BlogVisibilityDTO blogVisibilityDTO){
@@ -140,6 +163,7 @@ public class BlogAdminController {
     * @author Mashiro
     * @date 2021/5/29 10:40
     */
+    @ApiOperation(value = "获取分页列表和标签列表")
     @GetMapping("/categoryAndTag")
     public Result categoryAndTag() {
         List<Category> categories = categoryService.getCategoryList();
@@ -159,6 +183,13 @@ public class BlogAdminController {
     * @author Mashiro
     * @date 2021/5/29 9:40
     */
+    @ApiOperation(value = "获取博客文章列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "title", value = "文章标题", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "categoryId", value = "分类id", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageNum", value = "页码", required = true, defaultValue = "1", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数目", required = true, defaultValue = "10", dataType = "Integer", paramType = "query")
+    })
     @GetMapping("/blogs")
     public Result blogs(@RequestParam(defaultValue = "") String title,
                         @RequestParam(defaultValue = "") Integer categoryId,
@@ -181,6 +212,8 @@ public class BlogAdminController {
     * @author Mashiro
     * @date 2021/5/29 10:42
     */
+    @ApiOperation(value = "获取博客")
+    @ApiImplicitParam(name = "id", value = "博客Id", required = true, dataType = "Long", paramType = "query")
     @GetMapping("/blog")
     public Result getBlog(@RequestParam Long id){
         return Result.success(blogService.getBlogById(id));

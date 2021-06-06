@@ -8,16 +8,20 @@ import com.mashiro.entity.ScheduleJob;
 import com.mashiro.entity.ScheduleJobLog;
 import com.mashiro.service.ScheduleJobService;
 import com.mashiro.util.common.ValidatorUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
 /**
- * @Description:
+ * @Description: 后台定时任务管理模块
  * @Author: Mashiro
  * @Date: Created in 2021/5/30 21:51
  */
+@Api(tags = "后台定时任务管理模块")
 @RestController
 @RequestMapping("/admin")
 public class ScheduleJobAdminController {
@@ -35,6 +39,7 @@ public class ScheduleJobAdminController {
     * @author Mashiro
     * @date 2021/5/30 21:58
     */
+    @ApiOperation(value = "添加定时任务")
     @OperationLogger("添加定时任务")
     @PostMapping("/job")
     public Result saveJob(@RequestBody ScheduleJob scheduleJob){
@@ -52,6 +57,8 @@ public class ScheduleJobAdminController {
     * @author Mashiro
     * @date 2021/5/30 22:01
     */
+    @ApiOperation(value = "删除定时任务")
+    @ApiImplicitParam(name = "jobId", value = "定时任务id", dataType = "Long", paramType = "query")
     @OperationLogger("删除定时任务")
     @DeleteMapping("/job")
     public Result deleteJob(@RequestParam Long jobId){
@@ -66,6 +73,7 @@ public class ScheduleJobAdminController {
     * @author Mashiro
     * @date 2021/5/30 22:05
     */
+    @ApiOperation(value = "修改定时任务")
     @OperationLogger("修改定时任务")
     @PutMapping("/job")
     public Result updateJob(@RequestBody ScheduleJob scheduleJob){
@@ -82,6 +90,11 @@ public class ScheduleJobAdminController {
     * @author Mashiro
     * @date 2021/5/30 22:07
     */
+    @ApiOperation(value = "修改定时任务状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "jobId", value = "定时任务Id", required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "status", value = "是否开启", required = true, dataType = "Boolean", paramType = "query")
+    })
     @OperationLogger("修改定时任务状态")
     @PutMapping("/job/status")
     public Result updateJobStatus(@RequestParam Long jobId, @RequestParam Boolean status){
@@ -96,6 +109,8 @@ public class ScheduleJobAdminController {
     * @author Mashiro
     * @date 2021/5/30 22:15
     */
+    @ApiOperation(value = "立即执行定时任务")
+    @ApiImplicitParam(name = "jobId", value = "定时任务id", dataType = "Long", paramType = "query")
     @OperationLogger("立即执行定时任务")
     @PostMapping("/job/run")
     public Result runJob(@RequestParam Long jobId){
@@ -111,6 +126,11 @@ public class ScheduleJobAdminController {
     * @author Mashiro
     * @date 2021/5/30 22:17
     */
+    @ApiOperation(value = "定时任务列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", required = true, defaultValue = "1", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数目", required = true, defaultValue = "10", dataType = "Integer", paramType = "query")
+    })
     @GetMapping("/jobs")
     public Result jobList(@RequestParam(defaultValue = "1") Integer pageNum,
                           @RequestParam(defaultValue = "10") Integer pageSize){
@@ -128,6 +148,13 @@ public class ScheduleJobAdminController {
     * @author Mashiro
     * @date 2021/5/30 22:18
     */
+    @ApiOperation(value = "定时任务日志列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "data", value = "操作时间", dataType = "String[]", paramType = "query"),
+            @ApiImplicitParam(name = "pageNum", value = "页码", required = true, defaultValue = "1", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数目", required = true, defaultValue = "10", dataType = "Integer", paramType = "query")
+
+    })
     @GetMapping("/job/logs")
     public Result logs(@RequestParam(defaultValue = "") String[] date,
                        @RequestParam(defaultValue = "1") Integer pageNum,
@@ -151,6 +178,9 @@ public class ScheduleJobAdminController {
     * @author Mashiro
     * @date 2021/5/30 22:19
     */
+    @ApiOperation(value = "删除定时任务日志")
+    @ApiImplicitParam(name = "logId", value = "定时任务日志Id", required = true, dataType = "Long", paramType = "query")
+    @OperationLogger(value = "删除定时任务日志")
     @DeleteMapping("/job/log")
     public Result delete(@RequestParam Long logId) {
         scheduleJobService.deleteJobLogByLogId(logId);

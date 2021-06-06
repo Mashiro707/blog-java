@@ -2,6 +2,8 @@ package com.mashiro.vo;
 
 import com.mashiro.entity.Category;
 import com.mashiro.entity.Tag;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +20,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel(description = "博客详情")
 public class BlogDetailVO {
     private Long id;
+    @ApiModelProperty(value = "文章标题", required=true)
     private String title;//文章标题
     private String firstPicture;//文章首图
     private String content;//文章正文

@@ -1,9 +1,10 @@
 package com.mashiro.controller;
 
+import com.mashiro.annotation.VisitLogger;
 import com.mashiro.common.Result;
 import com.mashiro.entity.Category;
-import com.mashiro.service.BlogService;
 import com.mashiro.service.CategoryService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,15 +19,14 @@ import java.util.Map;
  * @Author: BeforeOne
  * @Date: Created in 2021/4/28 15:45
  */
-
+@Api(tags = "分类模块")
 @RestController
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
-    @Autowired
-    private BlogService blogService;
 
-    @ApiOperation(value = "查看分类")
+    @ApiOperation(value = "查看所有分类")
+    @VisitLogger(behavior = "查看分类")
     @GetMapping("/categories")
     public Result listCategories() {
         List<Category> categoryList = categoryService.getCategoryList();
@@ -36,6 +36,4 @@ public class CategoryController {
         map.put("count", count);
         return Result.success(map);
     }
-
-
 }

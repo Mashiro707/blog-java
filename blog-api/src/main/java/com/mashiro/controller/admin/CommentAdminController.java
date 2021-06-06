@@ -9,7 +9,10 @@ import com.mashiro.entity.Comment;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.CommentService;
 import com.mashiro.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
  * @Author: Mashiro
  * @Date: Created in 2021/5/29 21:58
  */
+@Api(tags = "后台评论管理模块")
 @RestController
 @RequestMapping("/admin")
 public class CommentAdminController {
@@ -38,6 +42,8 @@ public class CommentAdminController {
     * @author Mashiro
     * @date 2021/5/29 22:12
     */
+    @ApiOperation(value = "删除评论")
+    @ApiImplicitParam(name = "id", value = "博客Id", required = true, dataType = "Long", paramType = "query")
     @OperationLogger("删除评论")
     @DeleteMapping("/comment")
     public Result deleteComment(@RequestParam Long id){
@@ -52,6 +58,7 @@ public class CommentAdminController {
     * @author Mashiro
     * @date 2021/5/29 22:22
     */
+    @ApiOperation(value = "修改评论")
     @OperationLogger("修改评论")
     @PutMapping("/comment")
     public Result updateComment(@RequestBody Comment comment) {
@@ -70,6 +77,11 @@ public class CommentAdminController {
     * @author Mashiro
     * @date 2021/5/29 22:14
     */
+    @ApiOperation(value = "更新评论邮件提醒状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "博客Id", required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "notice", value = "是否邮件提醒", required = true, dataType = "Boolean", paramType = "query")
+    })
     @OperationLogger("更新评论邮件提醒状态")
     @PutMapping("/comment/notice")
     public Result updateNotice(@RequestParam Long id, @RequestParam Boolean notice){
@@ -85,6 +97,11 @@ public class CommentAdminController {
     * @author Mashiro
     * @date 2021/5/29 22:19
     */
+    @ApiOperation(value = "更新评论可见状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "博客Id", required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "published", value = "是否公开", required = true, dataType = "Boolean", paramType = "query")
+    })
     @OperationLogger("更新评论可见状态")
     @PutMapping("/comment/published")
     public Result updatePublished(@RequestParam Long id, @RequestParam Boolean published){
@@ -99,6 +116,7 @@ public class CommentAdminController {
     * @author Mashiro
     * @date 2021/5/29 22:24
     */
+    @ApiOperation(value = "获取所有博客id和title 供评论分类的选择")
     @GetMapping("/blogIdAndTitle")
     public Result blogIdAndTitle() {
         List<Blog> blogs = blogService.getBlogIdAndTitleList();
@@ -115,6 +133,13 @@ public class CommentAdminController {
     * @author Mashiro
     * @date 2021/5/29 22:24
     */
+    @ApiOperation(value = "评论列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "所属页面（1.博客 2. 关于我（暂未开放））", required = true, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "blogId", value = "博客id", dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "pageNum", value = "页码", required = true, defaultValue = "1", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数目", required = true, defaultValue = "10", dataType = "Integer", paramType = "query")
+    })
     @GetMapping("/comments")
     public Result comments(@RequestParam(defaultValue = "") Integer page,
                            @RequestParam(defaultValue = "") Long blogId,
