@@ -1,9 +1,8 @@
 package com.mashiro.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+
+import com.mashiro.annotation.VisitLogger;
 import com.mashiro.common.Result;
-import com.mashiro.entity.Blog;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.CategoryService;
 import com.mashiro.service.TagService;
@@ -11,7 +10,6 @@ import com.mashiro.util.StringUtils;
 import com.mashiro.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,6 +39,7 @@ public class BlogController {
     * @author Mashiro
     * @date 2021/5/31 18:06
     */
+    @VisitLogger(behavior = "查看分类")
     @GetMapping("/categoriesBlog")
     public Result blogListByCategory(@RequestParam(defaultValue = "") String categoryName,
                                      @RequestParam(defaultValue = "1") Integer pageNum){
@@ -58,6 +57,7 @@ public class BlogController {
     * @author Mashiro
     * @date 2021/5/31 19:21
     */
+    @VisitLogger(behavior = "查看标签")
     @GetMapping("/tagBlog")
     public Result blogListByTag(@RequestParam(defaultValue = "") String tagName,
                                 @RequestParam(defaultValue = "1") Integer pageNum){
@@ -67,6 +67,7 @@ public class BlogController {
         return Result.success(map);
     }
 
+    @VisitLogger(behavior = "查看博客")
     @GetMapping("/blogDetail")
     public Result getBlogDetail(@RequestParam Long id){
         BlogDetailVO blog = blogService.getBlogByIdAndIsPublished(id);
@@ -89,6 +90,7 @@ public class BlogController {
     * @author Mashiro
     * @date 2021/6/3 21:51
     */
+    @VisitLogger(behavior = "搜索博客")
     @GetMapping("/search")
     public Result search(@RequestParam String keywords){
         //校验关键字字符串合法性

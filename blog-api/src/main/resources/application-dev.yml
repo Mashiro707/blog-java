@@ -4,8 +4,8 @@ custom:
     blog:
       name: Mashiro's Blog
     url:
-      cms: http://localhost:8081
-      website: http://localhost:8080
+      cms: http://localhost:8082
+      website: http://localhost:8081
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -34,6 +34,20 @@ spring:
         #连接池中最小空闲连接
         min-idle: 0
     password: Sl941114.
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    default-encoding: UTF-8
+    username: 11799220@qq.com
+    password: sjgoerretdrlbhcf
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
@@ -55,6 +69,13 @@ logging:
   file:
     path: log/blog-dev
 server:
-  port: 8090
+  port: 8080
+comment:
+  avatar: https://www.hualigs.cn/image/60a11871c8904.jpg
+
+token:
+  expireTime: 100000000
+  secretKey: qweroijasogj
+
 
 

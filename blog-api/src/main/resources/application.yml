@@ -1,31 +1,5 @@
 spring:
-  thymeleaf:
-    mode: HTML
-    encoding: UTF-8
-    cache: false
   profiles:
     active: dev
 
-  mail:
-    host: smtp.qq.com
-    protocol: smtp
-    default-encoding: UTF-8
-    username: 11799220@qq.com
-    password: sjgoerretdrlbhcf
-    test-connection: true
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-    port: 587
-
-comment:
-  avatar: https://www.hualigs.cn/image/60a11871c8904.jpg
-
-token:
-  expireTime: 100000000
-  secretKey: qweroijasogj
 

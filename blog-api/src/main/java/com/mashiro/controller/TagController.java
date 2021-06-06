@@ -2,7 +2,6 @@ package com.mashiro.controller;
 
 import com.mashiro.common.Result;
 import com.mashiro.entity.Tag;
-import com.mashiro.service.BlogService;
 import com.mashiro.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +20,7 @@ import java.util.Map;
 public class TagController {
     @Autowired
     private TagService tagService;
-    @Autowired
-    private BlogService blogService;
+
 
     @GetMapping("/tags")
     public Result tagList(){

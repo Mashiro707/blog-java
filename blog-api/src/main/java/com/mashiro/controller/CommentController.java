@@ -2,6 +2,7 @@ package com.mashiro.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mashiro.annotation.AccessLimit;
 import com.mashiro.common.Result;
 import com.mashiro.dto.CommentDTO;
 import com.mashiro.entity.Comment;
@@ -107,6 +108,7 @@ public class CommentController {
     * @author Mashiro
     * @date 2021/6/1 20:50
     */
+    @AccessLimit(seconds = 30, maxCount = 1, msg = "30秒内只能提交一次评论")
     @PostMapping("/comment")
     public Result postComment(@RequestBody CommentDTO commentDTO,
                               HttpServletRequest request,

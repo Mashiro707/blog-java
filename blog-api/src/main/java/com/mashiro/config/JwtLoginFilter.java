@@ -121,7 +121,6 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
      * @return
      */
     private LoginLog handleLog(HttpServletRequest request, boolean status, String description) {
-        System.out.println("JwtLoginFilter--handleLog");
         String username = currentUsername.get();
         currentUsername.remove();
         String ip = IpAddressUtils.getIpAddress(request);

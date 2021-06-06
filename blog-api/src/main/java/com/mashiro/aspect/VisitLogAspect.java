@@ -207,11 +207,7 @@ public class VisitLogAspect {
             int pageNum = (int) requestParams.get("pageNum");
             content = tagName;
             remark = "标签名称：" + tagName + "，第" + pageNum + "页";
-        }/* else if (behavior.equals("点击友链")) {
-            String nickname = (String) requestParams.get("nickname");
-            content = nickname;
-            remark = "友链名称：" + nickname;
-        }*/
+        }
         map.put("remark", remark);
         map.put("content", content);
         return map;

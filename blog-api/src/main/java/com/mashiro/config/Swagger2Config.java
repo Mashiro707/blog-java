@@ -10,6 +10,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.Collections;
+
 /**
  * @Description:
  * @Author: BeforeOne
@@ -19,17 +21,23 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class Swagger2Config {
     @Bean
-    public Docket getUserDocket(){
-        ApiInfo apiInfo=new ApiInfoBuilder()
-                .title("Blog文档")//api标题
-                .description("用户管理相关接口描述")//api描述
-                .version("1.0.0")//版本号
+    public Docket createRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .protocols(Collections.singleton("https"))
+                .host("www.admin.mashiro.org.cn")
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.mashiro.controller"))
+                .paths(PathSelectors.any())
                 .build();
-        return new Docket(DocumentationType.SWAGGER_2)//文档类型（swagger2）
-                .apiInfo(apiInfo)//设置包含在json ResourceListing响应中的api元信息
-                .select()//启动用于api选择的构建器
-                .apis(RequestHandlerSelectors.basePackage("com.mashiro.controller"))//扫描接口的包
-                .paths(PathSelectors.any())//路径过滤器（扫描所有路径）
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("博客api文档")
+                .description("springboot+vue开发的博客项目")
+                .termsOfServiceUrl("https://www.mashiro.org.cn")
+                .version("1.0")
                 .build();
     }
 }

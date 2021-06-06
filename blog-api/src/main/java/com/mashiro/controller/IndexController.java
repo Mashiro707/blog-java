@@ -1,9 +1,8 @@
 package com.mashiro.controller;
 
+import com.mashiro.annotation.VisitLogger;
 import com.mashiro.common.Result;
 import com.mashiro.service.BlogService;
-import com.mashiro.service.CategoryService;
-import com.mashiro.service.TagService;
 import com.mashiro.vo.BlogInfoVO;
 import com.mashiro.vo.IndexInfoVO;
 import com.mashiro.vo.PageResultVO;
@@ -24,10 +23,6 @@ import java.util.Map;
 public class IndexController {
     @Autowired
     private BlogService blogService;
-    @Autowired
-    private TagService tagService;
-    @Autowired
-    private CategoryService categoryService;
 
     @GetMapping("/")
     public Result IndexInfo(){
@@ -37,7 +32,7 @@ public class IndexController {
         map.put("indexInfo", indexInfo);
         return Result.success(map);
     }
-
+    @VisitLogger(behavior = "访问页面", content = "首页")
     @GetMapping("/indexBlogList")
     public Result Index(@RequestParam(defaultValue = "1") Integer pageNum){
         //首页博客列表
