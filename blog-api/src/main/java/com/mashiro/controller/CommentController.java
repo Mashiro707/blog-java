@@ -171,7 +171,7 @@ public class CommentController {
             isVisitorComment = true;
         }
         commentService.saveComment(commentDTO);
-        //checkSendMail(commentDTO, isVisitorComment, parentComment);
+        checkSendMail(commentDTO, isVisitorComment, parentComment);
         return Result.success("评论成功");
     }
 

@@ -7,6 +7,7 @@ import com.mashiro.service.SiteSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,10 @@ public class SiteSettingAdminController {
     */
     @GetMapping("/webTitleSuffix")
     public Result getWebTitleSuffix() {
-        return Result.success(siteSettingService.getWebTitleSuffix());
+        String webTitleSuffix = siteSettingService.getWebTitleSuffix();
+        Map<String, Object> map = new HashMap<>();
+        map.put("webTitleSuffix", webTitleSuffix);
+        return Result.success(map);
     }
 
 }

@@ -64,7 +64,6 @@ public class BlogAdminController {
     @OperationLogger("删除博客")
     @DeleteMapping("/blog")
     public Result deleteBlog(@RequestParam Long id){
-        System.out.println("进入了BlogAdminController----deleteBlog");
         commentService.deleteCommentsByBlogId(id);
         blogService.deleteBlogAndTagByBlogId(id);
         blogService.deleteBlogById(id);
@@ -114,7 +113,6 @@ public class BlogAdminController {
     @OperationLogger("更新博客推荐状态")
     @PutMapping("/blog/recommend")
     public Result updateRecommend(@RequestParam Long id, @RequestParam Boolean recommend){
-        System.out.println("进入了BlogAdminController----updateRecommend");
         if (blogService.updateBlogRecommendById(id, recommend) != 1){
             return Result.error();
         }
@@ -131,7 +129,6 @@ public class BlogAdminController {
     @OperationLogger("更新博客可见性状态")
     @PutMapping("/blog/{id}/visibility")
     public Result updateVisibility(@PathVariable Long id, @RequestBody BlogVisibilityDTO blogVisibilityDTO){
-        System.out.println("进入了BlogAdminController----updateVisibility");
         blogService.updateBlogVisibilityById(id, blogVisibilityDTO);
         return Result.success();
     }
@@ -145,7 +142,6 @@ public class BlogAdminController {
     */
     @GetMapping("/categoryAndTag")
     public Result categoryAndTag() {
-        System.out.println("进入了BlogAdminController----categoryAndTag");
         List<Category> categories = categoryService.getCategoryList();
         List<Tag> tags = tagService.getTagList();
         Map<String, Object> map = new HashMap<>();
@@ -168,7 +164,6 @@ public class BlogAdminController {
                         @RequestParam(defaultValue = "") Integer categoryId,
                         @RequestParam(defaultValue = "1") Integer pageNum,
                         @RequestParam(defaultValue = "10") Integer pageSize){
-        System.out.println("进入了BlogAdminController----blogs");
         String order = "create_time desc";
         PageHelper.startPage(pageNum, pageSize, order);
         PageInfo<Blog> pageInfo = new PageInfo<>(blogService.getBlogListByTitleAndCategoryId(title, categoryId));
@@ -188,7 +183,6 @@ public class BlogAdminController {
     */
     @GetMapping("/blog")
     public Result getBlog(@RequestParam Long id){
-        System.out.println("进入了BlogAdminController----getBlog");
         return Result.success(blogService.getBlogById(id));
     }
 
@@ -201,7 +195,6 @@ public class BlogAdminController {
     * @date 2021/5/29 9:47
         */
     private Result saveAndUpdateCheckData(BlogDTO blogDTO, String type){
-        System.out.println("进入了BlogAdminController----saveAndUpdateCheckData");
         //必填字段不能为空
         if (StringUtils.isEmpty(blogDTO.getTitle(), blogDTO.getContent(), blogDTO.getDescription(), blogDTO.getFirstPicture())){
             return Result.error("参数错误");

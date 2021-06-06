@@ -27,10 +27,10 @@
     </resultMap>
 
     <!--添加日志-->
-    <select id="saveVisitLog" resultType="java.lang.Integer">
+    <insert id="saveVisitLog" parameterType="com.mashiro.entity.VisitLog" useGeneratedKeys="true" keyProperty="id">
         insert into tb_visit_log (uuid, uri, method, param, behavior, content, remark, ip, ip_source, os, browser, times, create_time, user_agent)
         values (#{uuid}, #{uri}, #{method}, #{param}, #{behavior}, #{content}, #{remark}, #{ip}, #{ipSource}, #{os}, #{browser}, #{times}, #{createTime}, #{userAgent})
-    </select>
+    </insert>
 
     <!--删除日志-->
     <delete id="deleteVisitLogById">

@@ -7,15 +7,10 @@ spring:
     active: dev
 
   mail:
-    #smtp\u670D\u52A1\u4E3B\u673A
     host: smtp.qq.com
-    #\u670D\u52A1\u534F\u8BAE
     protocol: smtp
-    # \u7F16\u7801\u96C6
     default-encoding: UTF-8
-    #\u53D1\u9001\u90AE\u4EF6\u7684\u8D26\u6237
     username: 11799220@qq.com
-    #\u6388\u6743\u7801
     password: sjgoerretdrlbhcf
     test-connection: true
     properties:
@@ -25,6 +20,7 @@ spring:
           starttls:
             enable: true
             required: true
+    port: 587
 
 comment:
   avatar: https://www.hualigs.cn/image/60a11871c8904.jpg

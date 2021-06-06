@@ -1,5 +1,6 @@
 package com.mashiro.controller;
 
+import com.mashiro.annotation.VisitLogger;
 import com.mashiro.common.Result;
 import com.mashiro.service.BlogService;
 import com.mashiro.vo.ArchiveInfoVO;
@@ -24,6 +25,7 @@ public class ArchiveController {
     @Autowired
     BlogService blogService;
 
+    @VisitLogger(behavior = "访问界面", content = "归档")
     @GetMapping("/archives")
     public Result archives(@RequestParam(defaultValue = "1") Integer pageNum) {
         int i = blogService.countBlogByIsPublished();
