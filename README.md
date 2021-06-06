@@ -1,65 +1,53 @@
-### 一、技术栈
+## 技术栈
 
-**1.后端：**
+### 后端
 
-- 核心框架：SpringBoot 2.4.4
-- 项目构建：JDK 1.8、Maven 3
-- 持久层框架：MyBatis 2.1.2
-- 模版框架：Thymeleaf
-- 加密：MD5加密（目前运用在管理员登陆的密码上，有待优化）
+- 核心框架：[Spring Boot](https://github.com/spring-projects/spring-boot)
+- 安全框架：[Spring Security](https://github.com/spring-projects/spring-security)
+- Token 认证：[jjwt](https://github.com/jwtk/jjwt)
+- 持久层框架：[MyBatis](https://github.com/mybatis/spring-boot-starter)
+- 分页插件：[PageHelper](https://github.com/pagehelper/Mybatis-PageHelper)
+- NoSQL缓存：[Redis](https://github.com/redis/redis)
+- Markdown 转 HTML：[commonmark-java](https://github.com/commonmark/commonmark-java)
+- 离线 IP 地址库：[ip2region](https://github.com/lionsoul2014/ip2region)
+- 定时任务：[quartz](https://github.com/quartz-scheduler/quartz)
+- UserAgent 解析：[yauaa](https://github.com/nielsbasjes/yauaa)
 
-**2.数据库**
+邮件模板参考自[Typecho-CommentToMail-Template](https://github.com/MisakaTAT/Typecho-CommentToMail-Template)
 
-- MySQL：5.7
+### 前端
 
-**3.前端**
-
-- JS框架：JQuery
-- CSS框架：Semantic UI
+- 核心框架：Vue2.x、Vue Router、Vuex
+- UI框架：Element-ui、Vuetify
 
 前端技术主要在于运用。
 
-### 二、数据库设计
+## 数据库设计
 
+### 数据表
 
-**1.数据表：**
+- tb_blog (博客管理表)
+- tb_blog_tags (博客与标签关联表)
+- tb_comment (评论表)
+- tb_tag (标签表)
+- tb_category (类型表)
+- tb_user (用户表，权限分为管理员权限和普通游客权限)
+- tb_city_visitor (城市独立访问量表)
+- tb_exception_log (异常日志表)
+- tb_login_log (登录日志表)
+- tb_operation_log (操作日志表)
+- tb_schedule_job (定时任务表)
+- tb_schedule_job_log (定时任务日志表)
+- tb_site_setting (站点设置表)
+- tb_visit_log (访问日志表)
+- tb_visit_record (访问量记录表)
+- tb_visitor (访客表)
 
-- b_blog (博客管理表)
-- b_blog_tags (博客与标签关联表)
-- b_comment (评论表)
-- b_tag (标签表)
-- b_type (类型表)
-- b_user (用户表，目前仅支持管理员)
+## 快速开始
 
-**2.实体关系**
-
-博客实体关系
-
-![image-20210423141217917](https://github.com/BeforeOne7/Blog/blob/master/src/main/resources/static/images/README/image-20210423141217917.png)
-
-评论实体关系
-
-![image-20210423143409903](https://github.com/BeforeOne7/Blog/blob/master/src/main/resources/static/images/README/image-20210423143409903.png)
-
-- 博客和分类是多对一的关系：一个博客对应一个分类，一个分类可以对应多个博客
-- 博客和用户是多对一的关系：一个博客对应一个用户，一个用户可以对应多个博客
-- 博客和评论是一对多的关系：一个博客可以对应多个评论，一个评论对应一个博客
-- 评论和回复是一对多的关系：一个评论可以对应多个回复，一个回复对应一个评论
-
-**3.实体属性**
-
-![image-20210423142403003](https://github.com/BeforeOne7/Blog/blob/master/src/main/resources/static/images/README/image-20210423142403003.png)
-
-![image-20210423142454660](https://github.com/BeforeOne7/Blog/blob/master/src/main/resources/static/images/README/image-20210423142454660.png)
-
-![image-20210423142550260](https://github.com/BeforeOne7/Blog/blob/master/src/main/resources/static/images/README/image-20210423142550260.png)
-
-![image-20210423142755580](https://github.com/BeforeOne7/Blog/blob/master/src/main/resources/static/images/README/image-20210423142755580.png)
-
-![image-20210423143032690](https://github.com/BeforeOne7/Blog/blob/master/src/main/resources/static/images/README/image-20210423143032690.png)
-
-- 博客属性：标题、内容、首图、标记、浏览次数、赞赏开启、版权开启、评论开启、是否发布、创建时间、更新时间、描述
-- 分类属性：分类名称
-- 标签属性：标签名称
-- 用户属性：昵称、用户名、密码、邮箱、类型、头像、创建时间、更新时间
-- 评论属性：昵称、邮箱、头像、评论内容、创建时间
+1. 创建 MySQL 数据库`nblog`，并执行`/blog-api/blog_dev.sql`初始化表数据
+2. 修改配置信息`blog-api/src/main/resources/application-dev.properties`
+3. 安装 Redis 并启动
+4. 启动后端服务
+5. 分别在`blog-cms`和`blog-view`目录下执行`npm install`安装依赖
+6. 分别在`blog-cms`和`blog-view`目录下执行`npm run serve`启动前后台页面
