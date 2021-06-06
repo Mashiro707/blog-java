@@ -96,7 +96,6 @@
 			getData() {
 				getData(this.queryInfo).then(res => {
 					if (res.code === 200) {
-						this.msgSuccess(res.message);
 						this.categoryList = res.data.list
 						this.total = res.data.total
 					} else {

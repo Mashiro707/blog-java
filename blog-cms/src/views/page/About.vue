@@ -62,8 +62,7 @@
 						this.form.title = res.data.title
 						this.form.musicId = res.data.musicId
 						this.form.content = res.data.content
-						this.form.commentEnabled = res.data.commentEnabled === 'true' ? true : false
-						this.msgSuccess(res.message)
+						this.form.commentEnabled = res.data.commentEnabled === 'true'
 					} else {
 						this.msgError(res.message)
 					}

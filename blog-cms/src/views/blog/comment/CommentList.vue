@@ -168,7 +168,6 @@ layout="total, sizes, prev, pager, next, jumper" background>
 				getBlogList().then(res => {
 					if (res.code === 200) {
 						this.blogList = res.data
-						//this.blogList.unshift({id: -2, title: '友人帐'})
 						this.blogList.unshift({id: -1, title: '关于我'})
 					} else {
 						this.msgError(res.message)

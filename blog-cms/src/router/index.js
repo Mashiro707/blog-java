@@ -9,10 +9,7 @@ import BlogList from "@/views/blog/blog/BlogList";
 import CategoryList from "@/views/blog/category/CategoryList";
 import TagList from "@/views/blog/tag/TagList";
 import CommentList from "@/views/blog/comment/CommentList";
-import MomentList from "@/views/blog/moment/MomentList";
-import WriteMoment from "@/views/blog/moment/WriteMoment";
 import SiteSetting from "@/views/page/SiteSetting";
-import FriendList from "@/views/page/FriendList";
 import About from "@/views/page/About";
 import JobList from "@/views/system/ScheduleJobList";
 import JobLog from "@/views/log/ScheduleJobLog";
@@ -64,31 +61,10 @@ const routes = [
 				}
 			},
 			{
-				path: '/moments/write',
-				component: WriteMoment,
-				meta: {
-					title: '写动态'
-				}
-			},
-			{
-				path: '/moments/edit/:id',
-				component: WriteMoment,
-				meta: {
-					title: '编辑动态'
-				}
-			},
-			{
 				path: '/blogs',
 				component: BlogList,
 				meta: {
 					title: '文章管理'
-				}
-			},
-			{
-				path: '/moments',
-				component: MomentList,
-				meta: {
-					title: '动态管理'
 				}
 			},
 			{
@@ -124,13 +100,6 @@ const routes = [
 				component: About,
 				meta: {
 					title: '关于我'
-				}
-			},
-			{
-				path: '/friends',
-				component: FriendList,
-				meta: {
-					title: '友链管理'
 				}
 			},
 			{

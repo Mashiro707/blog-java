@@ -86,7 +86,6 @@ layout="total, sizes, prev, pager, next, jumper" background>
 				}
 				getVisitorList(query).then(res => {
 					if (res.code === 200) {
-						this.msgSuccess(res.message)
 						this.visitorList = res.data.list
 						this.total = res.data.total
 					} else {

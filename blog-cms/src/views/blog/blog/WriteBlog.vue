@@ -144,11 +144,6 @@
 				},
 			}
 		},
-		/*watch: {
-			'form.words'(newValue) {
-				this.form.readTime = newValue ? Math.round(newValue / 200) : null
-			},
-		},*/
 		created() {
 			this.getData()
 			if (this.$route.params.id) {
@@ -159,7 +154,6 @@
 			getData() {
 				getCategoryAndTag().then(res => {
 					if (res.code === 200) {
-						this.msgSuccess(res.message);
 						this.categoryList = res.data.categories
 						this.tagList = res.data.tags
 					} else {
@@ -171,12 +165,10 @@
 			},
 			getBlog(id) {
 				getBlogById(id).then(res => {
-          console.log(res.data)
 					if (res.code === 200) {
 						this.computeCategoryAndTag(res.data)
 						this.form = res.data
 						this.radio = this.form.published ? 1 : 2
-						this.msgSuccess(res.message)
 					} else {
 						this.msgError(res.message)
 					}
@@ -192,9 +184,6 @@
 				})
 			},
 			submit() {
-				/*if (this.radio === 3 && (this.form.password === '' || this.form.password === null)) {
-					return this.msgError("密码保护模式必须填写密码！")
-				}*/
 				this.$refs.formRef.validate(valid => {
 					if (valid) {
 						if (this.radio === 2) {
@@ -206,9 +195,6 @@
 						} else {
 							this.form.published = true
 						}
-						/*if (this.radio !== 3) {
-							this.form.password = ''
-						}*/
 						if (this.$route.params.id) {
 							this.form.category = null
 							this.form.tags = null

@@ -124,7 +124,6 @@
 					commentEnabled: false,
 					top: false,
 					published: false,
-					//password: '',
 				}
 			}
 		},
@@ -135,7 +134,6 @@
 			getData() {
 				getDataByQuery(this.queryInfo).then(res => {
 					if (res.code === 200) {
-						this.msgSuccess(res.message);
 						this.blogList = res.data.blogs.list
 						this.categoryList = res.data.categories
 						this.total = res.data.blogs.total
@@ -143,7 +141,7 @@
 						this.msgError(res.message)
 					}
 				}).catch(() => {
-					this.msgError("请求失败VUE")
+					this.msgError("请求失败")
 				})
 			},
 			search() {
