@@ -72,3 +72,7 @@ tem/
 
 #rebel
 *rebel.xml*
+blog-start.sh
+Dockerfile
+
+application-pro.yml
