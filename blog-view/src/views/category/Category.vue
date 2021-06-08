@@ -15,7 +15,7 @@
         >
           <router-link :to="'/categories/' + item.name">
             {{ item.name }}
-            <!--            <span class="category-count">({{ count }})</span>-->
+<!--            <span class="category-count">({{ count }})</span>-->
           </router-link>
         </li>
       </ul>

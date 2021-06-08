@@ -2,9 +2,9 @@
   <v-footer app padless absolute v-if="!this.isMessage">
     <div class="footer-wrap">
       <div>©2021 - {{ new Date().getFullYear() }} By Mashiro</div>
-      <a href="https://beian.miit.gov.cn/" target="_blank">
-        赣ICP备2021004724
-      </a>
+      <div style="width:300px;margin:0 auto; padding:20px 0;">
+        <img src="img/beian.png"/><a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=36040302000282" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#ffffff;">赣公网安备 36040302000282号</p></a>
+      </div>
     </div>
   </v-footer>
 </template>

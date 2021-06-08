@@ -10,14 +10,14 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: root
-    password: 123456
+    username: 你的数据库连接用户名
+    password: 你的数据库连接密码
   thymeleaf:
     cache: false
     prefix:
       classpath: /templates
   redis:
-    host: 120.79.21.15
+    host: 你的redis所在服务器ip
     port: 6379
     #Redis数据库索引
     database: 0
@@ -33,13 +33,13 @@ spring:
         max-idle: 5
         #连接池中最小空闲连接
         min-idle: 0
-    password: Sl941114.
+    password: 你redis设置的密码
   mail:
     host: smtp.qq.com
     protocol: smtp
     default-encoding: UTF-8
-    username: 11799220@qq.com
-    password: sjgoerretdrlbhcf
+    username: 邮箱
+    password: 邮箱SMTP等协议的授权码
     test-connection: true
     properties:
       mail:

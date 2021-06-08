@@ -45,44 +45,11 @@
             <i class="iconfont iconbiaoqian" /> 标签
           </router-link>
         </div>
-<!--        <div class="menus-item">
-          <router-link to="/links">
-            <i class="iconfont iconlianjie" /> 友链
-          </router-link>
-        </div>-->
         <div class="menus-item">
           <router-link to="/about">
             <i class="iconfont iconzhifeiji" /> 关于
           </router-link>
         </div>
-<!--        <div class="menus-item">
-          <router-link to="/message">
-            <i class="iconfont iconpinglunzu" /> 留言
-          </router-link>
-        </div>-->
-<!--        <div class="user-btn">
-          <a v-if="!this.$store.state.avatar" @click="openLogin">
-            <i class="iconfont icondenglu" /> 登录
-          </a>
-          <template v-else>
-            <img
-              class="user-avatar"
-              :src="this.$store.state.avatar"
-              height="30"
-              width="30"
-            />
-            <ul class="user-submenu">
-&lt;!&ndash;              <li>
-                <router-link to="/user">
-                  <i class="iconfont icongerenzhongxin" /> 个人中心
-                </router-link>
-              </li>&ndash;&gt;
-              <li>
-                <a @click="logout"><i class="iconfont icontuichu" /> 退出</a>
-              </li>
-            </ul>
-          </template>
-        </div>-->
       </div>
     </div>
   </v-app-bar>

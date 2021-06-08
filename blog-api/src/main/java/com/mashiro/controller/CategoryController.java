@@ -1,6 +1,5 @@
 package com.mashiro.controller;
 
-import com.mashiro.annotation.VisitLogger;
 import com.mashiro.common.Result;
 import com.mashiro.entity.Category;
 import com.mashiro.service.CategoryService;
@@ -26,7 +25,6 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @ApiOperation(value = "查看所有分类")
-    @VisitLogger(behavior = "查看分类")
     @GetMapping("/categories")
     public Result listCategories() {
         List<Category> categoryList = categoryService.getCategoryList();
