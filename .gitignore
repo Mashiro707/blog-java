@@ -72,7 +72,5 @@ tem/
 
 #rebel
 *rebel.xml*
-blog-start.sh
+*.sh
 Dockerfile
-
-application-pro.yml
