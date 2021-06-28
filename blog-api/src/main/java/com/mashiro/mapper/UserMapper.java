@@ -2,7 +2,6 @@ package com.mashiro.mapper;
 
 import com.mashiro.entity.User;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**

@@ -78,7 +78,7 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
-  background: url(https://www.static.talkxj.com/0w3pdr.jpg) center center /
+  background: url("http://img.mashiro.org.cn/20210622193056.jpg") center center /
     cover no-repeat;
 }
 .login-card {

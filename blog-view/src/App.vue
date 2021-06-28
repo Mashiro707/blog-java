@@ -23,6 +23,8 @@ import SideNavBar from "./components/layout/SideNavBar";
 import Footer from "./components/layout/Footer";
 import BackTop from "./components/BackTop";
 import searchModel from "./components/model/SearchModel";
+import { SAVE_WEB_TITLE_SUFFIX } from "@/store/mutations-types";
+import { getWebTitleSuffix } from "@/api/login";
 export default {
   components: {
     TopNavBar,
@@ -30,6 +32,19 @@ export default {
     Footer,
     BackTop,
     searchModel
+  },
+  created() {
+    this.getWebTitleSuffix();
+  },
+  methods: {
+    getWebTitleSuffix() {
+      getWebTitleSuffix().then(res => {
+        if (res.code === 200) {
+          this.$store.commit(SAVE_WEB_TITLE_SUFFIX, res.data.webTitleSuffix);
+          document.title = this.$route.meta.title + res.data.webTitleSuffix;
+        }
+      });
+    }
   }
 };
 </script>

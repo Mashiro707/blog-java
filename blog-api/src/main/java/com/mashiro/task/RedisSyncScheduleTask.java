@@ -3,8 +3,6 @@ package com.mashiro.task;
 import com.mashiro.common.RedisKey;
 import com.mashiro.service.BlogService;
 import com.mashiro.service.RedisService;
-import com.mashiro.util.RedisUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

@@ -1,6 +1,5 @@
 package com.mashiro.mapper;
 
-import com.mashiro.entity.ScheduleJob;
 import com.mashiro.entity.ScheduleJobLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

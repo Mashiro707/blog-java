@@ -1,3 +1,10 @@
+<br>
+预览地址：
+
+前台：http://mashiro.org.cn
+
+后台：http://admin.mashiro.org.cn 账号:Visitor密码:123456
+<br>
 ## 技术栈
 
 ### 后端
@@ -45,9 +52,17 @@
 
 ## 快速开始
 
-1. 创建 MySQL 数据库`nblog`，并执行`/blog-api/blog_dev.sql`初始化表数据
+1. 创建 MySQL 数据库`blog_dev`，并执行`/blog-api/blog_dev.sql`初始化表数据
 2. 修改配置信息`blog-api/src/main/resources/application-dev.properties`
 3. 安装 Redis 并启动
 4. 启动后端服务
 5. 分别在`blog-cms`和`blog-view`目录下执行`npm install`安装依赖
 6. 分别在`blog-cms`和`blog-view`目录下执行`npm run serve`启动前后台页面
+
+从学习java开始，就一直想做一个属于自己的博客，并且可以发布到网上。现在基本上已经实现了自己
+想要的功能，但是也有很多不好的地方。项目起初是在B站看教学视频做的，做到一大半的时候，发现所用
+的技术不太符合目前的潮流，所以决定重构这个项目，并且尽量遵守阿里巴巴的开发规范。在重构项目结构的
+过程中参考了很多大佬的博客，非常感谢大佬们开源自己的项目。
+<br>
+之后会对项目持续维护，并且适应新的技术。目前项目的权限管理还是比较简陋，网络安全考虑的也不多。
+TODO more

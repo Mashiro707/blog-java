@@ -1,11 +1,11 @@
 
 package com.mashiro.util.markdown.ext.heimu.internal;
 
+import com.mashiro.util.markdown.ext.heimu.Heimu;
 import org.commonmark.node.Node;
 import org.commonmark.node.Text;
 import org.commonmark.parser.delimiter.DelimiterProcessor;
 import org.commonmark.parser.delimiter.DelimiterRun;
-import com.mashiro.util.markdown.ext.heimu.Heimu;
 
 public class HeimuDelimiterProcessor implements DelimiterProcessor {
     @Override

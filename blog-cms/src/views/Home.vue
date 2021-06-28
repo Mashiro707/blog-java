@@ -3,7 +3,6 @@
 		<!--头部-->
 		<el-header>
 			<div class="title">
-				<img src="~assets/img/logo.png" alt="" height="60">
 				<span>Mashiro 博客后台管理</span>
 			</div>
 			<el-dropdown trigger="click" class="user" v-if="user" @command="logout">

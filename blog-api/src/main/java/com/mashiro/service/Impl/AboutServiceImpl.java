@@ -7,7 +7,6 @@ import com.mashiro.mapper.AboutMapper;
 import com.mashiro.service.AboutService;
 import com.mashiro.service.RedisService;
 import com.mashiro.util.MarkdownUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

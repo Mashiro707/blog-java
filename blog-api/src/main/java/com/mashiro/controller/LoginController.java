@@ -3,11 +3,13 @@ package com.mashiro.controller;
 import com.mashiro.common.Result;
 import com.mashiro.dto.LoginInfoDTO;
 import com.mashiro.entity.User;
+import com.mashiro.service.SiteSettingService;
 import com.mashiro.service.UserService;
 import com.mashiro.util.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +27,8 @@ import java.util.Map;
 public class LoginController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private SiteSettingService siteSettingService;
 
     /**
     * @Description: 前台登录，携带 admin token
@@ -47,6 +51,15 @@ public class LoginController {
         Map<String,Object> map =new HashMap<>();
         map.put("user", user);
         map.put("token", jwt);
+        return Result.success(map);
+    }
+
+    @ApiOperation(value = "查询网页后缀信息")
+    @GetMapping("/webTitleSuffix")
+    public Result getWebTitleSuffix() {
+        String webTitleSuffix = siteSettingService.getWebTitleSuffix();
+        Map<String, Object> map = new HashMap<>();
+        map.put("webTitleSuffix", webTitleSuffix);
         return Result.success(map);
     }
 

@@ -9,7 +9,6 @@ import com.mashiro.service.ScheduleJobService;
 import com.mashiro.util.quartz.ScheduleUtils;
 import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

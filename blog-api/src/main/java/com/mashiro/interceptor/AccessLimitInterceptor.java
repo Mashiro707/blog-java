@@ -5,11 +5,9 @@ import com.mashiro.common.Result;
 import com.mashiro.service.RedisService;
 import com.mashiro.util.IpAddressUtils;
 import com.mashiro.util.JacksonUtils;
-import com.mashiro.util.RedisUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

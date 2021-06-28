@@ -3,18 +3,18 @@ custom:
     blog:
       name: Mashiro's Blog
     url:
-      cms: http://localhost:8081
-      website: http://localhost:8080
+      cms: www.admin.mashiro.org.cn
+      website: www.mashiro.org.cn
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://120.79.21.15:3306/blog_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://49.235.76.125:3306/blog?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: 123456
   thymeleaf:
     cache: false
   redis:
-    host: 120.79.21.15
+    host: 49.235.76.125
     port: 6379
     #Redis数据库索引
     database: 0
@@ -66,7 +66,7 @@ logging:
     root: info
     com.shili: debug
   file:
-    path: log/blog-dev
+    path: log/blog
 server:
   port: 8080
 comment:
@@ -74,5 +74,5 @@ comment:
 
 token:
   expireTime: 100000000
-  secretKey: qweroijasogj
+  secretKey: qweroijasotj
 

@@ -1,6 +1,5 @@
 package com.mashiro.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

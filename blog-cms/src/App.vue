@@ -17,6 +17,7 @@ export default {
     getWebTitleSuffix() {
       getWebTitleSuffix().then(res => {
         if (res.code === 200) {
+          console.log(res.data.webTitleSuffix);
           this.$store.commit(SAVE_WEB_TITLE_SUFFIX, res.data.webTitleSuffix)
           document.title = this.$route.meta.title + res.data.webTitleSuffix
         }

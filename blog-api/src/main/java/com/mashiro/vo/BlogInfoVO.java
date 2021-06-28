@@ -1,8 +1,7 @@
 package com.mashiro.vo;
 
-import com.mashiro.entity.Tag;
 import com.mashiro.entity.Category;
-import com.mashiro.entity.User;
+import com.mashiro.entity.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

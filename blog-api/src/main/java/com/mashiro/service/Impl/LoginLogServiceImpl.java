@@ -6,7 +6,6 @@ import com.mashiro.service.LoginLogService;
 import com.mashiro.util.IpAddressUtils;
 import com.mashiro.util.UserAgentUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

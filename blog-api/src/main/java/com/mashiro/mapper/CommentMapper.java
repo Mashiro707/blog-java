@@ -1,11 +1,9 @@
 package com.mashiro.mapper;
 
 import com.mashiro.dto.CommentDTO;
-import com.mashiro.entity.Blog;
 import com.mashiro.entity.Comment;
 import com.mashiro.vo.PageCommentVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

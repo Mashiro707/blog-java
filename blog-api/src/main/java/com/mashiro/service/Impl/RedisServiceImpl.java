@@ -2,10 +2,8 @@ package com.mashiro.service.Impl;
 
 import com.mashiro.service.RedisService;
 import com.mashiro.util.JacksonUtils;
-import com.mashiro.util.RedisUtils;
 import com.mashiro.vo.BlogInfoVO;
 import com.mashiro.vo.PageResultVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 

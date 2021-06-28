@@ -1,18 +1,16 @@
 package com.mashiro.service.Impl;
 
 import com.mashiro.common.RedisKey;
+import com.mashiro.entity.Category;
 import com.mashiro.exception.NotFoundException;
 import com.mashiro.mapper.CategoryMapper;
-import com.mashiro.entity.Category;
 import com.mashiro.service.CategoryService;
 import com.mashiro.service.RedisService;
 import com.mashiro.service.TagService;
 import org.apache.ibatis.exceptions.PersistenceException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 /**
  * @Description: 文章分类业务实现层

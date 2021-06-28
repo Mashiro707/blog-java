@@ -10,7 +10,7 @@
         <v-avatar size="110">
           <img
             class="author-avatar"
-            src="https://ww1.sinaimg.cn/large/006gcE1fgy1gqflygzxhdj30u00u0dhs.jpg"
+            src="http://img.mashiro.org.cn/20210622192431.jpg"
             alt="avatar"
           />
         </v-avatar>

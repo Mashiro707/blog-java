@@ -8,7 +8,6 @@ import com.mashiro.mapper.*;
 import com.mashiro.service.DashboardService;
 import com.mashiro.vo.CategoryBlogCountVO;
 import com.mashiro.vo.TagBlogCountVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

@@ -7,5 +7,11 @@ export function login(loginForm) {
     data: {
       ...loginForm
     }
-  })
+  });
+}
+export function getWebTitleSuffix() {
+  return axios({
+    url: "webTitleSuffix",
+    method: "GET"
+  });
 }

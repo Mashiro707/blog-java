@@ -6,7 +6,6 @@ import com.mashiro.mapper.OperationLogMapper;
 import com.mashiro.service.OperationLogService;
 import com.mashiro.util.IpAddressUtils;
 import com.mashiro.util.UserAgentUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

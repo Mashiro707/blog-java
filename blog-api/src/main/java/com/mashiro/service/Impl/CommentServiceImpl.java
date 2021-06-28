@@ -6,7 +6,6 @@ import com.mashiro.exception.PersistenceException;
 import com.mashiro.mapper.CommentMapper;
 import com.mashiro.service.CommentService;
 import com.mashiro.vo.PageCommentVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

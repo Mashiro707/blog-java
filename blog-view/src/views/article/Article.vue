@@ -96,7 +96,7 @@
                   <li class="reward-item">
                     <img
                       class="reward-img"
-                      :src="require('../../assets/img/wechat.png')"
+                      src="http://img.mashiro.org.cn/20210622195615.png"
                       alt=""
                     />
                     <div class="reward-desc">微信</div>
@@ -104,7 +104,7 @@
                   <li class="reward-item">
                     <img
                       class="reward-img"
-                      :src="require('../../assets/img/alipay.png')"
+                      src="http://img.mashiro.org.cn/20210622195612.png"
                       alt=""
                     />
                     <div class="reward-desc">支付宝</div>

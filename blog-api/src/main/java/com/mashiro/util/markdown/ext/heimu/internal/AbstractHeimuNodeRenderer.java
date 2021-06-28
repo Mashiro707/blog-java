@@ -4,7 +4,6 @@ import com.mashiro.util.markdown.ext.heimu.Heimu;
 import org.commonmark.node.Node;
 import org.commonmark.renderer.NodeRenderer;
 
-
 import java.util.Collections;
 import java.util.Set;
 

@@ -1,10 +1,9 @@
 package com.mashiro.service.Impl;
 
-import com.mashiro.mapper.UserMapper;
 import com.mashiro.entity.User;
+import com.mashiro.mapper.UserMapper;
 import com.mashiro.service.UserService;
 import com.mashiro.util.HashUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

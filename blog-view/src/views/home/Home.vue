@@ -286,7 +286,7 @@ export default {
   left: 0;
   right: 0;
   height: 100vh;
-  background: #49b1f5 url("https://z3.ax1x.com/2021/06/04/28RG3F.jpg") no-repeat
+  background: #49b1f5 url("http://img.mashiro.org.cn/20210622193056.jpg") no-repeat
     fixed center center;
   text-align: center;
   color: #fff !important;
