@@ -1,5 +1,6 @@
 package com.mashiro.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mashiro.entity.About;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @Mapper
 @Repository
-public interface AboutMapper {
+public interface AboutMapper extends BaseMapper {
 
     /**
     * 更新关于我设置

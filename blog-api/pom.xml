@@ -14,7 +14,7 @@
     <name>blog</name>
     <properties>
         <java.version>1.8</java.version>
-        <mysql.version>5.1.33</mysql.version>
+        <mysql.version>8.0.23</mysql.version>
     </properties>
     <dependencies>
         <!--thymeleaf-->
@@ -56,16 +56,15 @@
             <optional>true</optional>
         </dependency>
         <!--mybatis-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.2</version>
-        </dependency>
+        </dependency>-->
         <!--mysql-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <!--test-->
         <dependency>
@@ -168,6 +167,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+        <!--mybatis-plus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.4.3</version>
         </dependency>
     </dependencies>
 

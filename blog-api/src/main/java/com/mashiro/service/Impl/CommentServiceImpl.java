@@ -169,7 +169,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private List<PageCommentVO> getPageCommentListByPageAndParentCommentId(Integer page, Long blogId, Long parentCommentId) {
+        //根据父评论id查询该评论所属的所有评论
         List<PageCommentVO> comments = commentMapper.getPageCommentListByPageAndParentCommentId(page, blogId, parentCommentId);
+        //递归查询comments下所有评论
         for (PageCommentVO c : comments) {
             List<PageCommentVO> replyComments = getPageCommentListByPageAndParentCommentId(page, blogId, c.getId());
             c.setReplyComments(replyComments);

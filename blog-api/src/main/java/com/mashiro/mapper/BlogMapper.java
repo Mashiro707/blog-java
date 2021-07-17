@@ -1,5 +1,6 @@
 package com.mashiro.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mashiro.dto.BlogDTO;
 import com.mashiro.dto.BlogViewDTO;
 import com.mashiro.dto.BlogVisibilityDTO;
@@ -16,8 +17,7 @@ import java.util.List;
  * @Date: Created in 2021/4/25 20:36
  */
 @Mapper
-@Repository
-public interface BlogMapper {
+public interface BlogMapper extends BaseMapper {
 
     /**
     * @Description: 新增博客

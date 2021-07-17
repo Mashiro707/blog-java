@@ -12,11 +12,11 @@ import CommentList from "@/views/blog/comment/CommentList";
 import SiteSetting from "@/views/page/SiteSetting";
 import About from "@/views/page/About";
 import JobList from "@/views/system/ScheduleJobList";
-import JobLog from "@/views/log/ScheduleJobLog";
-import OperationLog from "@/views/log/OperationLog";
-import LoginLog from "@/views/log/LoginLog";
-import ExceptionLog from "@/views/log/ExceptionLog";
-import VisitLog from "@/views/log/VisitLog";
+import JobLog from "@/views/systemLog/ScheduleJobLog";
+import OperationLog from "@/views/systemLog/OperationLog";
+import LoginLog from "@/views/systemLog/LoginLog";
+import ExceptionLog from "@/views/systemLog/ExceptionLog";
+import VisitLog from "@/views/systemLog/VisitLog";
 import Visitor from "@/views/statistics/Visitor";
 import {SAVE_NAV_STATE} from "@/store/mutations-types";
 
