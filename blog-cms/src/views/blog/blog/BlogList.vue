@@ -170,7 +170,7 @@
 						this.msgError(res.message)
 					}
 				}).catch(() => {
-					this.msgError("请求失败VUE")
+					this.msgError("请求失败")
 				})
 			},
 			//编辑博客可见性
@@ -213,7 +213,7 @@
 						this.msgError(res.message)
 					}
 				}).catch(() => {
-					this.msgError("请求失败VUE")
+					this.msgError("请求失败")
 				})
 			},
 			//监听 pageSize 改变事件
@@ -245,7 +245,7 @@
 							this.msgError(res.message)
 						}
 					}).catch(() => {
-						this.msgError("操作失败VUE")
+						this.msgError("操作失败")
 					})
 				}).catch(() => {
 					this.$message({

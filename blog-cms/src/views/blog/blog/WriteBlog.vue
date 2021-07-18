@@ -12,8 +12,14 @@
 				</el-col>
 				<el-col :span="12">
 					<el-form-item label="文章首图URL" prop="firstPicture">
-						<el-input v-model="form.firstPicture" placeholder="文章首图，用于随机文章展示"></el-input>
-					</el-form-item>
+            <el-upload
+                :headers="headers"
+                action="http://localhost:8082/api/admin/upload"
+                :on-success="handleSuccess"
+                :limit="1">
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+          </el-form-item>
 				</el-col>
 			</el-row>
 
@@ -22,7 +28,7 @@
 			</el-form-item>
 
 			<el-form-item label="文章正文" prop="content">
-				<mavon-editor v-model="form.content"/>
+				<mavon-editor v-model="form.content" ref=md @imgAdd="imgAdd"/>
 			</el-form-item>
 
 			<el-row :gutter="20">
@@ -43,16 +49,6 @@
 			</el-row>
 
 			<el-row :gutter="20">
-<!--				<el-col :span="8">
-					<el-form-item label="字数" prop="words">
-						<el-input v-model="form.words" placeholder="请输入文章字数（自动计算阅读时长）" type="number"></el-input>
-					</el-form-item>
-				</el-col>-->
-<!--				<el-col :span="8">
-					<el-form-item label="阅读时长(分钟)" prop="readTime">
-						<el-input v-model="form.readTime" placeholder="请输入阅读时长（可选）默认 Math.round(字数 / 200)" type="number"></el-input>
-					</el-form-item>
-				</el-col>-->
 				<el-col :span="8">
 					<el-form-item label="浏览次数" prop="views">
 						<el-input v-model="form.views" placeholder="请输入文章字数（可选）默认为 0" type="number"></el-input>
@@ -73,12 +69,8 @@
 					<el-radio-group v-model="radio">
 						<el-radio :label="1">公开</el-radio>
 						<el-radio :label="2">私密</el-radio>
-<!--						<el-radio :label="3">密码保护</el-radio>-->
 					</el-radio-group>
 				</el-form-item>
-<!--				<el-form-item label="密码" v-if="radio===3">
-					<el-input v-model="form.password"></el-input>
-				</el-form-item>-->
 				<el-form-item v-if="radio!==2">
 					<el-row>
 						<el-col :span="6">
@@ -107,11 +99,12 @@
 
 <script>
 	import Breadcrumb from "@/components/Breadcrumb";
-	import {getCategoryAndTag, saveBlog, getBlogById, updateBlog} from '@/api/blog'
+	import {getCategoryAndTag, saveBlog, getBlogById, updateBlog/*, upload*/} from '@/api/blog';
+  import axios from 'axios'
 
 	export default {
 		name: "WriteBlog",
-		components: {Breadcrumb},
+		components: {Breadcrumb,},
 		data() {
 			return {
 				categoryList: [],
@@ -125,22 +118,18 @@
 					content: '',
 					cate: null,
 					tagList: [],
-					//words: null,
-					//readTime: null,
 					views: 0,
 					appreciation: false,
 					recommend: false,
 					commentEnabled: false,
 					top: false,
 					published: false,
-					//password: '',
 				},
 				formRules: {
 					title: [{required: true, message: '请输入标题', trigger: 'change'}],
 					firstPicture: [{required: true, message: '请输入首图链接', trigger: 'change'}],
 					cate: [{required: true, message: '请选择分类', trigger: 'change'}],
 					tagList: [{required: true, message: '请选择标签', trigger: 'change'}],
-					//words: [{required: true, message: '请输入文章字数', trigger: 'change'}],
 				},
 			}
 		},
@@ -150,7 +139,15 @@
 				this.getBlog(this.$route.params.id)
 			}
 		},
+    computed: {
+      headers() {
+        return{
+          "Authorization" :"Bearer " + localStorage.getItem("token") // 直接从本地获取token就行
+        }
+      }
+    },
 		methods: {
+
 			getData() {
 				getCategoryAndTag().then(res => {
 					if (res.code === 200) {
@@ -183,6 +180,10 @@
 					blog.tagList.push(item.id)
 				})
 			},
+      handleSuccess (response) {
+        console.log(response.message)
+        this.form.firstPicture = response.message
+      },
 			submit() {
 				this.$refs.formRef.validate(valid => {
 					if (valid) {
@@ -225,7 +226,25 @@
 						return this.msgError('请填写必要的表单项')
 					}
 				})
-			}
+			},
+      imgAdd(pos, file){
+        const formDate = new FormData();
+        formDate.append("file", file);
+        const newRequest = axios.create({
+          baseURL: '/api/admin',
+          timeout: 10000,
+        });
+        newRequest({
+          method: "POST",
+          url: "upload",
+          data: formDate,
+          headers: {
+            "Authorization" :"Bearer " + localStorage.getItem("token")
+          }
+        }).then(({ data }) => {
+          this.$refs.md.$img2Url(pos, data.message);
+        });
+      },
 		}
 	}
 </script>
