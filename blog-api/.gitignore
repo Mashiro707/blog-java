@@ -77,4 +77,5 @@ blog-start.sh
 Dockerfile
 
 application-pro.yml
+application-dev.yml
 /.mvn/

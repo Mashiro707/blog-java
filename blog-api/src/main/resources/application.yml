@@ -1,5 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: github
+    #建议修改为自己的
 
 

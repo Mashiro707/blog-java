@@ -15,12 +15,14 @@ import com.mashiro.service.BlogService;
 import com.mashiro.service.CategoryService;
 import com.mashiro.service.CommentService;
 import com.mashiro.service.TagService;
+import com.mashiro.util.QiniuUtils;
 import com.mashiro.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -206,36 +208,45 @@ public class BlogAdminController {
     }
 
     /**
-    * 根据博客id获取博客
-    * @param id 博客id
-    * @return {@link Result}
-    * @author Mashiro
-    * @date 2021/5/29 10:42
-    */
+     * 根据博客id获取博客
+     *
+     * @param id 博客id
+     * @return {@link Result}
+     * @author Mashiro
+     * @date 2021/5/29 10:42
+     */
     @ApiOperation(value = "获取博客")
     @ApiImplicitParam(name = "id", value = "博客Id", required = true, dataType = "Long", paramType = "query")
     @GetMapping("/blog")
-    public Result getBlog(@RequestParam Long id){
+    public Result getBlog(@RequestParam Long id) {
         return Result.success(blogService.getBlogById(id));
     }
 
+    @ApiImplicitParam(name = "file", value = "文章图片", required = true, dataType = "MultipartFile")
+    @PostMapping("/upload")
+    private Result upload(@RequestParam("file") MultipartFile multipartFile) {
+        String pictureUrl = QiniuUtils.uploadImg(multipartFile);
+        return Result.success(pictureUrl);
+    }
+
     /**
-    * 执行博客添加或更新操作：校验参数是否合法，添加分类、标签，维护博客标签关联表
-    * @param blogDTO 博客DTO
-    * @param type 新增或者更新
-    * @return {@link Result}
-    * @author Mashiro
-    * @date 2021/5/29 9:47
-        */
-    private Result saveAndUpdateCheckData(BlogDTO blogDTO, String type){
+     * 执行博客添加或更新操作：校验参数是否合法，添加分类、标签，维护博客标签关联表
+     *
+     * @param blogDTO 博客DTO
+     * @param type    新增或者更新
+     * @return {@link Result}
+     * @author Mashiro
+     * @date 2021/5/29 9:47
+     */
+    private Result saveAndUpdateCheckData(BlogDTO blogDTO, String type) {
         //必填字段不能为空
-        if (StringUtils.isEmpty(blogDTO.getTitle(), blogDTO.getContent(), blogDTO.getDescription(), blogDTO.getFirstPicture())){
+        if (StringUtils.isEmpty(blogDTO.getTitle(), blogDTO.getContent(), blogDTO.getDescription(), blogDTO.getFirstPicture())) {
             return Result.error("参数错误");
         }
         //处理分类
         Object cate = blogDTO.getCate();
         //不能为空
-        if (cate == null){
+        if (cate == null) {
             return Result.error("分类不能为空");
         }
         //如果是选择已经存在的分类，前端传入的为 int 类型

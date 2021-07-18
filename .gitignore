@@ -76,5 +76,6 @@ tem/
 Dockerfile
 blog-start.sh
 application-pro.yml
+application-dev.yml
 .mvn
 
