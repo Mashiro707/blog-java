@@ -5,7 +5,7 @@ import {Message} from "element-ui"
 
 const request = axios.create({
 	baseURL: '/api/admin',
-	timeout: 10000,
+	timeout: 1800000,
 })
 
 let CancelToken = axios.CancelToken

@@ -1,4 +1,5 @@
 module.exports = {
+    outputDir: "admin", // 输出文件目录
     devServer: {
         proxy: {
             "/api": {

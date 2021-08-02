@@ -52,7 +52,7 @@
             </div>
             <div class="article-info">
               <!-- 是否置顶 -->
-              <span v-if="item.isTop == 1">
+              <span v-if="item.isTop === 1">
                 <span style="color:#ff7242">
                   <i class="iconfont iconzhiding" /> 置顶
                 </span>
@@ -286,8 +286,8 @@ export default {
   left: 0;
   right: 0;
   height: 100vh;
-  background: #49b1f5 url("http://img.mashiro.org.cn/20210622193056.jpg") no-repeat
-    fixed center center;
+  background: #49b1f5 url("http://img.mashiro.org.cn/20210622193056.jpg")
+    no-repeat fixed center center;
   text-align: center;
   color: #fff !important;
   animation: header-effect 1s;

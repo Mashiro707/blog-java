@@ -1,4 +1,5 @@
 module.exports = {
+  outputDir: "blog", // 输出文件目录
   transpileDependencies: ["vuetify"],
   devServer: {
     proxy: {

@@ -93,7 +93,7 @@ public class CommentController {
         }
         Integer count = commentService.countByPageAndIsPublished(page, blogId);
         PageHelper.startPage(pageNum, pageSize);
-        PageInfo<PageCommentVO> pageInfo = new PageInfo<>(commentService.getPageCommentList(page, blogId, (long) -1));
+        PageInfo<PageCommentVO> pageInfo = new PageInfo<>(commentService.getPageCommentList(page, blogId, -1L));
         PageResultVO<PageCommentVO> pageResult = new PageResultVO<>(pageInfo.getPages(), pageInfo.getList());
         Map<String, Object> map = new HashMap<>();
         map.put("count", count);

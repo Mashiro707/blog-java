@@ -4,7 +4,7 @@ import "nprogress/nprogress.css";
 
 const request = axios.create({
   baseURL: "/api",
-  timeout: 10000
+  timeout: 1800000
 });
 
 // 请求拦截

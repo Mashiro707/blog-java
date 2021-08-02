@@ -14,7 +14,7 @@
 					<el-form-item label="文章首图URL" prop="firstPicture">
             <el-upload
                 :headers="headers"
-                action="http://localhost:8082/api/admin/upload"
+                action="http://admin.mashiro.org.cn/api/admin/upload"
                 :on-success="handleSuccess"
                 :limit="1">
               <el-button size="small" type="primary">点击上传</el-button>
@@ -181,8 +181,8 @@
 				})
 			},
       handleSuccess (response) {
-        console.log(response.message)
-        this.form.firstPicture = response.message
+        console.log(response.data)
+        this.form.firstPicture = response.data
       },
 			submit() {
 				this.$refs.formRef.validate(valid => {
@@ -232,17 +232,18 @@
         formDate.append("file", file);
         const newRequest = axios.create({
           baseURL: '/api/admin',
-          timeout: 10000,
+          timeout: 1800000,
         });
         newRequest({
           method: "POST",
           url: "upload",
           data: formDate,
           headers: {
+            "Access-Control-Allow-Credentials": true,
             "Authorization" :"Bearer " + localStorage.getItem("token")
           }
         }).then(({ data }) => {
-          this.$refs.md.$img2Url(pos, data.message);
+          this.$refs.md.$img2Url(pos, data.data);
         });
       },
 		}
