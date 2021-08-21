@@ -14,7 +14,7 @@
 					<el-form-item label="文章首图URL" prop="firstPicture">
             <el-upload
                 :headers="headers"
-                action="http://admin.mashiro.org.cn/api/admin/upload"
+                action="http://localhost:8082/api/admin/upload"
                 :on-success="handleSuccess"
                 :limit="1">
               <el-button size="small" type="primary">点击上传</el-button>

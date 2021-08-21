@@ -15,8 +15,8 @@ import com.mashiro.service.BlogService;
 import com.mashiro.service.CategoryService;
 import com.mashiro.service.CommentService;
 import com.mashiro.service.TagService;
+import com.mashiro.util.QiniuUtils;
 import com.mashiro.util.StringUtils;
-import com.mashiro.util.UploadImg;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -233,7 +233,7 @@ public class BlogAdminController {
     @ApiImplicitParam(name = "file", value = "文章图片", required = true, dataType = "MultipartFile")
     @PostMapping("/upload")
     private Result upload(@RequestParam("file") MultipartFile multipartFile) throws Exception {
-        return UploadImg.uploadImg(multipartFile);
+        return QiniuUtils.uploadImg(multipartFile);
     }
 
     /**

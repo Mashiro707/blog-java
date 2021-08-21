@@ -78,4 +78,6 @@ blog-start.sh
 application-pro.yml
 application-dev.yml
 .mvn
+/blog-cms/admin/
+/blog-view/blog/
 

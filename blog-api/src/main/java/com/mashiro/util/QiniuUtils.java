@@ -1,6 +1,7 @@
 package com.mashiro.util;
 
 import com.google.gson.Gson;
+import com.mashiro.common.Result;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
@@ -34,7 +35,7 @@ public class QiniuUtils {
     /**
      * 将图片上传到七牛云
      */
-    public static String uploadImg(MultipartFile file) {
+    public static Result uploadImg(MultipartFile file) {
         // 构造一个带指定 Region 对象的配置类
         Configuration cfg = new Configuration(Region.huanan());
         // 其他参数参考类注释
@@ -49,16 +50,16 @@ public class QiniuUtils {
                 // 解析上传成功的结果
                 DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
 
-                String returnPath = "http://" + DOMAIN + "/" + putRet.key;
+                String returnPath = "https://" + DOMAIN + "/" + putRet.key;
                 // 这个returnPath是获得到的外链地址,通过这个地址可以直接打开图片
-                return returnPath;
+                return Result.create(200, "图片上传成功", returnPath);
             } catch (QiniuException ex) {
                 Response r = ex.response;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return Result.error();
     }
 
     public static String getRandomCharacterAndNumber(int length) {
