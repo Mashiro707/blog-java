@@ -88,7 +88,7 @@ export default {
   data: function() {
     return {
       pageNum: 1,
-      pageSize: 5,
+      pageSize: null,
       articleList: [],
       name: "",
       title: "",

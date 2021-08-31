@@ -190,7 +190,7 @@ export default {
   data: function() {
     return {
       pageNum: 1,
-      pageSize: 7,
+      pageSize: null,
       tip: false,
       time: "",
       obj: {
@@ -243,7 +243,7 @@ export default {
     },
     getData() {
       getBlogList(this.pageNum).then(res => {
-        this.articleList.push(...res.data.blogList.list);
+        this.articleList = res.data.blogList.list;
         this.pageSize = res.data.blogList.totalPage;
       });
     },
@@ -256,7 +256,7 @@ export default {
   computed: {
     isRight() {
       return function(index) {
-        if (index % 2 == 0) {
+        if (index % 2 === 0) {
           return "article-cover left-radius";
         }
         return "article-cover right-radius";
